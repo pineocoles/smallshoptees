@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Small Shop Tees – Portland's Custom T-Shirt Co.</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #000000;
+    --yellow: #FFE14D;
+    --pink: #FF6EC7;
+    --orange: #FF9F43;
+    --white: #f5f5f5;
+    --gray: #141414;
+    --muted: #777;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Rajdhani', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV (match mockup: logo left, 3 icons right) ── */
+  nav {
+    position: sticky; top: 0; z-index: 1000;
+    background: rgba(0,0,0,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--yellow);
+    height: 64px;
+    padding: 0 40px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .nav-logo {
+    font-family: 'Press Start 2P', monospace;
+    font-size: .75rem;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+  .nav-logo span { color: var(--yellow); }
+  .nav-icons { display: flex; align-items: center; gap: 4px; }
+  .nav-icon-btn {
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; color: var(--white);
+    width: 44px; height: 44px;
+    border: 1px solid transparent;
+    transition: color .2s, border-color .2s, background .2s;
+  }
+  .nav-icon-btn:hover { color: var(--yellow); border-color: rgba(255,225,77,.35); background: rgba(255,225,77,.04); }
+
+  /* ── HERO (match mockup: slogan, moon, astronaut, gradient CTA) ── */
+  .hero {
+    position: relative;
+    width: 100%;
+    min-height: calc(100vh - 64px);
+    background: #000;
+    overflow: hidden;
+  }
+
+  .stars {
+    position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      radial-gradient(1px 1px at 8% 15%, rgba(255,255,255,.7) 0%,transparent 100%),
+      radial-gradient(1px 1px at 22% 40%, rgba(255,255,255,.5) 0%,transparent 100%),
+      radial-gradient(1px 1px at 5% 65%,  rgba(255,255,255,.6) 0%,transparent 100%),
+      radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,.4) 0%,transparent 100%),
+      radial-gradient(1.5px 1.5px at 3% 45%, rgba(255,225,77,.4) 0%,transparent 100%);
+  }
+
+  .hero-moon {
+    position: absolute;
+    top: -5%;
+    right: -8%;
+    width: 65%;
+    overflow: hidden;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .hero-moon img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .hero-moon::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 65% 38%, transparent 30%, rgba(0,0,0,.5) 62%, rgba(0,0,0,.98) 100%);
+  }
+
+  .hero-astronaut {
+    position: absolute;
+    bottom: -2%;
+    left: 1%;
+    width: 44%;
+    max-width: 540px;
+    z-index: 3;
+    pointer-events: none;
+    animation: floatAstro 6s ease-in-out infinite;
+  }
+  .hero-astronaut img {
+    width: 100%; display: block;
+    -webkit-mask-image: radial-gradient(ellipse 76% 82% at 40% 48%, black 50%, transparent 100%);
+    mask-image:         radial-gradient(ellipse 76% 82% at 40% 48%, black 50%, transparent 100%);
+    filter: drop-shadow(0 0 50px rgba(0,0,0,.9));
+  }
+
+  .hero-content {
+    position: relative; z-index: 4;
+    padding: 80px 24px 80px 60px;
+    max-width: 1120px;
+    min-height: calc(100vh - 64px);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .hero h1 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(.82rem, 1.8vw, 4rem);
+    color: var(--yellow);
+    line-height: 2.1;
+    letter-spacing: 10px;
+    margin-bottom: 36px;
+    animation: fadeUp .6s .1s ease both;
+    text-shadow: 0 0 40px rgba(255,225,77,.55);
+  }
+  /* Single CTA button: pill shape, black fill, gradient border (mockup) */
+  .hero-cta-wrap { animation: fadeUp .6s .2s ease both; }
+  .btn-cta-gradient-wrap {
+    display: inline-block;
+    padding: 3px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--yellow) 0%, var(--orange) 40%, var(--pink) 100%);
+    transition: transform .15s;
+  }
+  .btn-cta-gradient-wrap:hover { transform: scale(1.03); }
+  .btn-cta-gradient {
+    display: inline-block;
+    font-family: 'Press Start 2P', monospace;
+    font-size: .48rem;
+    padding: 16px 32px;
+    background: var(--black);
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: 1px;
+    border-radius: 999px;
+    line-height: 1.6;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how {
+    background: var(--gray);
+    padding: 80px 0 80px 0;
+  }
+  .how .section-label,
+  .how .section-sub { padding: 0 24px; }
+  .section-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: .55rem; color: var(--yellow);
+    text-align: center; letter-spacing: 3px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 16px rgba(255,225,77,.35);
+  }
+  .section-sub {
+    text-align: center; color: var(--muted);
+    font-size: 1rem; font-weight: 600;
+    letter-spacing: 1px; margin-bottom: 52px;
+  }
+  .steps-row {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    width: 100%; gap: 0;
+  }
+  .step-box {
+    position: relative;
+    width: 100%;
+    min-height: 420px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    background: var(--gray);
+  }
+  .step-box img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .step-box::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.3) 40%, transparent 70%);
+    pointer-events: none;
+  }
+  .step-box-title {
+    position: relative;
+    z-index: 2;
+    font-family: 'Press Start 2P', monospace;
+    font-size: .52rem;
+    color: var(--yellow);
+    text-align: center;
+    line-height: 1.8;
+    letter-spacing: 1px;
+    padding: 24px 16px;
+    text-shadow: 0 0 20px rgba(0,0,0,.8);
+  }
+  .step-box:hover img { transform: scale(1.05); }
+  .step-box img { transition: transform .4s ease; }
+
+  /* ── WHY US ── */
+  .why {
+    background: var(--black);
+    border-top: 1px solid rgba(255,255,255,.04);
+    padding: 80px 48px;
+  }
+  .why-grid {
+    display: grid; grid-template-columns: repeat(4,1fr);
+    gap: 16px; max-width: 1100px; margin: 0 auto;
+  }
+  .why-card {
+    background: var(--gray);
+    border: 1.5px solid rgba(255,225,77,.12);
+    border-radius: 18px;
+    padding: 32px 22px; text-align: center;
+    transition: border-color .2s, transform .2s;
+  }
+  .why-card:hover { border-color: rgba(255,225,77,.5); transform: translateY(-4px); }
+  .why-icon {
+    width: 56px; height: 56px;
+    background: rgba(255,225,77,.07);
+    border-radius: 50%; margin: 0 auto 18px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(255,225,77,.2); color: var(--yellow);
+  }
+  .why-card h4 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: .48rem; color: var(--yellow);
+    line-height: 1.9; margin-bottom: 10px;
+  }
+  .why-card p { font-size: .9rem; color: var(--muted); line-height: 1.55; font-weight: 500; }
+
+  /* ── CONTACT ── */
+  .contact-section {
+    background: var(--gray);
+    border-top: 1px solid rgba(255,255,255,.04);
+    padding: 80px 48px;
+  }
+  .contact-tiles {
+    display: flex; flex-wrap: wrap;
+    justify-content: center; gap: 20px;
+    max-width: 920px; margin: 0 auto;
+  }
+  .contact-tile {
+    flex: 1; min-width: 180px; max-width: 210px;
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+    background: var(--black);
+    border: 1.5px solid rgba(255,225,77,.18);
+    border-radius: 20px;
+    padding: 36px 24px;
+    text-decoration: none; color: var(--white); text-align: center;
+    transition: border-color .2s, transform .2s, box-shadow .2s;
+  }
+  .contact-tile:hover { border-color: var(--yellow); transform: translateY(-5px); box-shadow: 0 12px 40px rgba(255,225,77,.08); }
+  .ct-icon {
+    width: 56px; height: 56px;
+    background: rgba(255,225,77,.07);
+    border-radius: 50%; border: 1px solid rgba(255,225,77,.2);
+    display: flex; align-items: center; justify-content: center; color: var(--yellow);
+  }
+  .ct-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: .4rem; color: var(--yellow); letter-spacing: 1px;
+  }
+  .ct-value { font-size: .96rem; font-weight: 700; color: rgba(245,245,245,.8); }
+
+  /* ── REVIEWS ── */
+  .reviews {
+    background: var(--black);
+    border-top: 1px solid rgba(255,255,255,.04);
+    padding: 80px 48px;
+  }
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 1100px;
+    margin: 0 auto 28px;
+  }
+  .review-card {
+    background: var(--gray);
+    border: 1.5px solid rgba(255,225,77,.12);
+    border-radius: 18px;
+    padding: 24px 22px;
+    display: grid;
+    gap: 10px;
+    align-content: start;
+    overflow: hidden;
+  }
+  .review-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .review-name {
+    font-weight: 700;
+    color: rgba(245,245,245,.88);
+    font-size: 1.05rem;
+    line-height: 1.2;
+  }
+  .review-rating {
+    font-family: 'Press Start 2P', monospace;
+    font-size: .42rem;
+    color: var(--yellow);
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+  .review-meta {
+    color: rgba(245,245,245,.45);
+    font-weight: 600;
+    letter-spacing: .4px;
+    font-size: .95rem;
+  }
+  .review-text {
+    color: rgba(245,245,245,.65);
+    font-weight: 500;
+    line-height: 1.65;
+    font-size: 1rem;
+  }
+  .review-photo {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.06);
+    object-fit: cover;
+    display: block;
+    background: #0b0b0b;
+  }
+  .review-form {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: var(--gray);
+    border: 1.5px solid rgba(255,225,77,.18);
+    border-radius: 18px;
+    padding: 28px 24px;
+  }
+  .review-form-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: .6rem;
+    color: var(--yellow);
+    letter-spacing: 1px;
+    line-height: 1.9;
+    margin-bottom: 18px;
+  }
+  .rf-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .rf-group { margin-bottom: 14px; }
+  .rf-group label {
+    display: block;
+    font-family: 'Press Start 2P', monospace;
+    font-size: .38rem;
+    color: rgba(245,245,245,.55);
+    letter-spacing: 1px;
+    line-height: 1.8;
+    margin-bottom: 8px;
+  }
+  .rf-group input,
+  .rf-group select,
+  .rf-group textarea {
+    width: 100%;
+    padding: 14px 14px;
+    background: #0d0d0d;
+    border: 2px solid rgba(255,225,77,.18);
+    color: var(--white);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    outline: none;
+    transition: border-color .2s;
+  }
+  .rf-group input:focus,
+  .rf-group select:focus,
+  .rf-group textarea:focus { border-color: var(--yellow); }
+  .rf-group input[type="file"] { padding: 10px 12px; }
+  .rf-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .rf-hint {
+    color: rgba(245,245,245,.45);
+    font-weight: 600;
+    margin-top: 10px;
+    line-height: 1.6;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #080808;
+    border-top: 2px solid rgba(255,225,77,.2);
+    padding: 26px 48px;
+    display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+  }
+  .footer-copy {
+    font-family: 'Press Start 2P', monospace;
+    font-size: .36rem; color: var(--muted);
+    letter-spacing: 1px; line-height: 2;
+  }
+  .footer-links { display: flex; gap: 32px; }
+  .footer-links a {
+    font-family: 'Press Start 2P', monospace;
+    font-size: .42rem; color: rgba(245,245,245,.35);
+    text-decoration: none; letter-spacing: 1px; transition: color .2s;
+  }
+  .footer-links a:hover { color: var(--yellow); }
+
+  @keyframes floatAstro {
+    0%,100% { transform: translateY(0) rotate(-2deg); }
+    50%      { transform: translateY(-24px) rotate(2.5deg); }
+  }
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(18px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  @media(max-width: 960px) {
+    .hero-content { padding: 60px 28px 240px 28px; max-width: 100%; }
+    .hero-astronaut { width: 65%; left: 50%; transform: translateX(-50%); }
+    .hero-moon { width: 90%; right: -20%; opacity: .5; }
+    .steps-row { grid-template-columns: 1fr; }
+    .step-box { min-height: 320px; }
+    .how .section-label,
+    .how .section-sub { padding: 0 16px; }
+    .reviews { padding: 60px 20px; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .rf-row { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr 1fr; }
+    .how, .why, .contact-section { padding: 60px 20px; }
+    nav { padding: 0 16px; }
+    footer { padding: 24px; flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV (mockup: logo + 3 icons) -->
+<nav>
+  <a href="index.html" class="nav-logo">SMALL <span>SHOP TEES</span></a>
+  <div class="nav-icons">
+    <a href="contact.html" class="nav-icon-btn" aria-label="Account / Contact">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </a>
+    <a href="quote.html" class="nav-icon-btn" aria-label="Get a quote">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+    </a>
+    <a href="gallery.html" class="nav-icon-btn nav-menu-btn" aria-label="Gallery">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO (mockup: slogan, moon, astronaut, gradient CTA) -->
+<section class="hero">
+  <div class="stars"></div>
+  <div class="hero-moon">
+    <img src="assets/moon.png" alt="Moon">
+  </div>
+  <div class="hero-astronaut">
+    <!----img src="assets/astronaut.png" alt="Astronaut floating in space"> --->
+  </div>
+  <div class="hero-content">
+    <h1>ONE SMALL<br>PURCHASE<br>FOR YOUR<br>BUSINESS,<br>ONE GIANT<br>LEAP FOR<br>FREE<br>ADVERTISING</h1>
+    <div class="hero-cta-wrap">
+      <div class="btn-cta-gradient-wrap">
+        <a href="quote.html" class="btn-cta-gradient">REQUEST A QUOTE</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <div class="section-label">HOW IT WORKS</div>
+  <div class="section-sub">Four signature stress free steps.</div>
+  <div class="steps-row">
+      <div class="step-box">
+          <img src="assets/step1.jpg" alt="Request a quote">
+          <h3 class="step-box-title">STEP 01<br>REQUEST A QUOTE</h3>
+      </div>
+      <div class="step-box">
+          <img src="assets/step2.jpg" alt="Approve the design">
+          <h3 class="step-box-title">STEP 02<br>APPROVE THE DESIGN</h3>
+      </div>
+      <div class="step-box">
+          <img src="assets/step3.jpg" alt="Get your shirts">
+          <h3 class="step-box-title">STEP 03<br>GET YOUR SHIRTS</h3>
+      </div>
+      <div class="step-box">
+          <img src="assets/step4.jpg" alt="See your brand grow">
+          <h3 class="step-box-title">STEP 04<br>SEE YOUR BRAND GROW</h3>
+      </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="why">
+  <div class="section-label">WHY SMALL SHOP TEES</div>
+  <div class="section-sub">Built for businesses like yours.</div>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+      <h4>PORTLAND<br>LOCAL</h4>
+      <p>Real people right here in Portland. No call centers, no runaround.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <h4>FAST<br>TURNAROUND</h4>
+      <p>Most orders ship in 7–10 days. Rush orders available on request.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+      <h4>FREE DESIGN<br>HELP</h4>
+      <p>No artwork? No problem. We create it free with every order.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
+      <h4>SMALL BIZ<br>PRICING</h4>
+      <p>Low minimums and honest pricing built for small teams and tight budgets.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section">
+  <div class="section-label">REACH US ANYTIME</div>
+  <div class="section-sub">Pick whatever works for you.</div>
+  <div class="contact-tiles">
+    <a href="quote.html" class="contact-tile">
+      <div class="ct-icon"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+      <div class="ct-label">GET A QUOTE</div>
+      <div class="ct-value">Request Online</div>
+    </a>
+    <a href="tel:+15031234567" class="contact-tile">
+      <div class="ct-icon"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11 19.79 19.79 0 01.1 2.38 2 2 0 012.07.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+      <div class="ct-label">CALL US</div>
+      <div class="ct-value">(503) 123-4567</div>
+    </a>
+    <a href="mailto:hello@smallshoptees.com" class="contact-tile">
+      <div class="ct-icon"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+      <div class="ct-label">EMAIL US</div>
+      <div class="ct-value">hello@smallshoptees.com</div>
+    </a>
+    <a href="custom-design.html" class="contact-tile">
+      <div class="ct-icon"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+      <div class="ct-label">CUSTOM DESIGN</div>
+      <div class="ct-value">Request Artwork</div>
+    </a>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" aria-labelledby="reviews-title">
+  <div id="reviews-title" class="section-label">REVIEWS</div>
+  <div class="section-sub">What Portland businesses say.</div>
+
+  <div id="reviewsGrid" class="reviews-grid">
+    <article class="review-card">
+      <div class="review-top">
+        <div class="review-name">Alex R.</div>
+        <div class="review-rating">★★★★★</div>
+      </div>
+      <div class="review-meta">Coffee shop · Pearl District</div>
+      <div class="review-text">Fast turnaround and the print quality was way better than our last vendor. The design help was huge.</div>
+    </article>
+
+    <article class="review-card">
+      <div class="review-top">
+        <div class="review-name">Maya S.</div>
+        <div class="review-rating">★★★★★</div>
+      </div>
+      <div class="review-meta">Yoga studio · NE Portland</div>
+      <div class="review-text">We sent a rough idea and they turned it into something our members actually want to wear.</div>
+    </article>
+
+    <article class="review-card">
+      <div class="review-top">
+        <div class="review-name">Chris T.</div>
+        <div class="review-rating">★★★★★</div>
+      </div>
+      <div class="review-meta">Food truck · SE Portland</div>
+      <div class="review-text">Honest pricing, super responsive, and the shirts held up after a busy season. We'll be back.</div>
+    </article>
+  </div>
+
+  <div class="review-form">
+    <div class="review-form-title">ADD A REVIEW</div>
+    <form id="reviewForm" novalidate>
+      <div class="rf-row">
+        <div class="rf-group">
+          <label for="rfName">YOUR NAME</label>
+          <input id="rfName" name="name" type="text" placeholder="Jane Smith" required>
+        </div>
+        <div class="rf-group">
+          <label for="rfBusiness">BUSINESS (OPTIONAL)</label>
+          <input id="rfBusiness" name="business" type="text" placeholder="Acme Coffee Co.">
+        </div>
+      </div>
+
+      <div class="rf-row">
+        <div class="rf-group">
+          <label for="rfLocation">LOCATION (OPTIONAL)</label>
+          <input id="rfLocation" name="location" type="text" placeholder="Portland, OR">
+        </div>
+        <div class="rf-group">
+          <label for="rfRating">RATING</label>
+          <select id="rfRating" name="rating" required>
+            <option value="5" selected>★★★★★ (5)</option>
+            <option value="4">★★★★☆ (4)</option>
+            <option value="3">★★★☆☆ (3)</option>
+            <option value="2">★★☆☆☆ (2)</option>
+            <option value="1">★☆☆☆☆ (1)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="rf-group">
+        <label for="rfText">REVIEW</label>
+        <textarea id="rfText" name="review" rows="4" placeholder="Tell us about your experience..." required></textarea>
+      </div>
+
+      <div class="rf-group">
+        <label for="rfPhoto">UPLOAD A PHOTO (OPTIONAL)</label>
+        <input id="rfPhoto" name="photo" type="file" accept="image/*">
+      </div>
+
+      <div class="rf-actions">
+        <button class="btn-cta-gradient" type="submit">SUBMIT REVIEW</button>
+      </div>
+      <div class="rf-hint">Reviews you submit appear immediately and are saved in this browser.</div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2025 SMALL SHOP TEES · PORTLAND, OREGON<br>CUSTOM T-SHIRTS FOR SMALL BUSINESSES</div>
+  <div class="footer-links">
+    <a href="about.html">ABOUT US</a>
+    <a href="jobs.html">JOBS</a>
+    <a href="contact.html">CONTACT</a>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    const STORAGE_KEY = "sst_reviews_v1";
+    const grid = document.getElementById("reviewsGrid");
+    const form = document.getElementById("reviewForm");
+
+    if (!grid || !form) return;
+
+    function stars(n) {
+      const full = "★".repeat(Math.max(0, Math.min(5, n)));
+      const empty = "☆".repeat(5 - full.length);
+      return full + empty;
+    }
+
+    function escapeHtml(s) {
+      return String(s)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll("\"", "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function renderReview(r) {
+      const article = document.createElement("article");
+      article.className = "review-card";
+
+      const metaParts = [r.business, r.location].filter(Boolean);
+      const meta = metaParts.join(" · ");
+
+      article.innerHTML =
+        `<div class="review-top">` +
+          `<div class="review-name">${escapeHtml(r.name)}</div>` +
+          `<div class="review-rating">${escapeHtml(stars(r.rating))}</div>` +
+        `</div>` +
+        (meta ? `<div class="review-meta">${escapeHtml(meta)}</div>` : ``) +
+        `<div class="review-text">${escapeHtml(r.text)}</div>` +
+        (r.photoDataUrl ? `<img class="review-photo" src="${escapeHtml(r.photoDataUrl)}" alt="Review photo">` : ``);
+
+      grid.appendChild(article);
+    }
+
+    function loadStored() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        const reviews = JSON.parse(raw);
+        if (!Array.isArray(reviews)) return;
+        for (const r of reviews) renderReview(r);
+      } catch {
+        // ignore
+      }
+    }
+
+    function saveReview(r) {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        const cur = raw ? JSON.parse(raw) : [];
+        const next = Array.isArray(cur) ? cur : [];
+        next.unshift(r);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(next.slice(0, 30)));
+      } catch {
+        // ignore
+      }
+    }
+
+    loadStored();
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("rfName")?.value?.trim();
+      const business = document.getElementById("rfBusiness")?.value?.trim();
+      const location = document.getElementById("rfLocation")?.value?.trim();
+      const rating = Number(document.getElementById("rfRating")?.value || 5);
+      const text = document.getElementById("rfText")?.value?.trim();
+      const file = document.getElementById("rfPhoto")?.files?.[0];
+
+      if (!name || !text) return;
+
+      let photoDataUrl = "";
+      if (file) {
+        photoDataUrl = await new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(String(reader.result || ""));
+          reader.onerror = () => resolve("");
+          reader.readAsDataURL(file);
+        });
+      }
+
+      const review = { name, business, location, rating: Math.max(1, Math.min(5, rating)), text, photoDataUrl };
+      saveReview(review);
+
+      const insertBefore = grid.firstElementChild;
+      const tempContainer = document.createElement("div");
+      renderReview(review);
+      const added = grid.lastElementChild;
+      if (added && insertBefore) grid.insertBefore(added, insertBefore);
+
+      form.reset();
+    });
+  })();
+</script>
+
+</body>
+</html>
