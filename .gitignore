@@ -1,0 +1,13 @@
+# Claude Code local files
+.claude/
+
+# Temp scripts
+cleanup.ps1
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/

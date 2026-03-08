@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Products & Styles – Small Shop Tees Portland</title>
+<meta name="description" content="Browse our available shirt styles, colors, and customization options. Request any style for your Portland business.">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --black:#000; --yellow:#FFE14D; --orange:#FF9F43; --white:#f5f5f5; --gray:#141414; --gray2:#1a1a1a; --muted:#777; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Rajdhani',sans-serif; background:var(--black); color:var(--white); min-height:100vh; }
+  body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index:0; background-image:radial-gradient(1px 1px at 10% 20%,rgba(255,255,255,.5) 0%,transparent 100%),radial-gradient(1px 1px at 80% 60%,rgba(255,255,255,.4) 0%,transparent 100%),radial-gradient(1px 1px at 45% 80%,rgba(255,225,77,.3) 0%,transparent 100%),radial-gradient(1px 1px at 30% 45%,rgba(255,255,255,.25) 0%,transparent 100%); }
+  nav { position:sticky; top:0; z-index:1000; background:rgba(0,0,0,.97); backdrop-filter:blur(12px); border-bottom:2px solid var(--yellow); height:64px; padding:0 32px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .nav-logo { font-family:'Press Start 2P',monospace; font-size:.7rem; color:var(--white); text-decoration:none; white-space:nowrap; flex-shrink:0; }
+  .nav-logo span { color:var(--yellow); }
+  .nav-links { display:flex; align-items:center; gap:2px; }
+  .nav-link { font-family:'Press Start 2P',monospace; font-size:.33rem; color:rgba(245,245,245,.5); text-decoration:none; padding:6px 7px; letter-spacing:.5px; white-space:nowrap; transition:color .2s; }
+  .nav-link:hover,.nav-link.active { color:var(--yellow); }
+  .nav-portal { font-family:'Press Start 2P',monospace; font-size:.33rem; color:rgba(245,245,245,.5); text-decoration:none; padding:6px 10px; letter-spacing:.5px; border:1px solid rgba(255,225,77,.25); white-space:nowrap; transition:color .2s,border-color .2s; margin-left:4px; }
+  .nav-portal:hover { color:var(--yellow); border-color:rgba(255,225,77,.7); }
+  .nav-cta { font-family:'Press Start 2P',monospace; font-size:.33rem; color:var(--black); background:var(--yellow); text-decoration:none; padding:8px 14px; white-space:nowrap; margin-left:4px; transition:opacity .2s; }
+  .nav-cta:hover { opacity:.85; }
+  .hamburger { display:none; background:none; border:2px solid rgba(255,225,77,.3); cursor:pointer; padding:6px 10px; color:var(--white); flex-shrink:0; }
+
+  .page-wrap { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:64px 32px 80px; }
+  .page-eyebrow { display:inline-flex; align-items:center; gap:8px; background:rgba(255,225,77,.1); border:1px solid rgba(255,225,77,.4); color:var(--yellow); font-family:'Press Start 2P',monospace; font-size:.42rem; letter-spacing:2px; padding:8px 16px; margin-bottom:24px; }
+  .page-title { font-family:'Press Start 2P',monospace; font-size:clamp(.9rem,2.5vw,1.2rem); color:var(--yellow); line-height:1.7; margin-bottom:12px; text-shadow:0 0 20px rgba(255,225,77,.3); }
+  .page-sub { font-size:1.1rem; color:var(--muted); margin-bottom:40px; font-weight:500; line-height:1.6; }
+
+  /* Notice banner */
+  .notice { background:rgba(255,225,77,.08); border:1px solid rgba(255,225,77,.25); padding:16px 20px; margin-bottom:36px; display:flex; gap:12px; align-items:flex-start; }
+  .notice-icon { color:var(--yellow); font-size:1.1rem; flex-shrink:0; margin-top:2px; }
+  .notice p { font-size:.95rem; color:rgba(245,245,245,.7); font-weight:600; line-height:1.5; }
+  .notice strong { color:var(--white); }
+
+  /* Product grid */
+  .products-grid { display:grid; grid-template-columns:1fr; max-width:480px; gap:20px; }
+  .product-card { background:var(--gray2); border:1.5px solid rgba(255,225,77,.12); display:flex; flex-direction:column; transition:border-color .2s,transform .2s; }
+  .product-card:hover { border-color:rgba(255,225,77,.4); transform:translateY(-4px); }
+  .product-card[data-hidden="true"] { display:none; }
+  .pc-thumb { height:200px; display:flex; align-items:center; justify-content:center; font-size:5rem; background:rgba(255,225,77,.04); border-bottom:1px solid rgba(255,225,77,.08); position:relative; overflow:hidden; }
+  .pc-badge { position:absolute; top:12px; left:12px; font-family:'Press Start 2P',monospace; font-size:.32rem; padding:5px 8px; letter-spacing:1px; }
+  .pc-badge.popular { background:rgba(255,225,77,.15); color:var(--yellow); border:1px solid rgba(255,225,77,.4); }
+  .pc-badge.new { background:rgba(255,159,67,.15); color:var(--orange); border:1px solid rgba(255,159,67,.4); }
+  .pc-body { padding:20px; flex:1; display:flex; flex-direction:column; gap:10px; }
+  .pc-style-tag { font-family:'Press Start 2P',monospace; font-size:.35rem; color:rgba(255,225,77,.5); letter-spacing:1px; }
+  .pc-name { font-family:'Press Start 2P',monospace; font-size:.52rem; color:var(--yellow); line-height:1.7; }
+  .pc-desc { font-size:.95rem; color:var(--muted); line-height:1.5; font-weight:500; flex:1; }
+  .pc-colors-label { font-family:'Press Start 2P',monospace; font-size:.32rem; color:rgba(245,245,245,.35); letter-spacing:1px; }
+  .pc-colors { display:flex; gap:7px; flex-wrap:wrap; }
+  .pc-dot { width:16px; height:16px; border-radius:50%; border:1px solid rgba(255,255,255,.15); cursor:default; title:''; }
+  .pc-min { font-size:.85rem; color:var(--muted); font-weight:700; letter-spacing:.5px; }
+  .pc-cta { display:block; text-align:center; font-family:'Press Start 2P',monospace; font-size:.4rem; padding:14px; background:var(--yellow); color:var(--black); text-decoration:none; letter-spacing:1px; transition:opacity .2s; margin-top:auto; }
+  .pc-cta:hover { opacity:.88; }
+
+  .catalog-note { background:var(--gray2); border:1px solid rgba(255,225,77,.12); padding:28px 32px; margin-top:40px; display:flex; gap:20px; align-items:center; flex-wrap:wrap; justify-content:space-between; }
+  .catalog-note p { font-size:1.02rem; color:rgba(245,245,245,.7); font-weight:600; line-height:1.5; }
+  .btn-outline { display:inline-block; font-family:'Press Start 2P',monospace; font-size:.4rem; padding:12px 20px; background:transparent; color:var(--yellow); border:2px solid var(--yellow); text-decoration:none; letter-spacing:1px; transition:background .2s; white-space:nowrap; flex-shrink:0; }
+  .btn-outline:hover { background:rgba(255,225,77,.07); }
+
+  footer { position:relative; z-index:1; background:#080808; border-top:2px solid rgba(255,225,77,.2); padding:26px 48px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+  .footer-copy { font-family:'Press Start 2P',monospace; font-size:.36rem; color:var(--muted); letter-spacing:1px; line-height:2; }
+  .footer-links { display:flex; gap:20px; flex-wrap:wrap; }
+  .footer-links a { font-family:'Press Start 2P',monospace; font-size:.36rem; color:rgba(245,245,245,.35); text-decoration:none; letter-spacing:1px; transition:color .2s; }
+  .footer-links a:hover { color:var(--yellow); }
+
+  @media(max-width:900px) {
+    nav { padding:0 16px; }
+    .nav-links { display:none; position:absolute; top:64px; left:0; right:0; background:rgba(0,0,0,.99); border-bottom:2px solid var(--yellow); flex-direction:column; align-items:flex-start; padding:12px 16px; gap:4px; z-index:999; }
+    .nav-links.open { display:flex; }
+    .nav-link,.nav-portal,.nav-cta { font-size:.42rem; padding:10px 8px; margin:0; }
+    .hamburger { display:flex; align-items:center; justify-content:center; }
+  }
+  @media(max-width:600px) { .page-wrap{padding:40px 20px;} footer{padding:24px;flex-direction:column;text-align:center;} }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">SMALL <span>SHOP TEES</span></a>
+  <div class="nav-links" id="navLinks">
+    <a href="/how-it-works/" class="nav-link">HOW IT WORKS</a>
+    <a href="/products/" class="nav-link active">PRODUCTS</a>
+    <a href="/pricing/" class="nav-link">PRICING</a>
+    <a href="/faq/" class="nav-link">FAQ</a>
+    <a href="/about/" class="nav-link">ABOUT</a>
+    <a href="/portal/" class="nav-portal">CLIENT LOGIN</a>
+    <a href="/quote/" class="nav-cta">GET A QUOTE</a>
+  </div>
+  <button class="hamburger" id="navToggle" aria-label="Menu">
+    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-eyebrow">CATALOG</div>
+  <div class="page-title">AVAILABLE<br>STYLES</div>
+  <div class="page-sub">Quality shirts your crew actually wants to wear. Each card has a single action — request the style, and we'll handle everything else.</div>
+
+  <div class="notice">
+    <span class="notice-icon">ℹ</span>
+    <p><strong>Prices are not listed here intentionally.</strong> We quote based on your style, quantity, and design complexity. <a href="/pricing/" style="color:var(--yellow);">Visit our Pricing page</a> for tiers and minimums, or <a href="/quote/" style="color:var(--yellow);">get a free quote</a> for your specific order.</p>
+  </div>
+
+  <!-- Product grid -->
+  <div class="products-grid" id="productsGrid">
+
+    <div class="product-card">
+      <div class="pc-thumb">
+        👕
+        <span class="pc-badge popular">POPULAR</span>
+      </div>
+      <div class="pc-body">
+        <div class="pc-style-tag">UNISEX · STANDARD FIT</div>
+        <div class="pc-name">STANDARD<br>TEE</div>
+        <p class="pc-desc">our signature no-nonsense t-shirt.</p>
+        <div class="pc-colors-label">AVAILABLE COLORS</div>
+        <div class="pc-colors">
+          <span class="pc-dot" style="background:#111;border-color:#555;" title="Black"></span>
+          <span class="pc-dot" style="background:#f0f0f0;" title="White"></span>
+          <span class="pc-dot" style="background:#8b1a1a;" title="Red"></span>
+          <span class="pc-dot" style="background:#2c4a8c;" title="Navy"></span>
+          <span class="pc-dot" style="background:#2d5a2d;" title="Forest Green"></span>
+          <span class="pc-dot" style="background:#555;" title="Heather Grey"></span>
+          <span class="pc-dot" style="background:#3d2b1a;" title="Brown"></span>
+        </div>
+        <div class="pc-min">Min. 50 shirts · XS–3XL</div>
+        <a href="/quote/?style=Standard+Tee" class="pc-cta">REQUEST THIS STYLE</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="catalog-note">
+    <p>Don't see exactly what you need? We source a wide range of styles. <strong>Tell us what you're looking for</strong> in your quote request and we'll find the right fit.</p>
+    <a href="/quote/" class="btn-outline">REQUEST A CUSTOM STYLE</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-copy">© 2025 SMALL SHOP TEES · PORTLAND, OREGON</div>
+  <div class="footer-links">
+    <a href="/how-it-works/">HOW IT WORKS</a>
+    <a href="/pricing/">PRICING</a>
+    <a href="/faq/">FAQ</a>
+    <a href="/about/">ABOUT</a>
+    <a href="/portal/">CLIENT LOGIN</a>
+    <a href="/quote/">GET A QUOTE</a>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('navToggle').addEventListener('click', function() {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+</script>
+</body>
+</html>

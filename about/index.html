@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us – Small Shop Tees Portland</title>
+<meta name="description" content="Portland-based branded merchandise service. Local people, personal service, and a mission to help small businesses look great without the hassle.">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --black:#000; --yellow:#FFE14D; --orange:#FF9F43; --white:#f5f5f5; --gray:#141414; --gray2:#1a1a1a; --muted:#777; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Rajdhani',sans-serif; background:var(--black); color:var(--white); min-height:100vh; }
+  body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index:0; background-image:radial-gradient(1px 1px at 10% 20%,rgba(255,255,255,.5) 0%,transparent 100%),radial-gradient(1px 1px at 80% 60%,rgba(255,255,255,.4) 0%,transparent 100%),radial-gradient(1px 1px at 45% 80%,rgba(255,225,77,.3) 0%,transparent 100%),radial-gradient(1px 1px at 25% 40%,rgba(255,255,255,.3) 0%,transparent 100%); }
+  nav { position:sticky; top:0; z-index:1000; background:rgba(0,0,0,.97); backdrop-filter:blur(12px); border-bottom:2px solid var(--yellow); height:64px; padding:0 32px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .nav-logo { font-family:'Press Start 2P',monospace; font-size:.7rem; color:var(--white); text-decoration:none; white-space:nowrap; flex-shrink:0; }
+  .nav-logo span { color:var(--yellow); }
+  .nav-links { display:flex; align-items:center; gap:2px; }
+  .nav-link { font-family:'Press Start 2P',monospace; font-size:.33rem; color:rgba(245,245,245,.5); text-decoration:none; padding:6px 7px; letter-spacing:.5px; white-space:nowrap; transition:color .2s; }
+  .nav-link:hover,.nav-link.active { color:var(--yellow); }
+  .nav-portal { font-family:'Press Start 2P',monospace; font-size:.33rem; color:rgba(245,245,245,.5); text-decoration:none; padding:6px 10px; letter-spacing:.5px; border:1px solid rgba(255,225,77,.25); white-space:nowrap; transition:color .2s,border-color .2s; margin-left:4px; }
+  .nav-portal:hover { color:var(--yellow); border-color:rgba(255,225,77,.7); }
+  .nav-cta { font-family:'Press Start 2P',monospace; font-size:.33rem; color:var(--black); background:var(--yellow); text-decoration:none; padding:8px 14px; white-space:nowrap; margin-left:4px; transition:opacity .2s; }
+  .nav-cta:hover { opacity:.85; }
+  .hamburger { display:none; background:none; border:2px solid rgba(255,225,77,.3); cursor:pointer; padding:6px 10px; color:var(--white); flex-shrink:0; }
+  .page-wrap { position:relative; z-index:1; max-width:800px; margin:0 auto; padding:64px 32px 80px; }
+  .page-eyebrow { display:inline-flex; align-items:center; gap:8px; background:rgba(255,225,77,.1); border:1px solid rgba(255,225,77,.4); color:var(--yellow); font-family:'Press Start 2P',monospace; font-size:.42rem; letter-spacing:2px; padding:8px 16px; margin-bottom:24px; }
+  .page-title { font-family:'Press Start 2P',monospace; font-size:clamp(.9rem,2.5vw,1.2rem); color:var(--yellow); line-height:1.7; margin-bottom:12px; text-shadow:0 0 20px rgba(255,225,77,.3); }
+  .page-sub { font-size:1.1rem; color:var(--muted); margin-bottom:40px; font-weight:500; line-height:1.6; }
+  .content-block { background:var(--gray2); border:2px solid rgba(255,225,77,.15); padding:36px 40px; margin-bottom:24px; position:relative; z-index:1; }
+  .content-block h2 { font-family:'Press Start 2P',monospace; font-size:.6rem; color:var(--yellow); margin-bottom:18px; line-height:1.8; letter-spacing:1px; }
+  .content-block p { font-size:1.05rem; color:rgba(245,245,245,.75); line-height:1.7; font-weight:400; margin-bottom:14px; }
+  .content-block p:last-child { margin-bottom:0; }
+  .founder-block { background:var(--gray2); border:2px solid rgba(255,225,77,.15); padding:36px 40px; margin-bottom:24px; position:relative; z-index:1; display:flex; gap:36px; align-items:flex-start; }
+  .founder-avatar { flex-shrink:0; width:110px; height:110px; border-radius:50%; background:rgba(255,225,77,.07); border:2px solid rgba(255,225,77,.25); display:flex; align-items:center; justify-content:center; font-size:3rem; }
+  .founder-text h2 { font-family:'Press Start 2P',monospace; font-size:.6rem; color:var(--yellow); margin-bottom:18px; line-height:1.8; }
+  .founder-text p { font-size:1.05rem; color:rgba(245,245,245,.75); line-height:1.7; margin-bottom:14px; }
+  .founder-text p:last-child { margin-bottom:0; }
+  .mission-block { background:var(--black); border:2px solid var(--yellow); padding:36px 40px; margin-bottom:24px; position:relative; z-index:1; text-align:center; }
+  .mission-label { font-family:'Press Start 2P',monospace; font-size:.42rem; color:var(--orange); letter-spacing:3px; margin-bottom:16px; }
+  .mission-block blockquote { font-family:'Press Start 2P',monospace; font-size:clamp(.52rem,1.1vw,.7rem); color:var(--yellow); line-height:2.4; letter-spacing:1px; }
+  .why-local-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:20px; }
+  .wl-card { background:var(--black); border:1px solid rgba(255,225,77,.15); padding:20px; }
+  .wl-card h3 { font-family:'Press Start 2P',monospace; font-size:.4rem; color:var(--yellow); margin-bottom:10px; line-height:1.8; }
+  .wl-card p { font-size:.95rem; color:var(--muted); line-height:1.55; font-weight:500; }
+  .stat-row { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:20px; }
+  .stat { text-align:center; padding:20px 12px; border:1px solid rgba(255,225,77,.2); background:var(--black); }
+  .stat-num { font-family:'Press Start 2P',monospace; font-size:.85rem; color:var(--yellow); margin-bottom:8px; }
+  .stat-label { font-size:.85rem; color:var(--muted); font-weight:600; letter-spacing:1px; text-transform:uppercase; }
+  .values-list { list-style:none; margin-top:8px; }
+  .values-list li { font-size:1.02rem; color:rgba(245,245,245,.75); line-height:1.7; font-weight:500; padding:10px 0; border-bottom:1px solid rgba(255,225,77,.08); display:flex; gap:12px; align-items:flex-start; }
+  .values-list li:last-child { border-bottom:none; }
+  .values-list li::before { content:'→'; color:var(--yellow); font-family:'Press Start 2P',monospace; font-size:.5rem; flex-shrink:0; margin-top:4px; }
+  .cta-row { display:flex; gap:16px; flex-wrap:wrap; margin-top:32px; }
+  .btn-yellow { display:inline-block; font-family:'Press Start 2P',monospace; font-size:.46rem; padding:16px 26px; background:var(--yellow); color:var(--black); text-decoration:none; letter-spacing:1px; box-shadow:4px 4px 0 #a88c00; transition:all .15s; }
+  .btn-yellow:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 #a88c00; }
+  .btn-outline { display:inline-block; font-family:'Press Start 2P',monospace; font-size:.46rem; padding:14px 22px; background:transparent; color:var(--yellow); border:2px solid var(--yellow); text-decoration:none; letter-spacing:1px; transition:background .2s; }
+  .btn-outline:hover { background:rgba(255,225,77,.07); }
+  footer { position:relative; z-index:1; background:#080808; border-top:2px solid rgba(255,225,77,.2); padding:26px 48px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+  .footer-copy { font-family:'Press Start 2P',monospace; font-size:.36rem; color:var(--muted); letter-spacing:1px; line-height:2; }
+  .footer-links { display:flex; gap:20px; flex-wrap:wrap; }
+  .footer-links a { font-family:'Press Start 2P',monospace; font-size:.36rem; color:rgba(245,245,245,.35); text-decoration:none; letter-spacing:1px; transition:color .2s; }
+  .footer-links a:hover { color:var(--yellow); }
+  @media(max-width:900px) {
+    nav { padding:0 16px; }
+    .nav-links { display:none; position:absolute; top:64px; left:0; right:0; background:rgba(0,0,0,.99); border-bottom:2px solid var(--yellow); flex-direction:column; align-items:flex-start; padding:12px 16px; gap:4px; z-index:999; }
+    .nav-links.open { display:flex; }
+    .nav-link,.nav-portal,.nav-cta { font-size:.42rem; padding:10px 8px; margin:0; }
+    .hamburger { display:flex; align-items:center; justify-content:center; }
+    .founder-block { flex-direction:column; align-items:center; text-align:center; }
+    .why-local-grid { grid-template-columns:1fr; }
+    .stat-row { grid-template-columns:1fr 1fr; }
+  }
+  @media(max-width:600px) { .page-wrap{padding:40px 20px;} .content-block,.founder-block,.mission-block{padding:24px;} footer{padding:24px;flex-direction:column;text-align:center;} .cta-row{flex-direction:column;} }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">SMALL <span>SHOP TEES</span></a>
+  <div class="nav-links" id="navLinks">
+    <a href="/how-it-works/" class="nav-link">HOW IT WORKS</a>
+    <a href="/products/" class="nav-link">PRODUCTS</a>
+    <a href="/pricing/" class="nav-link">PRICING</a>
+    <a href="/faq/" class="nav-link">FAQ</a>
+    <a href="/about/" class="nav-link active">ABOUT</a>
+    <a href="/portal/" class="nav-portal">CLIENT LOGIN</a>
+    <a href="/quote/" class="nav-cta">GET A QUOTE</a>
+  </div>
+  <button class="hamburger" id="navToggle" aria-label="Menu">
+    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+</nav>
+<div class="page-wrap">
+  <div class="page-eyebrow">ABOUT US</div>
+  <div class="page-title">BUILT IN PORTLAND.<br>BUILT FOR PORTLAND.</div>
+  <div class="page-sub">We're not a print platform or a fulfillment algorithm. We're real people who care about your business.</div>
+
+  <div class="mission-block">
+    <div class="mission-label">OUR MISSION</div>
+    <blockquote>"Make branded merchandise effortless for Portland small businesses — so you can focus on running your shop, not chasing vendors."</blockquote>
+  </div>
+
+  <div class="founder-block">
+    <div class="founder-avatar">👤</div>
+    <div class="founder-text">
+      <h2>THE FOUNDER</h2>
+      <p>Small Shop Tees started because I kept seeing the same problem: Portland business owners wanted great-looking branded shirts, but the process was a nightmare — slow turnarounds, hidden fees, vendors who disappeared after the order.</p>
+      <p>I grew up in Portland. I know how hard it is to run a small business here. So I built a service that handles everything — design to delivery to automatic restocking — so you never have to think about it again.</p>
+      <p>Every client gets my personal number. You're not a ticket in a queue. You're a neighbor.</p>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h2>WHY LOCAL BEATS ONLINE</h2>
+    <p>There's no shortage of online shirt platforms. But they're built for consumers, not Portland businesses with real operational needs. Here's what a local partner provides that a website simply can't:</p>
+    <div class="why-local-grid">
+      <div class="wl-card">
+        <h3>DIRECT<br>COMMUNICATION</h3>
+        <p>Call or text us directly. Real answers in hours, not days. No chat bots, no support tickets.</p>
+      </div>
+      <div class="wl-card">
+        <h3>DOOR-TO-DOOR<br>DELIVERY</h3>
+        <p>We deliver to your business — shirts on hangers, ready to display. No mystery packages.</p>
+      </div>
+      <div class="wl-card">
+        <h3>WE KNOW<br>PORTLAND</h3>
+        <p>We understand the local market and what resonates with Portland customers and staff.</p>
+      </div>
+      <div class="wl-card">
+        <h3>AUTOMATIC<br>RESTOCKING</h3>
+        <p>We monitor your inventory and reorder before you run out. Online platforms don't do this.</p>
+      </div>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Businesses Served</div></div>
+      <div class="stat"><div class="stat-num">10K+</div><div class="stat-label">Shirts Delivered</div></div>
+      <div class="stat"><div class="stat-num">2015</div><div class="stat-label">Est. Portland, OR</div></div>
+    </div>
+  </div>
+
+  <div class="content-block">
+    <h2>HOW WE OPERATE</h2>
+    <ul class="values-list">
+      <li>Honest, upfront pricing — you see your full quote before committing to anything</li>
+      <li>Free design facilitation with every order — no artwork needed, just an idea</li>
+      <li>Shirts arrive on hangers, ready to sell or wear — no extra prep work for your team</li>
+      <li>We stand behind our work — contact us within 5 business days of delivery if anything's off</li>
+      <li>Currently serving Portland metro only — and we're focused on doing it right here first</li>
+    </ul>
+    <div class="cta-row">
+      <a href="/quote/" class="btn-yellow">WANT TO WORK WITH US?</a>
+      <a href="/how-it-works/" class="btn-outline">SEE HOW IT WORKS</a>
+    </div>
+  </div>
+</div>
+<footer>
+  <div class="footer-copy">© 2025 SMALL SHOP TEES · PORTLAND, OREGON</div>
+  <div class="footer-links">
+    <a href="/how-it-works/">HOW IT WORKS</a>
+    <a href="/products/">PRODUCTS</a>
+    <a href="/pricing/">PRICING</a>
+    <a href="/faq/">FAQ</a>
+    <a href="/portal/">CLIENT LOGIN</a>
+    <a href="/quote/">GET A QUOTE</a>
+  </div>
+</footer>
+<script>
+  document.getElementById('navToggle').addEventListener('click', function() {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+</script>
+</body>
+</html>
