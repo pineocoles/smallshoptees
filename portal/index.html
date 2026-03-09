@@ -4,40 +4,56 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Client Portal – Small Shop Tees Portland</title>
-<meta name="description" content="Small Shop Tees client login portal. View your inventory, place restock orders, and track order history.">
+<meta name="description" content="Small Shop Tees client portal. View your inventory, place restock orders, and track order history.">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root { --black:#000; --yellow:#FFE14D; --orange:#FF9F43; --white:#f5f5f5; --gray:#141414; --gray2:#1a1a1a; --muted:#777; --green:#3ecf8e; --red:#ff5c5c; }
   * { margin:0; padding:0; box-sizing:border-box; }
   body { font-family:'Rajdhani',sans-serif; background:var(--black); color:var(--white); min-height:100vh; }
   body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index:0; background-image:radial-gradient(1px 1px at 10% 20%,rgba(255,255,255,.5) 0%,transparent 100%),radial-gradient(1px 1px at 80% 60%,rgba(255,255,255,.4) 0%,transparent 100%),radial-gradient(1px 1px at 45% 80%,rgba(255,225,77,.3) 0%,transparent 100%); }
+
   nav { position:sticky; top:0; z-index:1000; background:rgba(0,0,0,.97); backdrop-filter:blur(12px); border-bottom:2px solid var(--yellow); height:64px; padding:0 32px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
   .nav-logo { font-family:'Press Start 2P',monospace; font-size:.7rem; color:var(--white); text-decoration:none; white-space:nowrap; flex-shrink:0; }
   .nav-logo span { color:var(--yellow); }
   .nav-right { display:flex; align-items:center; gap:12px; }
-  .nav-user { font-family:'Press Start 2P',monospace; font-size:.35rem; color:rgba(245,245,245,.5); display:none; }
-  .btn-logout { font-family:'Press Start 2P',monospace; font-size:.32rem; color:rgba(245,245,245,.4); background:none; border:1px solid rgba(255,255,255,.1); padding:6px 12px; cursor:pointer; transition:color .2s,border-color .2s; display:none; }
+  .nav-user { font-family:'Press Start 2P',monospace; font-size:.32rem; color:rgba(245,245,245,.5); display:none; }
+  .btn-logout { font-family:'Press Start 2P',monospace; font-size:.3rem; color:rgba(245,245,245,.4); background:none; border:1px solid rgba(255,255,255,.1); padding:6px 12px; cursor:pointer; transition:color .2s,border-color .2s; display:none; }
   .btn-logout:hover { color:var(--yellow); border-color:rgba(255,225,77,.4); }
-  .hamburger { display:none; background:none; border:2px solid rgba(255,225,77,.3); cursor:pointer; padding:6px 10px; color:var(--white); }
 
-  /* ── LOGIN SCREEN ── */
-  .login-screen { position:relative; z-index:1; min-height:calc(100vh - 64px); display:flex; align-items:center; justify-content:center; padding:40px 24px; }
-  .login-card { background:var(--gray2); border:2px solid rgba(255,225,77,.2); padding:48px 40px; width:100%; max-width:460px; }
-  .login-logo { font-family:'Press Start 2P',monospace; font-size:.55rem; color:var(--yellow); line-height:2; margin-bottom:8px; text-align:center; }
-  .login-sub { font-size:1rem; color:var(--muted); text-align:center; margin-bottom:36px; font-weight:600; }
-  .form-group { margin-bottom:20px; }
-  .form-group label { display:block; font-family:'Press Start 2P',monospace; font-size:.38rem; color:var(--yellow); letter-spacing:1px; margin-bottom:8px; line-height:1.8; }
+  /* ── AUTH CARD (sign in / sign up tabs) ── */
+  .auth-screen { position:relative; z-index:1; min-height:calc(100vh - 64px); display:flex; align-items:center; justify-content:center; padding:40px 24px; }
+  .auth-card { background:var(--gray2); border:2px solid rgba(255,225,77,.2); padding:48px 40px; width:100%; max-width:480px; }
+  .auth-logo { font-family:'Press Start 2P',monospace; font-size:.55rem; color:var(--yellow); line-height:2; text-align:center; margin-bottom:8px; }
+  .auth-sub { font-size:1rem; color:var(--muted); text-align:center; margin-bottom:28px; font-weight:600; }
+
+  /* Tab switcher */
+  .auth-tabs { display:flex; border-bottom:2px solid rgba(255,225,77,.15); margin-bottom:28px; }
+  .auth-tab { flex:1; font-family:'Press Start 2P',monospace; font-size:.34rem; color:rgba(245,245,245,.35); background:none; border:none; padding:12px; cursor:pointer; letter-spacing:1px; border-bottom:3px solid transparent; margin-bottom:-2px; transition:color .2s; }
+  .auth-tab:hover { color:var(--yellow); }
+  .auth-tab.active { color:var(--yellow); border-bottom-color:var(--yellow); }
+  .auth-panel { display:none; }
+  .auth-panel.active { display:block; }
+
+  .form-group { margin-bottom:18px; }
+  .form-group label { display:block; font-family:'Press Start 2P',monospace; font-size:.36rem; color:var(--yellow); letter-spacing:1px; margin-bottom:8px; line-height:1.8; }
   .form-group input { width:100%; padding:14px 16px; background:#0d0d0d; border:2px solid rgba(255,225,77,.2); color:var(--white); font-family:'Rajdhani',sans-serif; font-size:1rem; font-weight:500; outline:none; transition:border-color .2s; }
   .form-group input:focus { border-color:var(--yellow); }
-  .login-error { background:rgba(255,92,92,.1); border:1px solid rgba(255,92,92,.4); color:var(--red); font-size:.9rem; font-weight:700; padding:12px 14px; margin-bottom:16px; display:none; }
-  .btn-login { font-family:'Press Start 2P',monospace; font-size:.5rem; padding:18px 24px; background:var(--yellow); color:var(--black); border:3px solid var(--yellow); cursor:pointer; letter-spacing:1px; width:100%; box-shadow:4px 4px 0 #a88c00; transition:all .15s; margin-top:4px; }
-  .btn-login:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 #a88c00; }
-  .login-forgot { text-align:center; margin-top:18px; }
-  .login-forgot a { font-family:'Press Start 2P',monospace; font-size:.35rem; color:rgba(245,245,245,.35); text-decoration:none; letter-spacing:1px; transition:color .2s; }
-  .login-forgot a:hover { color:var(--yellow); }
-  .demo-hint { background:rgba(255,225,77,.06); border:1px solid rgba(255,225,77,.15); padding:14px 16px; margin-top:24px; text-align:center; }
-  .demo-hint p { font-size:.88rem; color:rgba(245,245,245,.45); font-weight:600; line-height:1.5; }
-  .demo-hint strong { color:rgba(245,245,245,.65); }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .auth-err { background:rgba(255,92,92,.1); border:1px solid rgba(255,92,92,.4); color:var(--red); font-size:.9rem; font-weight:700; padding:12px 14px; margin-bottom:16px; display:none; line-height:1.5; }
+  .auth-ok  { background:rgba(62,207,142,.1); border:1px solid rgba(62,207,142,.3); color:var(--green); font-size:.9rem; font-weight:700; padding:12px 14px; margin-bottom:16px; display:none; line-height:1.5; }
+  .btn-auth { font-family:'Press Start 2P',monospace; font-size:.44rem; padding:17px 24px; background:var(--yellow); color:var(--black); border:3px solid var(--yellow); cursor:pointer; letter-spacing:1px; width:100%; box-shadow:4px 4px 0 #a88c00; transition:all .15s; margin-top:4px; }
+  .btn-auth:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 #a88c00; }
+  .btn-auth:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+  .forgot-link { text-align:center; margin-top:18px; }
+  .forgot-link a { font-family:'Press Start 2P',monospace; font-size:.32rem; color:rgba(245,245,245,.35); text-decoration:none; letter-spacing:1px; transition:color .2s; }
+  .forgot-link a:hover { color:var(--yellow); }
+  .pw-hint { font-size:.88rem; color:rgba(245,245,245,.35); font-weight:600; margin-top:6px; }
+
+  /* ── COMING SOON ── */
+  .soon-screen { position:relative; z-index:1; min-height:calc(100vh - 64px); display:flex; align-items:center; justify-content:center; padding:40px 24px; }
+  .soon-card { background:var(--gray2); border:2px solid rgba(255,225,77,.2); padding:56px 48px; width:100%; max-width:520px; text-align:center; }
+  .soon-title { font-family:'Press Start 2P',monospace; font-size:clamp(.65rem,2vw,.85rem); color:var(--yellow); line-height:1.8; margin-bottom:16px; }
+  .soon-p { font-size:1rem; color:var(--muted); font-weight:600; line-height:1.7; }
 
   /* ── DASHBOARD ── */
   .dashboard { display:none; position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:48px 32px 80px; }
@@ -45,53 +61,55 @@
   .dash-welcome { font-family:'Press Start 2P',monospace; font-size:.6rem; color:var(--yellow); line-height:2; }
   .dash-meta { font-size:.95rem; color:var(--muted); font-weight:600; margin-top:4px; }
 
-  /* Overview cards */
   .overview-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:36px; }
   .ov-card { background:var(--gray2); border:1.5px solid rgba(255,225,77,.15); padding:24px 20px; }
-  .ov-label { font-family:'Press Start 2P',monospace; font-size:.35rem; color:rgba(245,245,245,.35); letter-spacing:1px; margin-bottom:12px; }
-  .ov-value { font-family:'Press Start 2P',monospace; font-size:.8rem; color:var(--yellow); line-height:1.5; margin-bottom:6px; }
-  .ov-sub { font-size:.9rem; color:var(--muted); font-weight:600; }
+  .ov-label { font-family:'Press Start 2P',monospace; font-size:.32rem; color:rgba(245,245,245,.35); letter-spacing:1px; margin-bottom:12px; }
+  .ov-value { font-family:'Press Start 2P',monospace; font-size:.75rem; color:var(--yellow); line-height:1.6; margin-bottom:6px; }
+  .ov-sub { font-size:.88rem; color:var(--muted); font-weight:600; }
   .ov-bar-wrap { margin-top:12px; background:rgba(255,255,255,.06); height:8px; border-radius:4px; overflow:hidden; }
-  .ov-bar { height:100%; border-radius:4px; background:var(--yellow); transition:width .6s ease; }
-  .ov-bar.low { background:var(--red); }
+  .ov-bar { height:100%; border-radius:4px; transition:width .6s ease; }
+  .ov-bar.ok   { background:var(--green); }
+  .ov-bar.warn { background:var(--orange); }
+  .ov-bar.low  { background:var(--red); }
 
-  /* Restock button */
   .restock-banner { background:rgba(255,225,77,.07); border:2px solid var(--yellow); padding:24px 28px; margin-bottom:32px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
-  .restock-banner-text h3 { font-family:'Press Start 2P',monospace; font-size:.52rem; color:var(--yellow); line-height:1.8; margin-bottom:6px; }
+  .restock-banner-text h3 { font-family:'Press Start 2P',monospace; font-size:.5rem; color:var(--yellow); line-height:1.8; margin-bottom:6px; }
   .restock-banner-text p { font-size:.95rem; color:rgba(245,245,245,.6); font-weight:600; }
-  .btn-restock { font-family:'Press Start 2P',monospace; font-size:.42rem; padding:16px 24px; background:var(--yellow); color:var(--black); border:none; cursor:pointer; letter-spacing:1px; box-shadow:4px 4px 0 #a88c00; transition:all .15s; white-space:nowrap; }
+  .btn-restock { font-family:'Press Start 2P',monospace; font-size:.4rem; padding:16px 24px; background:var(--yellow); color:var(--black); border:none; cursor:pointer; letter-spacing:1px; box-shadow:4px 4px 0 #a88c00; transition:all .15s; white-space:nowrap; }
   .btn-restock:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 #a88c00; }
 
-  /* Sections */
-  .dash-section-title { font-family:'Press Start 2P',monospace; font-size:.48rem; color:var(--yellow); letter-spacing:2px; margin-bottom:20px; }
+  .dash-section-title { font-family:'Press Start 2P',monospace; font-size:.45rem; color:var(--yellow); letter-spacing:2px; margin-bottom:20px; }
 
-  /* Order history table */
   .order-table { width:100%; border-collapse:collapse; margin-bottom:40px; }
-  .order-table th { font-family:'Press Start 2P',monospace; font-size:.34rem; color:rgba(245,245,245,.35); letter-spacing:1px; padding:10px 14px; text-align:left; border-bottom:1px solid rgba(255,225,77,.12); }
-  .order-table td { padding:14px 14px; border-bottom:1px solid rgba(255,255,255,.04); font-size:.96rem; font-weight:500; color:rgba(245,245,245,.7); }
+  .order-table th { font-family:'Press Start 2P',monospace; font-size:.3rem; color:rgba(245,245,245,.35); letter-spacing:1px; padding:10px 14px; text-align:left; border-bottom:1px solid rgba(255,225,77,.12); }
+  .order-table td { padding:14px 14px; border-bottom:1px solid rgba(255,255,255,.04); font-size:.93rem; font-weight:500; color:rgba(245,245,245,.7); }
   .order-table tr:hover td { background:rgba(255,225,77,.03); }
-  .status-pill { display:inline-block; font-family:'Press Start 2P',monospace; font-size:.3rem; padding:4px 8px; letter-spacing:.5px; border-radius:2px; }
-  .status-pill.delivered { background:rgba(62,207,142,.15); color:var(--green); border:1px solid rgba(62,207,142,.3); }
-  .status-pill.production { background:rgba(255,225,77,.12); color:var(--yellow); border:1px solid rgba(255,225,77,.3); }
-  .status-pill.processing { background:rgba(255,159,67,.12); color:var(--orange); border:1px solid rgba(255,159,67,.3); }
+  .status-pill { display:inline-block; font-family:'Press Start 2P',monospace; font-size:.28rem; padding:4px 8px; letter-spacing:.5px; }
+  .status-pill.delivered  { background:rgba(62,207,142,.15);  color:var(--green);  border:1px solid rgba(62,207,142,.3); }
+  .status-pill.production { background:rgba(255,225,77,.12);  color:var(--yellow); border:1px solid rgba(255,225,77,.3); }
+  .status-pill.processing { background:rgba(255,159,67,.12);  color:var(--orange); border:1px solid rgba(255,159,67,.3); }
 
-  /* Restock form */
   .restock-form-wrap { display:none; }
   .restock-form-wrap.visible { display:block; }
   .restock-form-card { background:var(--gray2); border:2px solid rgba(255,225,77,.2); padding:36px 32px; margin-bottom:32px; }
-  .rf-close { font-family:'Press Start 2P',monospace; font-size:.35rem; color:rgba(245,245,245,.35); background:none; border:1px solid rgba(255,255,255,.1); padding:6px 12px; cursor:pointer; margin-bottom:24px; transition:color .2s; }
+  .rf-close { font-family:'Press Start 2P',monospace; font-size:.32rem; color:rgba(245,245,245,.35); background:none; border:1px solid rgba(255,255,255,.1); padding:6px 12px; cursor:pointer; margin-bottom:24px; transition:color .2s; }
   .rf-close:hover { color:var(--yellow); }
   .size-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:10px; margin-bottom:20px; }
-  .size-item label { display:block; font-family:'Press Start 2P',monospace; font-size:.32rem; color:rgba(245,245,245,.4); letter-spacing:1px; margin-bottom:6px; text-align:center; }
-  .size-item input { width:100%; padding:10px 8px; background:#0d0d0d; border:2px solid rgba(255,225,77,.18); color:var(--white); font-family:'Rajdhani',sans-serif; font-size:1rem; font-weight:700; outline:none; text-align:center; transition:border-color .2s; }
+  .size-item label { display:block; font-family:'Press Start 2P',monospace; font-size:.3rem; color:rgba(245,245,245,.4); letter-spacing:1px; margin-bottom:6px; text-align:center; }
+  .size-item input { width:100%; padding:10px 6px; background:#0d0d0d; border:2px solid rgba(255,225,77,.18); color:var(--white); font-family:'Rajdhani',sans-serif; font-size:1rem; font-weight:700; outline:none; text-align:center; transition:border-color .2s; }
   .size-item input:focus { border-color:var(--yellow); }
   .rf-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px; }
-  .btn-submit-order { font-family:'Press Start 2P',monospace; font-size:.48rem; padding:18px 24px; background:var(--yellow); color:var(--black); border:3px solid var(--yellow); cursor:pointer; letter-spacing:1px; width:100%; box-shadow:4px 4px 0 #a88c00; transition:all .15s; }
+  .btn-submit-order { font-family:'Press Start 2P',monospace; font-size:.44rem; padding:18px 24px; background:var(--yellow); color:var(--black); border:3px solid var(--yellow); cursor:pointer; letter-spacing:1px; width:100%; box-shadow:4px 4px 0 #a88c00; transition:all .15s; }
   .btn-submit-order:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 #a88c00; }
+  .btn-submit-order:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+
   .order-confirm { display:none; background:var(--gray2); border:2px solid var(--green); padding:36px; text-align:center; margin-bottom:32px; }
   .order-confirm.visible { display:block; }
-  .order-confirm h3 { font-family:'Press Start 2P',monospace; font-size:.6rem; color:var(--green); line-height:1.8; margin-bottom:12px; }
+  .order-confirm h3 { font-family:'Press Start 2P',monospace; font-size:.55rem; color:var(--green); line-height:1.8; margin-bottom:12px; }
   .order-confirm p { font-size:1rem; color:rgba(245,245,245,.7); line-height:1.6; font-weight:500; }
+
+  .no-orders { background:var(--gray2); border:1px solid rgba(255,225,77,.1); padding:28px; text-align:center; }
+  .no-orders p { font-size:.95rem; color:var(--muted); font-weight:600; }
 
   footer { position:relative; z-index:1; background:#080808; border-top:2px solid rgba(255,225,77,.2); padding:26px 48px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
   .footer-copy { font-family:'Press Start 2P',monospace; font-size:.36rem; color:var(--muted); letter-spacing:1px; line-height:2; }
@@ -103,11 +121,18 @@
     .overview-grid { grid-template-columns:1fr 1fr; }
     .size-grid { grid-template-columns:repeat(4,1fr); }
     .rf-row { grid-template-columns:1fr; }
+    .form-row { grid-template-columns:1fr; }
   }
-  @media(max-width:600px) { .dashboard,.login-card{padding:24px 20px;} .overview-grid{grid-template-columns:1fr;} .size-grid{grid-template-columns:repeat(3,1fr);} .order-table{font-size:.85rem;} footer{padding:24px;flex-direction:column;text-align:center;} }
+  @media(max-width:600px) {
+    .dashboard,.auth-card,.soon-card { padding:24px 20px; }
+    .overview-grid { grid-template-columns:1fr; }
+    .size-grid { grid-template-columns:repeat(3,1fr); }
+    footer { padding:24px; flex-direction:column; text-align:center; }
+  }
 </style>
 </head>
 <body>
+
 <nav>
   <a href="/" class="nav-logo">SMALL <span>SHOP TEES</span></a>
   <div class="nav-right">
@@ -116,28 +141,74 @@
   </div>
 </nav>
 
-<!-- LOGIN SCREEN -->
-<div class="login-screen" id="loginScreen">
-  <div class="login-card">
-    <div class="login-logo">CLIENT<br>PORTAL</div>
-    <div class="login-sub">Sign in to manage your account &amp; orders</div>
-    <div class="login-error" id="loginError">Incorrect email or password. Try again.</div>
-    <form id="loginForm" autocomplete="on">
-      <div class="form-group">
-        <label for="loginEmail">EMAIL ADDRESS</label>
-        <input id="loginEmail" type="email" placeholder="you@yourbiz.com" autocomplete="email" required>
-      </div>
-      <div class="form-group">
-        <label for="loginPassword">PASSWORD</label>
-        <input id="loginPassword" type="password" placeholder="••••••••" autocomplete="current-password" required>
-      </div>
-      <button class="btn-login" type="submit">SIGN IN →</button>
-    </form>
-    <div class="login-forgot">
-      <a href="mailto:hello@smallshoptees.com?subject=Password Reset Request">FORGOT PASSWORD? EMAIL US</a>
+<!-- COMING SOON — shown only when Supabase not configured -->
+<div class="soon-screen" id="soonScreen" style="display:none">
+  <div class="soon-card">
+    <div class="soon-title">CLIENT<br>PORTAL</div>
+    <p class="soon-p">The client portal is coming soon.<br><br>After your first order is complete, your account rep will set up your access. Questions? <a href="mailto:hello@smallshoptees.com" style="color:var(--yellow)">Email us.</a></p>
+  </div>
+</div>
+
+<!-- AUTH SCREEN — sign in / sign up -->
+<div class="auth-screen" id="authScreen" style="display:none">
+  <div class="auth-card">
+    <div class="auth-logo">CLIENT<br>PORTAL</div>
+    <div class="auth-sub">Manage your account &amp; inventory</div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-panel="signin">SIGN IN</button>
+      <button class="auth-tab" data-panel="signup">CREATE ACCOUNT</button>
     </div>
-    <div class="demo-hint">
-      <p><strong>Demo access:</strong> email <strong>demo@smallshoptees.com</strong> · password <strong>demo123</strong><br>Accounts are created by your account rep after your first order.</p>
+
+    <!-- SIGN IN PANEL -->
+    <div class="auth-panel active" id="panel-signin">
+      <div class="auth-err" id="siErr"></div>
+      <form id="siForm">
+        <div class="form-group">
+          <label for="siEmail">EMAIL ADDRESS</label>
+          <input id="siEmail" type="email" autocomplete="email" placeholder="you@yourbiz.com" required>
+        </div>
+        <div class="form-group">
+          <label for="siPw">PASSWORD</label>
+          <input id="siPw" type="password" autocomplete="current-password" placeholder="••••••••" required>
+        </div>
+        <button class="btn-auth" type="submit" id="btnSignIn">SIGN IN →</button>
+      </form>
+      <div class="forgot-link">
+        <a href="mailto:hello@smallshoptees.com?subject=Password Reset Request">FORGOT PASSWORD? EMAIL US</a>
+      </div>
+    </div>
+
+    <!-- SIGN UP PANEL -->
+    <div class="auth-panel" id="panel-signup">
+      <div class="auth-err" id="suErr"></div>
+      <div class="auth-ok"  id="suOk"></div>
+      <form id="suForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="suBiz">BUSINESS NAME</label>
+            <input id="suBiz" type="text" placeholder="Portland Coffee Co." required>
+          </div>
+          <div class="form-group">
+            <label for="suName">YOUR NAME</label>
+            <input id="suName" type="text" placeholder="First Last" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="suEmail">EMAIL ADDRESS</label>
+          <input id="suEmail" type="email" autocomplete="email" placeholder="you@yourbiz.com" required>
+        </div>
+        <div class="form-group">
+          <label for="suPhone">PHONE (OPTIONAL)</label>
+          <input id="suPhone" type="tel" placeholder="503-555-0100">
+        </div>
+        <div class="form-group">
+          <label for="suPw">PASSWORD</label>
+          <input id="suPw" type="password" autocomplete="new-password" placeholder="••••••••" required minlength="8">
+          <div class="pw-hint">At least 8 characters</div>
+        </div>
+        <button class="btn-auth" type="submit" id="btnSignUp">CREATE ACCOUNT →</button>
+      </form>
     </div>
   </div>
 </div>
@@ -147,35 +218,33 @@
   <div class="dash-header">
     <div>
       <div class="dash-welcome" id="dashWelcome">WELCOME BACK</div>
-      <div class="dash-meta" id="dashMeta">Portland Coffee Co. · Member since Jan 2025</div>
+      <div class="dash-meta" id="dashMeta"></div>
     </div>
   </div>
 
-  <!-- Overview cards -->
   <div class="overview-grid">
     <div class="ov-card">
       <div class="ov-label">CURRENT INVENTORY</div>
-      <div class="ov-value" id="invCount">47 shirts</div>
-      <div class="ov-sub">Of 100 original order</div>
-      <div class="ov-bar-wrap"><div class="ov-bar low" style="width:47%"></div></div>
+      <div class="ov-value" id="ovInv">— shirts</div>
+      <div class="ov-sub" id="ovInvSub">Loading...</div>
+      <div class="ov-bar-wrap"><div class="ov-bar ok" id="ovBar" style="width:0%"></div></div>
     </div>
     <div class="ov-card">
       <div class="ov-label">LAST ORDER DATE</div>
-      <div class="ov-value">Jan 18, 2025</div>
-      <div class="ov-sub">100 shirts · Delivered</div>
+      <div class="ov-value" id="ovLastOrder">—</div>
+      <div class="ov-sub" id="ovLastSub">Loading...</div>
     </div>
     <div class="ov-card">
-      <div class="ov-label">NEXT RESTOCK ESTIMATE</div>
-      <div class="ov-value">Mar 22, 2025</div>
-      <div class="ov-sub">Based on current usage rate</div>
+      <div class="ov-label">RESTOCK ESTIMATE</div>
+      <div class="ov-value" id="ovRestock">—</div>
+      <div class="ov-sub" id="ovRestockSub">Based on usage rate</div>
     </div>
   </div>
 
-  <!-- Restock banner -->
-  <div class="restock-banner">
+  <div class="restock-banner" id="restockBanner" style="display:none">
     <div class="restock-banner-text">
-      <h3>INVENTORY RUNNING LOW</h3>
-      <p>You're at 47% capacity. We recommend placing a restock order now to avoid a gap in stock.</p>
+      <h3 id="bannerTitle">INVENTORY RUNNING LOW</h3>
+      <p id="bannerMsg">Your inventory is low. We recommend placing a restock order.</p>
     </div>
     <button class="btn-restock" id="btnShowRestock">PLACE RESTOCK ORDER</button>
   </div>
@@ -185,75 +254,44 @@
     <div class="restock-form-card">
       <button class="rf-close" id="rfClose">✕ CANCEL</button>
       <div class="dash-section-title">RESTOCK ORDER FORM</div>
-      <p style="font-size:1rem;color:rgba(245,245,245,.6);font-weight:600;margin-bottom:24px;">Your shirt style is <strong style="color:var(--yellow);">Classic Crew Tee · Black</strong>. To change your style, contact your account rep.</p>
+      <p id="rfStyleNote" style="font-size:1rem;color:rgba(245,245,245,.6);font-weight:600;margin-bottom:24px;"></p>
       <form id="restockForm">
-        <div class="dash-section-title" style="font-size:.38rem;color:rgba(245,245,245,.4);margin-bottom:12px;">QUANTITY BY SIZE</div>
+        <div class="dash-section-title" style="font-size:.36rem;color:rgba(245,245,245,.4);margin-bottom:12px;">QUANTITY BY SIZE</div>
         <div class="size-grid">
-          <div class="size-item"><label>XS</label><input name="xs" type="number" min="0" value="0" placeholder="0"></div>
-          <div class="size-item"><label>S</label><input name="s" type="number" min="0" value="10" placeholder="0"></div>
-          <div class="size-item"><label>M</label><input name="m" type="number" min="0" value="20" placeholder="0"></div>
-          <div class="size-item"><label>L</label><input name="l" type="number" min="0" value="15" placeholder="0"></div>
-          <div class="size-item"><label>XL</label><input name="xl" type="number" min="0" value="10" placeholder="0"></div>
-          <div class="size-item"><label>2XL</label><input name="xxl" type="number" min="0" value="5" placeholder="0"></div>
-          <div class="size-item"><label>3XL</label><input name="xxxl" type="number" min="0" value="0" placeholder="0"></div>
+          <div class="size-item"><label>XS</label><input name="xs"   type="number" min="0" value="0"></div>
+          <div class="size-item"><label>S</label> <input name="s"    type="number" min="0" value="0"></div>
+          <div class="size-item"><label>M</label> <input name="m"    type="number" min="0" value="0"></div>
+          <div class="size-item"><label>L</label> <input name="l"    type="number" min="0" value="0"></div>
+          <div class="size-item"><label>XL</label><input name="xl"   type="number" min="0" value="0"></div>
+          <div class="size-item"><label>2XL</label><input name="xxl" type="number" min="0" value="0"></div>
+          <div class="size-item"><label>3XL</label><input name="xxxl" type="number" min="0" value="0"></div>
         </div>
         <div class="rf-row">
           <div class="form-group">
-            <label for="rfDeliveryDate">PREFERRED DELIVERY DATE</label>
-            <input id="rfDeliveryDate" name="delivery_date" type="date" required>
+            <label for="rfDate">PREFERRED DELIVERY DATE</label>
+            <input id="rfDate" name="delivery_date" type="date" required>
           </div>
           <div class="form-group">
             <label for="rfNotes">DELIVERY NOTES (OPTIONAL)</label>
             <input id="rfNotes" name="delivery_notes" type="text" placeholder="e.g. Leave at back door">
           </div>
         </div>
-        <button class="btn-submit-order" type="submit">SUBMIT RESTOCK ORDER</button>
+        <button class="btn-submit-order" type="submit" id="btnSubmitOrder">SUBMIT RESTOCK ORDER</button>
       </form>
     </div>
   </div>
 
   <!-- Order confirmation -->
   <div class="order-confirm" id="orderConfirm">
-    <h3>ORDER SUBMITTED! 🚀</h3>
-    <p>Your restock request has been received. Your account rep will confirm the order and estimated delivery within 1 business day. You'll also receive a confirmation email shortly.</p>
+    <h3>ORDER SUBMITTED!</h3>
+    <p>Your restock request has been received. Your account rep will confirm the order and estimated delivery within 1 business day. You'll receive a confirmation email shortly.</p>
   </div>
 
   <!-- Order history -->
   <div class="dash-section-title">ORDER HISTORY</div>
-  <table class="order-table">
-    <thead>
-      <tr>
-        <th>ORDER DATE</th>
-        <th>STYLE</th>
-        <th>QUANTITY</th>
-        <th>STATUS</th>
-        <th>DELIVERY</th>
-      </tr>
-    </thead>
-    <tbody id="orderTableBody">
-      <tr>
-        <td>Jan 18, 2025</td>
-        <td>Classic Crew Tee · Black</td>
-        <td>100 shirts</td>
-        <td><span class="status-pill delivered">DELIVERED</span></td>
-        <td>Jan 30, 2025</td>
-      </tr>
-      <tr>
-        <td>Oct 5, 2024</td>
-        <td>Classic Crew Tee · Black</td>
-        <td>50 shirts</td>
-        <td><span class="status-pill delivered">DELIVERED</span></td>
-        <td>Oct 17, 2024</td>
-      </tr>
-      <tr>
-        <td>Jun 12, 2024</td>
-        <td>Classic Crew Tee · Black</td>
-        <td>75 shirts (initial)</td>
-        <td><span class="status-pill delivered">DELIVERED</span></td>
-        <td>Jun 26, 2024</td>
-      </tr>
-    </tbody>
-  </table>
+  <div id="ordersWrap">
+    <div style="padding:20px;text-align:center;color:rgba(245,245,245,.3);font-family:'Press Start 2P',monospace;font-size:.32rem;letter-spacing:1px">LOADING...</div>
+  </div>
 </div>
 
 <footer>
@@ -266,83 +304,295 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/assets/supabase.js"></script>
 <script>
-  // Demo credentials
-  const DEMO_USER = { email: 'demo@smallshoptees.com', password: 'demo123', name: 'Portland Coffee Co.', since: 'Jan 2025' };
-  const SESSION_KEY = 'sst_portal_session';
-
-  function showDashboard(user) {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-    document.getElementById('dashWelcome').textContent = 'WELCOME BACK, ' + user.name.toUpperCase();
-    document.getElementById('dashMeta').textContent = user.name + ' · Member since ' + user.since;
-    document.getElementById('navUser').style.display = 'block';
-    document.getElementById('navUser').textContent = user.email;
-    document.getElementById('btnLogout').style.display = 'block';
-    // Set min date for delivery
-    var today = new Date();
-    today.setDate(today.getDate() + 14);
-    document.getElementById('rfDeliveryDate').min = today.toISOString().split('T')[0];
-    document.getElementById('rfDeliveryDate').value = today.toISOString().split('T')[0];
-  }
-
-  // Check session
-  try {
-    var sess = JSON.parse(sessionStorage.getItem(SESSION_KEY));
-    if (sess && sess.email) showDashboard(sess);
-  } catch(e) {}
-
-  // Login form
-  document.getElementById('loginForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    var email = document.getElementById('loginEmail').value.trim().toLowerCase();
-    var pass = document.getElementById('loginPassword').value;
-    var err = document.getElementById('loginError');
-    if (email === DEMO_USER.email && pass === DEMO_USER.password) {
-      err.style.display = 'none';
-      sessionStorage.setItem(SESSION_KEY, JSON.stringify({ email: email, name: DEMO_USER.name, since: DEMO_USER.since }));
-      showDashboard(DEMO_USER);
+// ── If Supabase not configured, show coming-soon ────
+if (!sbReady()) {
+  document.getElementById('soonScreen').style.display = 'flex';
+} else {
+  // Check current session
+  _sb.auth.getSession().then(({ data: { session } }) => {
+    if (session) {
+      loadDashboard(session.user);
     } else {
-      err.style.display = 'block';
+      document.getElementById('authScreen').style.display = 'flex';
     }
   });
+  _sb.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_OUT') {
+      document.getElementById('dashboard').style.display = 'none';
+      document.getElementById('authScreen').style.display = 'flex';
+      document.getElementById('navUser').style.display = 'none';
+      document.getElementById('btnLogout').style.display = 'none';
+    }
+  });
+}
 
-  // Logout
-  document.getElementById('btnLogout').addEventListener('click', function() {
-    sessionStorage.removeItem(SESSION_KEY);
-    location.reload();
+// ── Auth tabs ───────────────────────────────────────
+document.querySelectorAll('.auth-tab').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.auth-tab').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.auth-panel').forEach(p => p.classList.remove('active'));
+    this.classList.add('active');
+    document.getElementById('panel-' + this.dataset.panel).classList.add('active');
   });
+});
 
-  // Show restock form
-  document.getElementById('btnShowRestock').addEventListener('click', function() {
-    document.getElementById('restockFormWrap').classList.add('visible');
-    document.getElementById('restockFormWrap').scrollIntoView({ behavior:'smooth', block:'start' });
+// ── SIGN IN ─────────────────────────────────────────
+document.getElementById('siForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  var btn = document.getElementById('btnSignIn');
+  var err = document.getElementById('siErr');
+  err.style.display = 'none';
+  btn.disabled = true; btn.textContent = 'SIGNING IN...';
+  var { data, error } = await _sb.auth.signInWithPassword({
+    email:    document.getElementById('siEmail').value.trim(),
+    password: document.getElementById('siPw').value
   });
-  document.getElementById('rfClose').addEventListener('click', function() {
-    document.getElementById('restockFormWrap').classList.remove('visible');
-  });
+  if (error || !data.session) {
+    err.textContent = (error && error.message) || 'Incorrect email or password.';
+    err.style.display = 'block';
+    btn.disabled = false; btn.textContent = 'SIGN IN →';
+    return;
+  }
+  loadDashboard(data.session.user);
+});
 
-  // Submit restock order
-  document.getElementById('restockForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    document.getElementById('restockFormWrap').classList.remove('visible');
-    var conf = document.getElementById('orderConfirm');
-    conf.classList.add('visible');
-    conf.scrollIntoView({ behavior:'smooth' });
-    // Add to order history
-    var tbody = document.getElementById('orderTableBody');
-    var today = new Date();
-    var dateStr = today.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
-    var sizes = ['xs','s','m','l','xl','xxl','xxxl'];
-    var total = 0;
-    var fd = new FormData(e.target);
-    sizes.forEach(function(s) { total += parseInt(fd.get(s)) || 0; });
-    var row = document.createElement('tr');
-    var est = new Date(today); est.setDate(est.getDate() + 14);
-    var estStr = est.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
-    row.innerHTML = '<td>' + dateStr + '</td><td>Classic Crew Tee · Black</td><td>' + total + ' shirts (restock)</td><td><span class="status-pill processing">PROCESSING</span></td><td>Est. ' + estStr + '</td>';
-    tbody.insertBefore(row, tbody.firstChild);
+// ── SIGN UP ─────────────────────────────────────────
+document.getElementById('suForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  var btn = document.getElementById('btnSignUp');
+  var err = document.getElementById('suErr');
+  var ok  = document.getElementById('suOk');
+  err.style.display = 'none';
+  ok.style.display = 'none';
+  btn.disabled = true; btn.textContent = 'CREATING ACCOUNT...';
+
+  var email = document.getElementById('suEmail').value.trim();
+  var pw    = document.getElementById('suPw').value;
+  var biz   = document.getElementById('suBiz').value.trim();
+  var name  = document.getElementById('suName').value.trim();
+  var phone = document.getElementById('suPhone').value.trim();
+
+  // Sign up in Supabase Auth
+  var { data, error } = await _sb.auth.signUp({ email, password: pw });
+  if (error) {
+    err.textContent = error.message;
+    err.style.display = 'block';
+    btn.disabled = false; btn.textContent = 'CREATE ACCOUNT →';
+    return;
+  }
+
+  // Insert profile row (may need email confirmation first; insert on sign-in if fails)
+  if (data.user) {
+    await _sb.from('client_profiles').insert({
+      user_id:      data.user.id,
+      business_name: biz,
+      contact_name:  name,
+      email:         email,
+      phone:         phone || null
+    });
+  }
+
+  // If email confirmation required, show message; otherwise redirect to dashboard
+  if (data.session) {
+    loadDashboard(data.session.user);
+  } else {
+    ok.textContent = 'Account created! Check your email to confirm your address, then sign in.';
+    ok.style.display = 'block';
+    btn.textContent = 'CREATE ACCOUNT →';
+    btn.disabled = false;
+    // Switch to sign-in tab
+    setTimeout(() => {
+      document.querySelector('[data-panel="signin"]').click();
+    }, 3000);
+  }
+});
+
+// ── SIGN OUT ─────────────────────────────────────────
+document.getElementById('btnLogout').addEventListener('click', async () => {
+  await _sb.auth.signOut();
+  location.reload();
+});
+
+// ── RESTOCK ALGORITHM ────────────────────────────────
+function calcRestock(profile) {
+  if (!profile.total_ordered || !profile.last_order_date) {
+    return { pct: 100, daysLeft: null, needsRestock: false, barClass: 'ok' };
+  }
+  var daysSince = Math.max(1, (Date.now() - new Date(profile.last_order_date)) / 86400000);
+  var consumed  = Math.max(0, profile.total_ordered - profile.current_qty);
+  var dailyRate = consumed / daysSince;
+  var daysLeft  = dailyRate > 0 ? Math.floor(profile.current_qty / dailyRate) : 999;
+  var pct       = Math.min(100, Math.round((profile.current_qty / profile.total_ordered) * 100));
+  var needsRestock = daysLeft < 21 || pct < 20;
+  var barClass  = pct < 20 ? 'low' : pct < 40 ? 'warn' : 'ok';
+  return { pct, daysLeft, dailyRate: dailyRate.toFixed(1), needsRestock, barClass };
+}
+
+// ── LOAD DASHBOARD ───────────────────────────────────
+var _profile = null;
+var _userId  = null;
+
+async function loadDashboard(user) {
+  _userId = user.id;
+  document.getElementById('authScreen').style.display = 'none';
+  document.getElementById('soonScreen').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  document.getElementById('navUser').textContent = user.email;
+  document.getElementById('navUser').style.display = 'inline';
+  document.getElementById('btnLogout').style.display = 'inline-block';
+
+  // Set min delivery date (14 days from today)
+  var minDate = new Date(); minDate.setDate(minDate.getDate() + 14);
+  document.getElementById('rfDate').min = minDate.toISOString().split('T')[0];
+  document.getElementById('rfDate').value = minDate.toISOString().split('T')[0];
+
+  // Load profile
+  var { data: profiles } = await _sb.from('client_profiles')
+    .select('*').eq('user_id', user.id).limit(1);
+
+  _profile = (profiles && profiles[0]) || null;
+
+  if (_profile) {
+    var rs = calcRestock(_profile);
+    var fmtDate = d => d ? new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '—';
+
+    document.getElementById('dashWelcome').textContent = 'WELCOME BACK, ' + _profile.business_name.toUpperCase();
+    document.getElementById('dashMeta').textContent    = _profile.business_name + ' · Enrolled client';
+
+    // Inventory card
+    document.getElementById('ovInv').textContent    = _profile.current_qty + ' shirts';
+    document.getElementById('ovInvSub').textContent = 'Of ' + (_profile.total_ordered||0) + ' ordered · ' + rs.pct + '% remaining';
+    var bar = document.getElementById('ovBar');
+    bar.style.width = rs.pct + '%';
+    bar.className = 'ov-bar ' + rs.barClass;
+
+    // Last order card
+    document.getElementById('ovLastOrder').textContent = fmtDate(_profile.last_order_date);
+    document.getElementById('ovLastSub').textContent   = _profile.total_ordered + ' shirts total ordered';
+
+    // Restock estimate
+    var rs2 = calcRestock(_profile);
+    if (rs2.daysLeft !== null && rs2.daysLeft < 999) {
+      var estDate = new Date(); estDate.setDate(estDate.getDate() + rs2.daysLeft);
+      document.getElementById('ovRestock').textContent    = fmtDate(estDate.toISOString().split('T')[0]);
+      document.getElementById('ovRestockSub').textContent = 'Est. ~' + rs2.dailyRate + ' shirts/day used';
+    } else {
+      document.getElementById('ovRestock').textContent    = 'N/A';
+      document.getElementById('ovRestockSub').textContent = 'Not enough usage data yet';
+    }
+
+    // Restock banner
+    if (rs.needsRestock) {
+      document.getElementById('restockBanner').style.display = 'flex';
+      document.getElementById('bannerTitle').textContent = rs.pct < 20 ? 'INVENTORY CRITICALLY LOW' : 'INVENTORY RUNNING LOW';
+      document.getElementById('bannerMsg').textContent   = "You're at " + rs.pct + "% capacity" +
+        (rs.daysLeft && rs.daysLeft < 999 ? " — approx. " + rs.daysLeft + " days of stock remaining" : '') +
+        ". We recommend placing a restock order now.";
+    }
+
+    // Style note in restock form
+    document.getElementById('rfStyleNote').innerHTML =
+      'Your shirt style is <strong style="color:var(--yellow)">' +
+      _profile.shirt_style + ' · ' + _profile.shirt_color +
+      '</strong>. To change your style, contact your account rep.';
+
+  } else {
+    // New user — no profile yet (sign-up without session)
+    document.getElementById('dashWelcome').textContent = 'WELCOME';
+    document.getElementById('dashMeta').textContent    = user.email;
+    document.getElementById('ovInv').textContent = '—';
+    document.getElementById('ovInvSub').textContent = 'No orders on file yet';
+    document.getElementById('ovLastOrder').textContent = '—';
+    document.getElementById('ovLastSub').textContent = 'Your first order is being set up';
+    document.getElementById('ovRestock').textContent = '—';
+  }
+
+  // Load orders
+  loadOrders();
+}
+
+// ── LOAD ORDERS ──────────────────────────────────────
+async function loadOrders() {
+  var { data, error } = await _sb.from('orders')
+    .select('*').eq('user_id', _userId).order('created_at', { ascending: false });
+
+  var wrap = document.getElementById('ordersWrap');
+  if (error || !data || !data.length) {
+    wrap.innerHTML = '<div class="no-orders"><p>No orders on file yet. Your first order will appear here after it is set up by your account rep.</p></div>';
+    return;
+  }
+
+  var statusClass = { delivered:'delivered', production:'production', processing:'processing' };
+  var fmtDate = d => d ? new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '—';
+  var rows = data.map(o => `
+    <tr>
+      <td>${fmtDate(o.created_at)}</td>
+      <td>${_profile ? (_profile.shirt_style + ' · ' + _profile.shirt_color) : 'Standard Tee'}</td>
+      <td>${o.total_qty} shirts${o.order_type === 'restock' ? ' (restock)' : ' (initial)'}</td>
+      <td><span class="status-pill ${statusClass[o.status]||'processing'}">${o.status.toUpperCase()}</span></td>
+      <td>${fmtDate(o.delivery_date)}</td>
+    </tr>`).join('');
+
+  wrap.innerHTML = `
+    <table class="order-table">
+      <thead><tr>
+        <th>ORDER DATE</th><th>STYLE</th><th>QUANTITY</th><th>STATUS</th><th>DELIVERY</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+// ── RESTOCK FORM ─────────────────────────────────────
+document.getElementById('btnShowRestock').addEventListener('click', function() {
+  var wrap = document.getElementById('restockFormWrap');
+  wrap.classList.add('visible');
+  wrap.scrollIntoView({ behavior:'smooth', block:'start' });
+});
+document.getElementById('rfClose').addEventListener('click', function() {
+  document.getElementById('restockFormWrap').classList.remove('visible');
+});
+
+document.getElementById('restockForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  var btn = document.getElementById('btnSubmitOrder');
+  btn.disabled = true; btn.textContent = 'SUBMITTING...';
+
+  var fd = new FormData(e.target);
+  var sizes = ['xs','s','m','l','xl','xxl','xxxl'];
+  var total = 0;
+  var row = { user_id: _userId, order_type: 'restock', status: 'processing' };
+  sizes.forEach(s => {
+    var qty = parseInt(fd.get(s)) || 0;
+    row[s] = qty;
+    total += qty;
   });
+  row.total_qty      = total;
+  row.delivery_date  = fd.get('delivery_date') || null;
+  row.delivery_notes = fd.get('delivery_notes') || null;
+
+  if (total === 0) {
+    btn.disabled = false; btn.textContent = 'SUBMIT RESTOCK ORDER';
+    alert('Please enter at least one shirt quantity.');
+    return;
+  }
+
+  var { error } = await _sb.from('orders').insert(row);
+  if (error) {
+    btn.disabled = false; btn.textContent = 'SUBMIT RESTOCK ORDER';
+    alert('Submission failed: ' + error.message);
+    return;
+  }
+
+  document.getElementById('restockFormWrap').classList.remove('visible');
+  var conf = document.getElementById('orderConfirm');
+  conf.classList.add('visible');
+  conf.scrollIntoView({ behavior:'smooth' });
+  btn.disabled = false; btn.textContent = 'SUBMIT RESTOCK ORDER';
+  loadOrders();
+});
 </script>
 </body>
 </html>

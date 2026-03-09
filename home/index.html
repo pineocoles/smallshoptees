@@ -417,5 +417,35 @@
     document.getElementById('navLinks').classList.toggle('open');
   });
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/assets/supabase.js"></script>
+<script>
+  // Dynamic reviews: replace hardcoded cards with Supabase data if backend is live
+  if (sbReady()) {
+    _sb.from('reviews')
+      .select('reviewer_name,business,rating,body')
+      .eq('visible', true)
+      .order('display_order')
+      .then(function(result) {
+        var data = result.data;
+        if (!data || data.length === 0) return; // keep hardcoded fallback
+        var grid = document.querySelector('.reviews-grid');
+        if (!grid) return;
+        var stars = function(n) { return '★'.repeat(n) + '☆'.repeat(5 - n); };
+        function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+        grid.innerHTML = data.map(function(r) {
+          return '<article class="review-card">' +
+            '<div class="review-top">' +
+              '<div class="review-name">' + esc(r.reviewer_name) + '</div>' +
+              '<div class="review-rating">' + stars(r.rating) + '</div>' +
+            '</div>' +
+            '<div class="review-meta">' + esc(r.business) + '</div>' +
+            '<div class="review-text">' + esc(r.body) + '</div>' +
+          '</article>';
+        }).join('');
+      });
+  }
+</script>
 </body>
 </html>

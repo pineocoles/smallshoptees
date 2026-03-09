@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin – Small Shop Tees</title>
+<meta name="robots" content="noindex,nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --black:#000; --yellow:#FFE14D; --orange:#FF9F43; --white:#f5f5f5; --gray:#141414; --gray2:#1a1a1a; --muted:#777; --green:#3ecf8e; --red:#ff5c5c; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Rajdhani',sans-serif; background:var(--black); color:var(--white); min-height:100vh; }
+
+  nav { position:sticky; top:0; z-index:1000; background:rgba(0,0,0,.97); backdrop-filter:blur(12px); border-bottom:2px solid var(--yellow); height:64px; padding:0 32px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .nav-logo { font-family:'Press Start 2P',monospace; font-size:.7rem; color:var(--white); text-decoration:none; white-space:nowrap; }
+  .nav-logo span { color:var(--yellow); }
+  .nav-right { display:flex; align-items:center; gap:12px; }
+  .nav-badge { font-family:'Press Start 2P',monospace; font-size:.3rem; background:rgba(255,225,77,.15); color:var(--yellow); border:1px solid rgba(255,225,77,.4); padding:4px 10px; letter-spacing:1px; }
+  .nav-user { font-family:'Press Start 2P',monospace; font-size:.3rem; color:rgba(245,245,245,.4); display:none; }
+  .btn-signout { font-family:'Press Start 2P',monospace; font-size:.3rem; color:rgba(245,245,245,.4); background:none; border:1px solid rgba(255,255,255,.1); padding:6px 12px; cursor:pointer; transition:color .2s; display:none; }
+  .btn-signout:hover { color:var(--yellow); }
+
+  .screen { display:none; }
+  .screen.active { display:block; }
+
+  /* ── SETUP ── */
+  .setup-wrap { max-width:780px; margin:0 auto; padding:60px 32px 80px; position:relative; z-index:1; }
+  .setup-eyebrow { display:inline-flex; align-items:center; gap:8px; background:rgba(255,225,77,.1); border:1px solid rgba(255,225,77,.4); color:var(--yellow); font-family:'Press Start 2P',monospace; font-size:.38rem; letter-spacing:2px; padding:8px 16px; margin-bottom:24px; }
+  .setup-title { font-family:'Press Start 2P',monospace; font-size:clamp(.75rem,2vw,1rem); color:var(--yellow); line-height:1.8; margin-bottom:16px; }
+  .setup-intro { font-size:1rem; color:rgba(245,245,245,.65); font-weight:500; line-height:1.7; margin-bottom:36px; }
+  .setup-steps { display:flex; flex-direction:column; gap:20px; margin-bottom:32px; }
+  .setup-step { background:var(--gray2); border:1px solid rgba(255,225,77,.12); padding:24px 28px; display:flex; gap:18px; align-items:flex-start; }
+  .ss-num { font-family:'Press Start 2P',monospace; font-size:.55rem; color:rgba(255,225,77,.45); flex-shrink:0; margin-top:2px; }
+  .ss-body h3 { font-family:'Press Start 2P',monospace; font-size:.38rem; color:var(--yellow); line-height:1.8; margin-bottom:8px; }
+  .ss-body p { font-size:.95rem; color:rgba(245,245,245,.65); line-height:1.6; font-weight:500; }
+  .ss-body a { color:var(--yellow); }
+  .ic { font-family:monospace; font-size:.88rem; background:rgba(255,225,77,.1); color:var(--yellow); padding:2px 6px; }
+  .sql-card { background:#0a0a0a; border:2px solid rgba(255,225,77,.2); margin-top:28px; }
+  .sql-header { display:flex; align-items:center; justify-content:space-between; padding:12px 20px; border-bottom:1px solid rgba(255,225,77,.1); }
+  .sql-label { font-family:'Press Start 2P',monospace; font-size:.32rem; color:var(--yellow); letter-spacing:1px; }
+  .btn-copy { font-family:'Press Start 2P',monospace; font-size:.3rem; background:rgba(255,225,77,.1); color:var(--yellow); border:1px solid rgba(255,225,77,.3); padding:6px 12px; cursor:pointer; letter-spacing:1px; transition:background .15s; }
+  .btn-copy:hover { background:rgba(255,225,77,.2); }
+  .sql-body { padding:20px; overflow-x:auto; }
+  .sql-body pre { font-family:monospace; font-size:.78rem; color:rgba(245,245,245,.6); line-height:1.7; white-space:pre; }
+
+  /* ── LOGIN ── */
+  .login-wrap { min-height:calc(100vh - 64px); display:flex; align-items:center; justify-content:center; padding:40px 24px; position:relative; z-index:1; }
+  .login-card { background:var(--gray2); border:2px solid rgba(255,225,77,.2); padding:48px 40px; width:100%; max-width:440px; }
+  .login-logo { font-family:'Press Start 2P',monospace; font-size:.52rem; color:var(--yellow); line-height:2; text-align:center; margin-bottom:6px; }
+  .login-sub { font-size:1rem; color:var(--muted); text-align:center; margin-bottom:32px; font-weight:600; }
+  .form-group { margin-bottom:20px; }
+  .form-group label { display:block; font-family:'Press Start 2P',monospace; font-size:.36rem; color:var(--yellow); letter-spacing:1px; margin-bottom:8px; line-height:1.8; }
+  .form-group input, .form-group textarea, .form-group select { width:100%; padding:14px 16px; background:#0d0d0d; border:2px solid rgba(255,225,77,.2); color:var(--white); font-family:'Rajdhani',sans-serif; font-size:1rem; font-weight:500; outline:none; transition:border-color .2s; }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color:var(--yellow); }
+  .form-group textarea { resize:vertical; min-height:80px; }
+  .login-err { background:rgba(255,92,92,.1); border:1px solid rgba(255,92,92,.4); color:var(--red); font-size:.9rem; font-weight:700; padding:12px 14px; margin-bottom:16px; display:none; }
+  .btn-submit { font-family:'Press Start 2P',monospace; font-size:.45rem; padding:18px 24px; background:var(--yellow); color:var(--black); border:3px solid var(--yellow); cursor:pointer; letter-spacing:1px; width:100%; box-shadow:4px 4px 0 #a88c00; transition:all .15s; }
+  .btn-submit:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 #a88c00; }
+  .btn-submit:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+
+  /* ── DASHBOARD ── */
+  .dash-wrap { max-width:1100px; margin:0 auto; padding:48px 32px 80px; position:relative; z-index:1; }
+  .dash-title { font-family:'Press Start 2P',monospace; font-size:.7rem; color:var(--yellow); line-height:2; margin-bottom:32px; }
+  .tab-bar { display:flex; border-bottom:2px solid rgba(255,225,77,.2); margin-bottom:32px; }
+  .tab-btn { font-family:'Press Start 2P',monospace; font-size:.36rem; color:rgba(245,245,245,.4); background:none; border:none; padding:14px 20px; cursor:pointer; letter-spacing:1px; border-bottom:3px solid transparent; margin-bottom:-2px; transition:color .2s; white-space:nowrap; }
+  .tab-btn:hover { color:var(--yellow); }
+  .tab-btn.active { color:var(--yellow); border-bottom-color:var(--yellow); }
+  .tab-pane { display:none; }
+  .tab-pane.active { display:block; }
+
+  /* ── SHARED COMPONENTS ── */
+  .section-title { font-family:'Press Start 2P',monospace; font-size:.45rem; color:var(--yellow); letter-spacing:2px; margin-bottom:10px; }
+  .section-sub { font-size:.95rem; color:var(--muted); font-weight:600; margin-bottom:24px; line-height:1.5; }
+  .action-bar { display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin-bottom:24px; flex-wrap:wrap; }
+  .btn-primary { font-family:'Press Start 2P',monospace; font-size:.34rem; padding:12px 18px; background:var(--yellow); color:var(--black); border:2px solid var(--yellow); cursor:pointer; letter-spacing:1px; transition:opacity .15s; white-space:nowrap; }
+  .btn-primary:hover { opacity:.85; }
+  .btn-sm { font-family:'Press Start 2P',monospace; font-size:.28rem; padding:5px 9px; background:transparent; color:var(--yellow); border:1px solid rgba(255,225,77,.35); cursor:pointer; letter-spacing:.5px; transition:background .15s; white-space:nowrap; }
+  .btn-sm:hover { background:rgba(255,225,77,.08); }
+  .btn-sm.danger { color:var(--red); border-color:rgba(255,92,92,.3); }
+  .btn-sm.danger:hover { background:rgba(255,92,92,.08); }
+  .loading { text-align:center; padding:40px; color:rgba(245,245,245,.3); font-family:'Press Start 2P',monospace; font-size:.34rem; letter-spacing:1px; }
+  .empty-state { text-align:center; padding:60px 24px; }
+  .empty-state p { font-size:1rem; color:var(--muted); font-weight:600; line-height:1.7; }
+  .form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+
+  /* ── DATA TABLE ── */
+  .data-table { width:100%; border-collapse:collapse; margin-bottom:32px; }
+  .data-table th { font-family:'Press Start 2P',monospace; font-size:.28rem; color:rgba(245,245,245,.3); letter-spacing:1px; padding:10px 12px; text-align:left; border-bottom:1px solid rgba(255,225,77,.1); }
+  .data-table td { padding:12px 12px; border-bottom:1px solid rgba(255,255,255,.04); font-size:.9rem; font-weight:500; color:rgba(245,245,245,.7); vertical-align:top; }
+  .data-table tr:hover td { background:rgba(255,225,77,.02); }
+  .pill { font-family:'Press Start 2P',monospace; font-size:.26rem; padding:3px 7px; }
+  .pill.on  { background:rgba(62,207,142,.12);  color:var(--green);  border:1px solid rgba(62,207,142,.3); }
+  .pill.off { background:rgba(255,92,92,.1);    color:var(--red);    border:1px solid rgba(255,92,92,.25); }
+  .stars { color:var(--yellow); letter-spacing:1px; }
+
+  /* ── MODAL ── */
+  .modal-bg { display:none; position:fixed; inset:0; background:rgba(0,0,0,.85); z-index:500; align-items:center; justify-content:center; padding:24px; }
+  .modal-bg.open { display:flex; }
+  .modal-card { background:var(--gray2); border:2px solid rgba(255,225,77,.3); padding:36px 32px; width:100%; max-width:560px; max-height:92vh; overflow-y:auto; }
+  .modal-title { font-family:'Press Start 2P',monospace; font-size:.45rem; color:var(--yellow); line-height:1.8; margin-bottom:24px; }
+  .modal-actions { display:flex; gap:10px; justify-content:flex-end; margin-top:24px; }
+
+  /* ── PRICING ── */
+  .price-card { background:var(--gray2); border:2px solid rgba(255,225,77,.18); padding:36px; max-width:480px; }
+  .price-input-wrap { display:flex; align-items:center; gap:10px; margin:12px 0 20px; }
+  .price-sym { font-family:'Press Start 2P',monospace; font-size:1.4rem; color:var(--yellow); }
+  .price-input { padding:16px; background:#0d0d0d; border:2px solid rgba(255,225,77,.3); color:var(--yellow); font-family:'Press Start 2P',monospace; font-size:1.2rem; outline:none; letter-spacing:2px; text-align:center; width:160px; }
+  .price-input:focus { border-color:var(--yellow); }
+
+  /* ── CLIENTS ── */
+  .client-card { background:var(--gray2); border:1.5px solid rgba(255,225,77,.1); padding:24px 28px; margin-bottom:14px; display:flex; align-items:center; gap:24px; flex-wrap:wrap; justify-content:space-between; transition:border-color .2s; }
+  .client-card:hover { border-color:rgba(255,225,77,.25); }
+  .ci h4 { font-family:'Press Start 2P',monospace; font-size:.4rem; color:var(--yellow); line-height:1.8; margin-bottom:4px; }
+  .ci p { font-size:.9rem; color:var(--muted); font-weight:600; line-height:1.5; }
+  .client-stats { display:flex; gap:20px; flex-wrap:wrap; }
+  .cstat { text-align:center; min-width:60px; }
+  .cstat-val { font-family:'Press Start 2P',monospace; font-size:.48rem; color:var(--white); line-height:1.6; }
+  .cstat-label { font-size:.78rem; color:var(--muted); font-weight:600; }
+  .rf-tag { font-family:'Press Start 2P',monospace; font-size:.28rem; padding:4px 8px; margin-top:10px; display:inline-block; }
+  .rf-tag.urgent { background:rgba(255,92,92,.12);  color:var(--red);    border:1px solid rgba(255,92,92,.3); }
+  .rf-tag.warn   { background:rgba(255,159,67,.1);  color:var(--orange); border:1px solid rgba(255,159,67,.3); }
+  .rf-tag.ok     { background:rgba(62,207,142,.1);  color:var(--green);  border:1px solid rgba(62,207,142,.25); }
+  .inv-bar-wrap { width:100px; background:rgba(255,255,255,.06); height:5px; border-radius:3px; overflow:hidden; margin-top:6px; }
+  .inv-bar { height:100%; border-radius:3px; transition:width .5s; }
+
+  /* ── TOAST ── */
+  .toast { position:fixed; bottom:28px; right:28px; z-index:9999; background:var(--yellow); color:var(--black); font-family:'Press Start 2P',monospace; font-size:.34rem; padding:14px 20px; letter-spacing:1px; box-shadow:4px 4px 0 #a88c00; transform:translateY(80px); opacity:0; transition:all .3s; pointer-events:none; }
+  .toast.show { transform:translateY(0); opacity:1; }
+  .toast.err { background:var(--red); color:var(--white); box-shadow:4px 4px 0 #8b0000; }
+
+  footer { position:relative; z-index:1; background:#080808; border-top:2px solid rgba(255,225,77,.15); padding:24px 48px; }
+  .footer-copy { font-family:'Press Start 2P',monospace; font-size:.3rem; color:var(--muted); letter-spacing:1px; }
+
+  @media(max-width:700px) {
+    .dash-wrap,.setup-wrap { padding:32px 20px 60px; }
+    .form-row { grid-template-columns:1fr; }
+    .client-card { flex-direction:column; align-items:flex-start; }
+    .tab-btn { padding:10px 12px; font-size:.3rem; }
+    footer { padding:24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">SMALL <span>SHOP TEES</span></a>
+  <div class="nav-right">
+    <span class="nav-badge">ADMIN</span>
+    <span class="nav-user" id="navUser"></span>
+    <button class="btn-signout" id="btnSignOut">SIGN OUT</button>
+  </div>
+</nav>
+
+<!-- ═══ SETUP SCREEN ═══ -->
+<div class="screen" id="screenSetup">
+  <div class="setup-wrap">
+    <div class="setup-eyebrow">⚙ INITIAL SETUP</div>
+    <div class="setup-title">BACKEND SETUP</div>
+    <p class="setup-intro">Follow these four steps to connect Supabase. Once done, paste your keys into <span class="ic">/assets/supabase.js</span>, commit to GitHub, then return here to sign in.</p>
+
+    <div class="setup-steps">
+      <div class="setup-step">
+        <div class="ss-num">01</div>
+        <div class="ss-body">
+          <h3>CREATE FREE SUPABASE PROJECT</h3>
+          <p>Go to <a href="https://supabase.com" target="_blank" rel="noopener">supabase.com</a> → Sign up → New project → name it <span class="ic">smallshoptees</span>. Wait ~2 min for it to spin up.</p>
+        </div>
+      </div>
+      <div class="setup-step">
+        <div class="ss-num">02</div>
+        <div class="ss-body">
+          <h3>COPY YOUR API KEYS</h3>
+          <p>In Supabase: <strong style="color:var(--white)">Project Settings → API</strong>. Copy <span class="ic">Project URL</span> and <span class="ic">anon / public</span> key. Paste both into <span class="ic">/assets/supabase.js</span>, then commit &amp; push to GitHub.</p>
+        </div>
+      </div>
+      <div class="setup-step">
+        <div class="ss-num">03</div>
+        <div class="ss-body">
+          <h3>RUN THE SQL BELOW</h3>
+          <p>In Supabase: <strong style="color:var(--white)">SQL Editor → New query</strong>. Paste the SQL block below and click <strong style="color:var(--white)">Run</strong>. Creates all tables and security rules in one shot.</p>
+        </div>
+      </div>
+      <div class="setup-step">
+        <div class="ss-num">04</div>
+        <div class="ss-body">
+          <h3>INVITE YOUR ADMIN USER</h3>
+          <p>In Supabase: <strong style="color:var(--white)">Authentication → Users → Invite user</strong>. Enter <span class="ic">pineocoles@gmail.com</span>. Check your email, set a password, then come back to <span class="ic">/admin/</span> and sign in.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sql-card">
+      <div class="sql-header">
+        <div class="sql-label">SETUP SQL — PASTE IN SUPABASE SQL EDITOR</div>
+        <button class="btn-copy" onclick="copySQL()">COPY SQL</button>
+      </div>
+      <div class="sql-body">
+        <pre id="sqlBlock">-- ═════════════════════════════════════════════════
+-- Small Shop Tees — Full Database Setup
+-- Run ONCE in Supabase SQL Editor → New Query
+-- ═════════════════════════════════════════════════
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- ── REVIEWS ──────────────────────────────────────
+CREATE TABLE IF NOT EXISTS reviews (
+  id            uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  reviewer_name text NOT NULL,
+  business      text NOT NULL,
+  rating        int  NOT NULL CHECK (rating BETWEEN 1 AND 5),
+  body          text NOT NULL,
+  visible       boolean NOT NULL DEFAULT true,
+  display_order int NOT NULL DEFAULT 0,
+  created_at    timestamptz NOT NULL DEFAULT now()
+);
+ALTER TABLE reviews ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "public read visible reviews"
+  ON reviews FOR SELECT USING (visible = true);
+CREATE POLICY "auth manage reviews"
+  ON reviews FOR ALL USING (auth.role() = 'authenticated');
+
+-- ── SETTINGS ─────────────────────────────────────
+CREATE TABLE IF NOT EXISTS settings (
+  key   text PRIMARY KEY,
+  value text NOT NULL
+);
+ALTER TABLE settings ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "public read settings"
+  ON settings FOR SELECT USING (true);
+CREATE POLICY "auth manage settings"
+  ON settings FOR ALL USING (auth.role() = 'authenticated');
+INSERT INTO settings (key, value) VALUES
+  ('price_per_shirt', '16'),
+  ('min_order_qty',   '50')
+ON CONFLICT (key) DO NOTHING;
+
+-- ── CLIENT PROFILES ──────────────────────────────
+CREATE TABLE IF NOT EXISTS client_profiles (
+  id              uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id         uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  business_name   text NOT NULL,
+  contact_name    text NOT NULL,
+  email           text NOT NULL,
+  phone           text,
+  shirt_style     text NOT NULL DEFAULT 'Standard Tee',
+  shirt_color     text NOT NULL DEFAULT 'Black',
+  total_ordered   int  NOT NULL DEFAULT 0,
+  current_qty     int  NOT NULL DEFAULT 0,
+  last_order_date date,
+  created_at      timestamptz NOT NULL DEFAULT now()
+);
+ALTER TABLE client_profiles ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "user read own profile"
+  ON client_profiles FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "user insert own profile"
+  ON client_profiles FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "user update own profile"
+  ON client_profiles FOR UPDATE USING (auth.uid() = user_id);
+CREATE POLICY "auth read all profiles"
+  ON client_profiles FOR SELECT USING (auth.role() = 'authenticated');
+CREATE POLICY "auth update all profiles"
+  ON client_profiles FOR UPDATE USING (auth.role() = 'authenticated');
+
+-- ── ORDERS ───────────────────────────────────────
+CREATE TABLE IF NOT EXISTS orders (
+  id             uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id        uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  xs             int  NOT NULL DEFAULT 0,
+  s              int  NOT NULL DEFAULT 0,
+  m              int  NOT NULL DEFAULT 0,
+  l              int  NOT NULL DEFAULT 0,
+  xl             int  NOT NULL DEFAULT 0,
+  xxl            int  NOT NULL DEFAULT 0,
+  xxxl           int  NOT NULL DEFAULT 0,
+  total_qty      int  NOT NULL DEFAULT 0,
+  delivery_date  date,
+  delivery_notes text,
+  status         text NOT NULL DEFAULT 'processing',
+  order_type     text NOT NULL DEFAULT 'restock',
+  created_at     timestamptz NOT NULL DEFAULT now()
+);
+ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "user read own orders"
+  ON orders FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "user insert own orders"
+  ON orders FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "auth read all orders"
+  ON orders FOR SELECT USING (auth.role() = 'authenticated');
+CREATE POLICY "auth update all orders"
+  ON orders FOR UPDATE USING (auth.role() = 'authenticated');</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ LOGIN SCREEN ═══ -->
+<div class="screen" id="screenLogin">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo">ADMIN<br>PANEL</div>
+      <div class="login-sub">Sign in with your admin account</div>
+      <div class="login-err" id="loginErr"></div>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail">EMAIL</label>
+          <input id="loginEmail" type="email" autocomplete="email" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPw">PASSWORD</label>
+          <input id="loginPw" type="password" autocomplete="current-password" required>
+        </div>
+        <button class="btn-submit" type="submit" id="btnLogin">SIGN IN →</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div class="screen" id="screenDash">
+  <div class="dash-wrap">
+    <div class="dash-title">ADMIN DASHBOARD</div>
+
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="reviews">REVIEWS</button>
+      <button class="tab-btn" data-tab="pricing">PRICING</button>
+      <button class="tab-btn" data-tab="clients">CLIENTS</button>
+    </div>
+
+    <!-- REVIEWS TAB -->
+    <div class="tab-pane active" id="tab-reviews">
+      <div class="action-bar">
+        <div>
+          <div class="section-title">MANAGE REVIEWS</div>
+          <div class="section-sub">Control which reviews appear on the home page. Hide without deleting.</div>
+        </div>
+        <button class="btn-primary" onclick="openAddReview()">+ ADD REVIEW</button>
+      </div>
+      <div class="loading" id="rvLoading">LOADING...</div>
+      <table class="data-table" id="rvTable" style="display:none">
+        <thead><tr>
+          <th>NAME / BUSINESS</th><th>RATING</th><th>REVIEW TEXT</th><th>ORDER</th><th>VISIBLE</th><th>ACTIONS</th>
+        </tr></thead>
+        <tbody id="rvTbody"></tbody>
+      </table>
+      <div class="empty-state" id="rvEmpty" style="display:none">
+        <p>No reviews yet.<br>Add your first review using the button above.</p>
+      </div>
+    </div>
+
+    <!-- PRICING TAB -->
+    <div class="tab-pane" id="tab-pricing">
+      <div class="section-title">PRICING SETTINGS</div>
+      <div class="section-sub">Base per-shirt price and minimum order quantity. Changes are live on the site immediately after saving.</div>
+      <div class="price-card">
+        <div class="loading" id="prLoading" style="padding:20px 0">LOADING...</div>
+        <div id="prForm" style="display:none">
+          <div class="form-group" style="margin-bottom:4px"><label>PRICE PER SHIRT (USD)</label></div>
+          <div class="price-input-wrap">
+            <span class="price-sym">$</span>
+            <input class="price-input" id="priceVal" type="number" min="1" max="9999" step="0.01" value="16">
+          </div>
+          <div class="form-group">
+            <label>MINIMUM ORDER QUANTITY</label>
+            <input id="minQtyVal" type="number" min="1" max="9999" value="50">
+          </div>
+          <button class="btn-primary" onclick="savePricing()" style="width:100%;margin-top:8px">SAVE PRICING →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLIENTS TAB -->
+    <div class="tab-pane" id="tab-clients">
+      <div class="section-title">CLIENT ACCOUNTS</div>
+      <div class="section-sub">All registered portal accounts. Restock flags are calculated from live inventory data.</div>
+      <div class="loading" id="clLoading">LOADING...</div>
+      <div id="clGrid"></div>
+      <div class="empty-state" id="clEmpty" style="display:none">
+        <p>No client accounts yet.<br>Clients sign up through the client portal.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEW MODAL -->
+<div class="modal-bg" id="rvModal">
+  <div class="modal-card">
+    <div class="modal-title" id="rvModalTitle">ADD REVIEW</div>
+    <input type="hidden" id="rvEditId">
+    <div class="form-row">
+      <div class="form-group"><label>REVIEWER NAME</label><input id="rvName" type="text" placeholder="Sarah M."></div>
+      <div class="form-group"><label>BUSINESS</label><input id="rvBiz" type="text" placeholder="Portland Coffee Co."></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>RATING (1–5)</label>
+        <select id="rvRating">
+          <option value="5">5 ★★★★★</option>
+          <option value="4">4 ★★★★☆</option>
+          <option value="3">3 ★★★☆☆</option>
+          <option value="2">2 ★★☆☆☆</option>
+          <option value="1">1 ★☆☆☆☆</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>DISPLAY ORDER</label>
+        <input id="rvOrd" type="number" value="0" min="0">
+      </div>
+    </div>
+    <div class="form-group"><label>REVIEW TEXT</label><textarea id="rvBody" rows="4" placeholder="Write review here..."></textarea></div>
+    <div class="form-group">
+      <label>VISIBLE ON HOME PAGE</label>
+      <select id="rvVis"><option value="true">Yes — show on site</option><option value="false">No — hidden</option></select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-sm" onclick="closeRvModal()">CANCEL</button>
+      <button class="btn-primary" onclick="saveReview()">SAVE REVIEW</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <div class="footer-copy">© 2025 SMALL SHOP TEES · ADMIN PANEL</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/assets/supabase.js"></script>
+<script>
+// ── helpers ────────────────────────────────
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function toast(msg, err) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (err ? ' err' : '') + ' show';
+  clearTimeout(t._to);
+  t._to = setTimeout(() => t.classList.remove('show'), 3400);
+}
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function copySQL() {
+  navigator.clipboard.writeText(document.getElementById('sqlBlock').textContent)
+    .then(() => toast('SQL COPIED!'));
+}
+
+// ── boot ───────────────────────────────────
+if (!sbReady()) {
+  show('screenSetup');
+} else {
+  _sb.auth.getSession().then(({ data: { session } }) => {
+    if (session && session.user.email === ADMIN_EMAIL) {
+      bootDash(session.user.email);
+    } else {
+      show('screenLogin');
+    }
+  });
+  _sb.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_OUT') { show('screenLogin'); }
+  });
+}
+
+// ── login ──────────────────────────────────
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  var btn = document.getElementById('btnLogin');
+  var err = document.getElementById('loginErr');
+  err.style.display = 'none';
+  btn.disabled = true; btn.textContent = 'SIGNING IN...';
+  var { data, error } = await _sb.auth.signInWithPassword({
+    email:    document.getElementById('loginEmail').value.trim(),
+    password: document.getElementById('loginPw').value
+  });
+  if (error || !data.session) {
+    err.textContent = (error && error.message) || 'Sign-in failed.';
+    err.style.display = 'block';
+    btn.disabled = false; btn.textContent = 'SIGN IN →';
+    return;
+  }
+  if (data.session.user.email !== ADMIN_EMAIL) {
+    await _sb.auth.signOut();
+    err.textContent = 'This account does not have admin access.';
+    err.style.display = 'block';
+    btn.disabled = false; btn.textContent = 'SIGN IN →';
+    return;
+  }
+  bootDash(data.session.user.email);
+});
+
+document.getElementById('btnSignOut').addEventListener('click', async () => {
+  await _sb.auth.signOut();
+  location.reload();
+});
+
+// ── dashboard boot ─────────────────────────
+function bootDash(email) {
+  document.getElementById('navUser').textContent = email;
+  document.getElementById('navUser').style.display = 'inline';
+  document.getElementById('btnSignOut').style.display = 'inline-block';
+  show('screenDash');
+  loadReviews();
+  loadPricing();
+  loadClients();
+}
+
+// ── tabs ───────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+    this.classList.add('active');
+    document.getElementById('tab-' + this.dataset.tab).classList.add('active');
+  });
+});
+
+// ════════════════════════════════════════════
+// REVIEWS
+// ════════════════════════════════════════════
+var _rvData = [];
+
+async function loadReviews() {
+  document.getElementById('rvLoading').style.display = 'block';
+  document.getElementById('rvTable').style.display = 'none';
+  document.getElementById('rvEmpty').style.display = 'none';
+  var { data, error } = await _sb.from('reviews').select('*').order('display_order');
+  document.getElementById('rvLoading').style.display = 'none';
+  if (error) { toast('Error loading reviews: ' + error.message, true); return; }
+  _rvData = data || [];
+  renderReviews();
+}
+
+function renderReviews() {
+  if (!_rvData.length) {
+    document.getElementById('rvEmpty').style.display = 'block';
+    return;
+  }
+  document.getElementById('rvTable').style.display = 'table';
+  var stars = n => '★'.repeat(n) + '☆'.repeat(5 - n);
+  document.getElementById('rvTbody').innerHTML = _rvData.map(r => `
+    <tr>
+      <td><strong style="color:var(--white)">${esc(r.reviewer_name)}</strong><br><span style="color:var(--muted);font-size:.82rem">${esc(r.business)}</span></td>
+      <td><span class="stars">${stars(r.rating)}</span></td>
+      <td style="max-width:260px;font-size:.85rem;line-height:1.5">${esc(r.body)}</td>
+      <td style="color:rgba(245,245,245,.4);text-align:center">${r.display_order}</td>
+      <td><span class="pill ${r.visible?'on':'off'}">${r.visible?'VISIBLE':'HIDDEN'}</span></td>
+      <td>
+        <div style="display:flex;gap:5px;flex-wrap:wrap">
+          <button class="btn-sm" onclick="toggleRv('${r.id}',${r.visible})">${r.visible?'HIDE':'SHOW'}</button>
+          <button class="btn-sm" onclick="editReview('${r.id}')">EDIT</button>
+          <button class="btn-sm danger" onclick="deleteReview('${r.id}')">DEL</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+function openAddReview() {
+  document.getElementById('rvEditId').value = '';
+  document.getElementById('rvModalTitle').textContent = 'ADD REVIEW';
+  ['rvName','rvBiz','rvBody'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('rvRating').value = '5';
+  document.getElementById('rvOrd').value = '0';
+  document.getElementById('rvVis').value = 'true';
+  document.getElementById('rvModal').classList.add('open');
+}
+
+function editReview(id) {
+  var r = _rvData.find(x => x.id === id);
+  if (!r) return;
+  document.getElementById('rvEditId').value = id;
+  document.getElementById('rvModalTitle').textContent = 'EDIT REVIEW';
+  document.getElementById('rvName').value = r.reviewer_name;
+  document.getElementById('rvBiz').value = r.business;
+  document.getElementById('rvRating').value = String(r.rating);
+  document.getElementById('rvBody').value = r.body;
+  document.getElementById('rvOrd').value = String(r.display_order);
+  document.getElementById('rvVis').value = r.visible ? 'true' : 'false';
+  document.getElementById('rvModal').classList.add('open');
+}
+
+function closeRvModal() { document.getElementById('rvModal').classList.remove('open'); }
+document.getElementById('rvModal').addEventListener('click', e => { if (e.target === document.getElementById('rvModal')) closeRvModal(); });
+
+async function saveReview() {
+  var id = document.getElementById('rvEditId').value;
+  var row = {
+    reviewer_name: document.getElementById('rvName').value.trim(),
+    business:      document.getElementById('rvBiz').value.trim(),
+    rating:        parseInt(document.getElementById('rvRating').value),
+    body:          document.getElementById('rvBody').value.trim(),
+    display_order: parseInt(document.getElementById('rvOrd').value) || 0,
+    visible:       document.getElementById('rvVis').value === 'true'
+  };
+  if (!row.reviewer_name || !row.business || !row.body) { toast('Fill in all required fields', true); return; }
+  var res = id
+    ? await _sb.from('reviews').update(row).eq('id', id)
+    : await _sb.from('reviews').insert(row);
+  if (res.error) { toast('Save failed: ' + res.error.message, true); return; }
+  closeRvModal();
+  toast(id ? 'REVIEW UPDATED' : 'REVIEW ADDED');
+  loadReviews();
+}
+
+async function toggleRv(id, cur) {
+  var { error } = await _sb.from('reviews').update({ visible: !cur }).eq('id', id);
+  if (error) { toast('Update failed', true); return; }
+  toast(cur ? 'REVIEW HIDDEN' : 'REVIEW VISIBLE');
+  loadReviews();
+}
+
+async function deleteReview(id) {
+  if (!confirm('Permanently delete this review?')) return;
+  var { error } = await _sb.from('reviews').delete().eq('id', id);
+  if (error) { toast('Delete failed', true); return; }
+  toast('REVIEW DELETED');
+  loadReviews();
+}
+
+// ════════════════════════════════════════════
+// PRICING
+// ════════════════════════════════════════════
+async function loadPricing() {
+  var { data, error } = await _sb.from('settings').select('*');
+  document.getElementById('prLoading').style.display = 'none';
+  document.getElementById('prForm').style.display = 'block';
+  if (!error && data) {
+    var pr = data.find(r => r.key === 'price_per_shirt');
+    var mq = data.find(r => r.key === 'min_order_qty');
+    if (pr) document.getElementById('priceVal').value = pr.value;
+    if (mq) document.getElementById('minQtyVal').value = mq.value;
+  }
+}
+
+async function savePricing() {
+  var price = document.getElementById('priceVal').value.trim();
+  var minqt = document.getElementById('minQtyVal').value.trim();
+  if (!price || isNaN(price) || +price <= 0) { toast('Enter a valid price', true); return; }
+  var results = await Promise.all([
+    _sb.from('settings').upsert({ key: 'price_per_shirt', value: price }),
+    _sb.from('settings').upsert({ key: 'min_order_qty',   value: minqt })
+  ]);
+  var err = results.find(r => r.error);
+  if (err) { toast('Save failed: ' + err.error.message, true); return; }
+  toast('PRICING SAVED!');
+}
+
+// ════════════════════════════════════════════
+// CLIENTS + RESTOCK ALGORITHM
+// ════════════════════════════════════════════
+function calcRestock(p) {
+  if (!p.total_ordered || !p.last_order_date) {
+    return { pct: 100, daysLeft: null, rate: 0, flag: 'ok' };
+  }
+  var daysSince = Math.max(1, (Date.now() - new Date(p.last_order_date)) / 86400000);
+  var consumed  = Math.max(0, p.total_ordered - p.current_qty);
+  var dailyRate = consumed / daysSince;
+  var daysLeft  = dailyRate > 0 ? Math.floor(p.current_qty / dailyRate) : 999;
+  var pct       = Math.min(100, Math.round((p.current_qty / p.total_ordered) * 100));
+  var flag      = (daysLeft < 14 || pct < 15) ? 'urgent'
+                : (daysLeft < 21 || pct < 25)  ? 'warn'
+                : 'ok';
+  return { pct, daysLeft, rate: dailyRate.toFixed(1), flag };
+}
+
+async function loadClients() {
+  document.getElementById('clLoading').style.display = 'block';
+  document.getElementById('clEmpty').style.display = 'none';
+  document.getElementById('clGrid').innerHTML = '';
+  var { data, error } = await _sb.from('client_profiles').select('*').order('created_at', { ascending: false });
+  document.getElementById('clLoading').style.display = 'none';
+  if (error) { toast('Error loading clients: ' + error.message, true); return; }
+  var list = data || [];
+  if (!list.length) { document.getElementById('clEmpty').style.display = 'block'; return; }
+  var flagLabel = { urgent: 'RESTOCK NOW', warn: 'RESTOCK SOON', ok: 'STOCK OK' };
+  var barColor  = { urgent: 'var(--red)', warn: 'var(--orange)', ok: 'var(--green)' };
+  document.getElementById('clGrid').innerHTML = list.map(c => {
+    var rs = calcRestock(c);
+    var dStr = rs.daysLeft !== null ? rs.daysLeft + 'd left' : 'N/A';
+    return `<div class="client-card">
+      <div class="ci">
+        <h4>${esc(c.business_name)}</h4>
+        <p>${esc(c.contact_name)} · ${esc(c.email)}</p>
+        <p>Style: <strong style="color:var(--white)">${esc(c.shirt_style)} · ${esc(c.shirt_color)}</strong></p>
+        <span class="rf-tag ${rs.flag}">${flagLabel[rs.flag]}</span>
+      </div>
+      <div class="client-stats">
+        <div class="cstat">
+          <div class="cstat-val">${c.current_qty}</div>
+          <div class="cstat-label">IN STOCK</div>
+          <div class="inv-bar-wrap"><div class="inv-bar" style="width:${rs.pct}%;background:${barColor[rs.flag]}"></div></div>
+        </div>
+        <div class="cstat">
+          <div class="cstat-val">${c.total_ordered||0}</div>
+          <div class="cstat-label">TOTAL ORD.</div>
+        </div>
+        <div class="cstat">
+          <div class="cstat-val" style="font-size:.36rem">${dStr}</div>
+          <div class="cstat-label">EST. LEFT</div>
+        </div>
+        <div class="cstat">
+          <div class="cstat-val" style="font-size:.36rem">${rs.rate}/day</div>
+          <div class="cstat-label">USAGE</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+</script>
+</body>
+</html>
