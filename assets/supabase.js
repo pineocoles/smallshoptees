@@ -19,8 +19,8 @@
 //
 // ═══════════════════════════════════════════════════════════
 
-const SUPABASE_URL  = 'https://your-project-ref.supabase.co'; // ← paste your URL
-const SUPABASE_ANON = 'your-anon-public-key';                  // ← paste your anon key
+const SUPABASE_URL  = 'https://zehnrgcwbtjcqtyuzulz.supabase.co';
+const SUPABASE_ANON = 'sb_publishable_B6si76KIzTrpLQCmhjC7tw_1df3TkU8';
 const ADMIN_EMAIL   = 'pineocoles@gmail.com';                  // ← your admin login email
 
 // ── Create shared client (null if not yet configured) ──────
