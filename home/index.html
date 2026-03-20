@@ -3,449 +3,520 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Small Shop Tees – Custom Branded Shirts for Portland Businesses</title>
-<meta name="description" content="Portland's B2B custom branded t-shirt service. You share an idea. We design, print, deliver, and restock automatically. Serving restaurants, cafes, gyms & boutiques.">
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Small Shop Tees – Popularity Made Simple</title>
+<meta name="description" content="Custom branded t-shirts for small businesses. We handle everything from design to delivery to restock. Portland, Oregon.">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@800;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --black: #000000;
-    --yellow: #FFE14D;
-    --orange: #FF9F43;
-    --pink: #FF6EC7;
-    --white: #f5f5f5;
-    --gray: #141414;
-    --gray2: #1a1a1a;
-    --muted: #777;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:'Rajdhani',sans-serif; background:var(--black); color:var(--white); overflow-x:hidden; }
+/* ── RESET ── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-  /* ── NAV ── */
-  nav {
-    position:sticky; top:0; z-index:1000;
-    background:rgba(0,0,0,.97); backdrop-filter:blur(12px);
-    border-bottom:2px solid var(--yellow);
-    height:64px; padding:0 32px;
-    display:flex; align-items:center; justify-content:space-between; gap:12px;
-  }
-  .nav-logo { font-family:'Press Start 2P',monospace; font-size:.7rem; color:var(--white); text-decoration:none; white-space:nowrap; flex-shrink:0; }
-  .nav-logo span { color:var(--yellow); }
-  .nav-links { display:flex; align-items:center; gap:2px; }
-  .nav-link { font-family:'Press Start 2P',monospace; font-size:.45rem; color:rgba(245,245,245,.5); text-decoration:none; padding:6px 7px; letter-spacing:.5px; white-space:nowrap; transition:color .2s; }
-  .nav-link:hover { color:var(--yellow); }
-  .nav-portal { font-family:'Press Start 2P',monospace; font-size:.45rem; color:rgba(245,245,245,.5); text-decoration:none; padding:6px 10px; letter-spacing:.5px; border:1px solid rgba(255,225,77,.25); white-space:nowrap; transition:color .2s,border-color .2s; margin-left:4px; }
-  .nav-portal:hover { color:var(--yellow); border-color:rgba(255,225,77,.7); }
-  .nav-cta { font-family:'Press Start 2P',monospace; font-size:.45rem; color:var(--black); background:var(--yellow); text-decoration:none; padding:8px 14px; letter-spacing:.5px; white-space:nowrap; transition:opacity .2s; margin-left:4px; }
-  .nav-cta:hover { opacity:.85; }
-  .hamburger { display:none; background:none; border:2px solid rgba(255,225,77,.3); cursor:pointer; padding:6px 10px; color:var(--white); flex-shrink:0; }
+/* ── DESIGN SYSTEM ── */
+:root {
+  --black: #000000;
+  --yellow: #FFD700;
+  --white: #FFFFFF;
+  --gradient: linear-gradient(90deg, #FF00FF 0%, #FF8C00 50%, #0000FF 100%);
+  --neon-magenta: #FF00FF;
+  --neon-green: #00FF7F;
+  --neon-cyan: #00FFFF;
+}
 
-  /* ── HERO ── */
-  .hero { position:relative; width:100%; min-height:calc(100vh - 64px); background:#000; overflow:hidden; }
-  .stars {
-    position:absolute; inset:0; z-index:0; pointer-events:none;
-    background-image:
-      radial-gradient(1px 1px at 8% 15%, rgba(255,255,255,.7) 0%,transparent 100%),
-      radial-gradient(1px 1px at 22% 40%, rgba(255,255,255,.5) 0%,transparent 100%),
-      radial-gradient(1px 1px at 5% 65%,  rgba(255,255,255,.6) 0%,transparent 100%),
-      radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,.4) 0%,transparent 100%),
-      radial-gradient(1.5px 1.5px at 3% 45%, rgba(255,225,77,.4) 0%,transparent 100%),
-      radial-gradient(1px 1px at 50% 20%, rgba(255,255,255,.3) 0%,transparent 100%),
-      radial-gradient(1px 1px at 70% 75%, rgba(255,255,255,.35) 0%,transparent 100%),
-      radial-gradient(1px 1px at 35% 55%, rgba(255,225,77,.2) 0%,transparent 100%);
-  }
-  .hero-moon {
-    position:absolute; top:-5%; right:-8%; width:65%; overflow:hidden; z-index:1; pointer-events:none;
-  }
-  .hero-moon img { width:100%; height:100%; object-fit:cover; display:block; }
-  .hero-moon::after { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 65% 38%, transparent 30%, rgba(0,0,0,.5) 62%, rgba(0,0,0,.98) 100%); }
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Open Sans', sans-serif;
+  overflow-x: hidden;
+}
 
-  .hero-content { position:relative; z-index:4; padding:80px 24px 80px 60px; max-width:1120px; min-height:calc(100vh - 64px); display:flex; flex-direction:column; justify-content:center; }
-  .hero-eyebrow { font-family:'Press Start 2P',monospace; font-size:.42rem; color:var(--orange); letter-spacing:3px; margin-bottom:20px; animation:fadeUp .5s .05s ease both; }
-  .hero h1 { font-family:'Press Start 2P',monospace; font-size:clamp(.78rem, 1.7vw, 1.4rem); color:var(--yellow); line-height:2.1; letter-spacing:6px; margin-bottom:24px; animation:fadeUp .6s .1s ease both; text-shadow:0 0 40px rgba(255,225,77,.55); }
-  .hero-sub { font-size:clamp(1rem,1.3vw,1.25rem); color:rgba(245,245,245,.75); font-weight:600; line-height:1.6; letter-spacing:.5px; max-width:520px; margin-bottom:36px; animation:fadeUp .6s .18s ease both; }
-  .hero-cta-wrap { animation:fadeUp .6s .26s ease both; }
-  .btn-cta-gradient-wrap { display:inline-block; padding:3px; border-radius:999px; background:linear-gradient(135deg, var(--yellow) 0%, var(--orange) 40%, var(--pink) 100%); transition:transform .15s; }
-  .btn-cta-gradient-wrap:hover { transform:scale(1.03); }
-  .btn-cta-gradient { display:inline-block; font-family:'Press Start 2P',monospace; font-size:.48rem; padding:18px 36px; background:var(--black); color:var(--white); text-decoration:none; letter-spacing:1px; border-radius:999px; line-height:1.6; }
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  height: 59px;
+  background: rgba(0,0,0,0.96);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+.nav-brand {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1.45rem;
+  color: var(--white);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.nav-hamburger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.nav-hamburger span {
+  display: block;
+  width: 26px;
+  height: 2px;
+  background: var(--white);
+  border-radius: 1px;
+}
+.nav-user-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 40px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.nav-user-icon:hover { background: rgba(255,255,255,0.16); }
+.nav-user-icon svg { width: 22px; height: 22px; fill: var(--white); }
 
-  /* ── SOCIAL PROOF BAR ── */
-  .proof-bar { background:#050505; border-bottom:1px solid rgba(255,225,77,.12); padding:20px 48px; display:flex; align-items:center; justify-content:center; gap:40px; flex-wrap:wrap; }
-  .proof-label { font-family:'Press Start 2P',monospace; font-size:.38rem; color:var(--yellow); letter-spacing:2px; flex-shrink:0; }
-  .proof-items { display:flex; gap:32px; flex-wrap:wrap; align-items:center; justify-content:center; }
-  .proof-item { font-size:.9rem; color:rgba(245,245,245,.5); font-weight:600; letter-spacing:1px; text-transform:uppercase; }
-  .proof-dot { color:rgba(255,225,77,.3); }
+/* Nav overlay menu */
+.nav-menu {
+  display: none;
+  position: fixed;
+  top: 59px; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.98);
+  z-index: 999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+.nav-menu.open { display: flex; }
+.nav-menu a {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.55);
+  text-decoration: none;
+  letter-spacing: 2px;
+  transition: color 0.2s;
+  padding: 6px 0;
+}
+.nav-menu a:hover { color: var(--yellow); }
+.nav-menu .nav-menu-cta {
+  color: var(--black);
+  background: var(--yellow);
+  padding: 14px 28px;
+  letter-spacing: 1px;
+  margin-top: 8px;
+}
+.nav-menu .nav-menu-cta:hover { opacity: 0.88; }
 
-  /* ── WHAT WE DO ── */
-  .what-we-do { background:var(--gray); border-top:1px solid rgba(255,255,255,.04); padding:72px 48px; }
-  .what-inner { max-width:900px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; }
-  .what-text h2 { font-family:'Press Start 2P',monospace; font-size:.7rem; color:var(--yellow); line-height:2; letter-spacing:1px; margin-bottom:20px; }
-  .what-text p { font-size:1.05rem; color:rgba(245,245,245,.75); line-height:1.7; font-weight:500; margin-bottom:14px; }
-  .what-text a { display:inline-block; margin-top:10px; font-family:'Press Start 2P',monospace; font-size:.4rem; padding:12px 20px; border:2px solid var(--yellow); color:var(--yellow); text-decoration:none; letter-spacing:1px; transition:background .2s; }
-  .what-text a:hover { background:rgba(255,225,77,.08); }
-  .what-value-list { list-style:none; display:flex; flex-direction:column; gap:16px; }
-  .what-value-list li { display:flex; align-items:flex-start; gap:14px; background:var(--black); border:1px solid rgba(255,225,77,.12); padding:18px 20px; }
-  .wv-icon { color:var(--yellow); font-size:1.3rem; flex-shrink:0; margin-top:2px; }
-  .wv-text { font-size:1rem; color:rgba(245,245,245,.75); font-weight:600; line-height:1.5; }
-  .wv-text strong { color:var(--white); display:block; margin-bottom:2px; font-size:1.05rem; }
+/* ── SECTIONS ── */
+.section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  background: var(--black);
+}
 
-  /* ── HOW IT WORKS ── */
-  .how { background:var(--black); border-top:1px solid rgba(255,255,255,.04); padding:80px 0; }
-  .how .section-label,.how .section-sub { padding:0 24px; }
-  .section-label { font-family:'Press Start 2P',monospace; font-size:.55rem; color:var(--yellow); text-align:center; letter-spacing:3px; margin-bottom:10px; text-shadow:0 0 16px rgba(255,225,77,.35); }
-  .section-sub { text-align:center; color:var(--muted); font-size:1rem; font-weight:600; letter-spacing:1px; margin-bottom:52px; }
-  .steps-row { display:grid; grid-template-columns:repeat(4,1fr); width:100%; gap:0; }
-  .step-box { position:relative; width:100%; min-height:380px; overflow:hidden; display:flex; align-items:flex-end; justify-content:center; background:var(--gray); }
-  .step-box img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; transition:transform .4s ease; }
-  .step-box::after { content:''; position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,.88) 0%, rgba(0,0,0,.35) 40%, transparent 70%); pointer-events:none; }
-  .step-box:hover img { transform:scale(1.05); }
-  .step-box-inner { position:relative; z-index:2; padding:20px 16px 24px; text-align:center; }
-  .step-num { font-family:'Press Start 2P',monospace; font-size:.38rem; color:var(--orange); letter-spacing:2px; margin-bottom:8px; }
-  .step-box-title { font-family:'Press Start 2P',monospace; font-size:.5rem; color:var(--yellow); line-height:1.8; letter-spacing:1px; text-shadow:0 0 20px rgba(0,0,0,.8); }
-  .step-box-desc { font-size:.9rem; color:rgba(245,245,245,.65); font-weight:600; margin-top:8px; line-height:1.5; }
-  .how-more { text-align:center; margin-top:40px; }
-  .how-more a { font-family:'Press Start 2P',monospace; font-size:.42rem; color:var(--yellow); text-decoration:none; border-bottom:1px solid rgba(255,225,77,.35); padding-bottom:3px; transition:border-color .2s; }
-  .how-more a:hover { border-color:var(--yellow); }
+/* Astronaut background layer */
+.astro-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/assets/astronaut.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
 
-  /* ── WHY US ── */
-  .why { background:var(--gray); border-top:1px solid rgba(255,255,255,.04); padding:80px 48px; }
-  .why-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; max-width:1100px; margin:0 auto; }
-  .why-card { background:var(--black); border:1.5px solid rgba(255,225,77,.12); border-radius:0; padding:32px 22px; text-align:center; transition:border-color .2s,transform .2s; }
-  .why-card:hover { border-color:rgba(255,225,77,.5); transform:translateY(-4px); }
-  .why-icon { width:56px; height:56px; background:rgba(255,225,77,.07); border-radius:50%; margin:0 auto 18px; display:flex; align-items:center; justify-content:center; border:1px solid rgba(255,225,77,.2); color:var(--yellow); }
-  .why-card h4 { font-family:'Press Start 2P',monospace; font-size:.45rem; color:var(--yellow); line-height:1.9; margin-bottom:10px; }
-  .why-card p { font-size:.92rem; color:var(--muted); line-height:1.55; font-weight:500; }
+/* ──────────────────────────────
+   SECTION 1: HERO
+────────────────────────────── */
+.hero { padding-top: 59px; }
+.hero .astro-bg {
+  background-position: 28% 45%;
+  opacity: 0.72;
+}
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  min-height: calc(100vh - 59px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.hero-left {
+  padding: 70px 24px 60px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.hero-heading {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(1.6rem, 3.5vw, 3.6rem);
+  color: var(--yellow);
+  line-height: 1.4;
+  letter-spacing: 2px;
+  text-shadow: 0 0 48px rgba(255,215,0,0.35);
+}
+.hero-body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.93rem;
+  color: var(--white);
+  line-height: 1.75;
+  max-width: 380px;
+  margin-left: 62px;
+}
+.hero-btn-area {
+  padding-left: 100px;
+  padding-bottom: 20px;
+}
+.hero-right {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-brand-diagonal {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 2.4rem;
+  color: rgba(255,255,255,0.88);
+  letter-spacing: -1px;
+  transform: rotate(-18deg);
+  white-space: nowrap;
+  pointer-events: none;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.7);
+}
 
-  /* ── PRODUCTS PREVIEW ── */
-  .products-preview { background:var(--black); border-top:1px solid rgba(255,255,255,.04); padding:80px 48px; }
-  .preview-grid { display:grid; grid-template-columns:1fr; max-width:320px; margin:0 auto 40px; }
-  .preview-desc { font-size:.9rem; color:var(--muted); font-weight:500; }
-  .preview-card { background:var(--gray2); border:1.5px solid rgba(255,225,77,.12); padding:0; display:flex; flex-direction:column; transition:border-color .2s,transform .2s; }
-  .preview-card:hover { border-color:rgba(255,225,77,.4); transform:translateY(-3px); }
-  .preview-swatch { height:140px; display:flex; align-items:center; justify-content:center; font-size:4rem; background:rgba(255,225,77,.04); border-bottom:1px solid rgba(255,225,77,.08); }
-  .preview-info { padding:18px 16px; flex:1; display:flex; flex-direction:column; gap:6px; }
-  .preview-style { font-family:'Press Start 2P',monospace; font-size:.42rem; color:var(--yellow); letter-spacing:1px; line-height:1.7; }
-  .preview-colors { display:flex; gap:6px; margin:4px 0; }
-  .preview-dot { width:14px; height:14px; border-radius:50%; border:1px solid rgba(255,255,255,.15); }
-  .preview-min { font-size:.85rem; color:var(--muted); font-weight:600; }
-  .preview-more { text-align:center; }
-  .btn-yellow { display:inline-block; font-family:'Press Start 2P',monospace; font-size:.45rem; padding:16px 28px; background:var(--yellow); color:var(--black); text-decoration:none; letter-spacing:1px; box-shadow:4px 4px 0 #a88c00; transition:all .15s; }
-  .btn-yellow:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 #a88c00; }
+/* ──────────────────────────────
+   SECTION 2: WHY US?
+────────────────────────────── */
+.why-us { display: flex; }
+.why-us .astro-bg {
+  background-position: 65% 40%;
+  opacity: 0.5;
+}
+.why-us-left {
+  position: relative;
+  z-index: 2;
+  width: 52%;
+  flex-shrink: 0;
+  overflow: hidden;
+  min-height: 100vh;
+}
+.why-us-left img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.82);
+}
+.why-us-right {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  padding: 60px 44px 60px 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.why-us-heading {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  color: var(--yellow);
+  line-height: 1.5;
+  letter-spacing: 2px;
+  margin-bottom: 40px;
+  text-shadow: 0 0 32px rgba(255,215,0,0.25);
+}
+.why-us-body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.95rem;
+  color: var(--white);
+  line-height: 1.8;
+}
 
-  /* ── REVIEWS ── */
-  .reviews { background:var(--gray); border-top:1px solid rgba(255,255,255,.04); padding:80px 48px; }
-  .reviews-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; max-width:1100px; margin:0 auto 28px; }
-  .review-card { background:var(--black); border:1.5px solid rgba(255,225,77,.12); padding:24px 22px; display:grid; gap:10px; align-content:start; }
-  .review-top { display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
-  .review-name { font-weight:700; color:rgba(245,245,245,.88); font-size:1.05rem; }
-  .review-rating { font-family:'Press Start 2P',monospace; font-size:.42rem; color:var(--yellow); white-space:nowrap; }
-  .review-meta { color:rgba(245,245,245,.45); font-weight:600; font-size:.95rem; }
-  .review-text { color:rgba(245,245,245,.65); font-weight:500; line-height:1.65; font-size:1rem; }
+/* ──────────────────────────────
+   SECTION 3: AFFORDABLE. QUALITY. CONSISTENT.
+────────────────────────────── */
+.aqc .astro-bg {
+  background-position: 72% 85%;
+  opacity: 0.5;
+}
+.aqc-main {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  min-height: calc(100vh - 120px);
+  align-items: center;
+}
+.aqc-heading-col {
+  width: 67%;
+  padding: 60px 20px 40px 22px;
+  display: flex;
+  align-items: center;
+}
+.aqc-heading {
+  font-family: 'Press Start 2P', monospace;
+  color: var(--yellow);
+  font-size: clamp(1.8rem, 4.2vw, 5.2rem);
+  line-height: 1.55;
+  letter-spacing: 2px;
+  text-shadow: 0 0 48px rgba(255,215,0,0.3);
+}
+.aqc-body-col {
+  width: 33%;
+  padding: 60px 32px 40px 20px;
+  display: flex;
+  align-items: center;
+}
+.aqc-body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.93rem;
+  color: var(--white);
+  line-height: 1.8;
+}
+.aqc-buttons {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  padding: 0 40px 60px;
+  flex-wrap: wrap;
+}
 
-  /* ── FOOTER CTA ── */
-  .footer-cta { background:var(--black); border-top:1px solid rgba(255,255,255,.04); padding:80px 48px; text-align:center; }
-  .footer-cta h2 { font-family:'Press Start 2P',monospace; font-size:clamp(.7rem,1.5vw,.9rem); color:var(--yellow); line-height:2; letter-spacing:2px; margin-bottom:16px; }
-  .footer-cta p { font-size:1.1rem; color:var(--muted); font-weight:600; margin-bottom:36px; }
+/* ── BUTTONS ── */
+.btn-neon {
+  display: inline-block;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--white);
+  text-decoration: none;
+  padding: 20px 56px;
+  border-radius: 50px;
+  border: 2px solid var(--neon-magenta);
+  box-shadow: 0 0 12px var(--neon-magenta), 0 0 28px rgba(255,0,255,0.2);
+  background: transparent;
+  transition: all 0.2s;
+  cursor: pointer;
+  text-transform: lowercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.btn-neon:hover {
+  background: rgba(255,0,255,0.1);
+  box-shadow: 0 0 22px var(--neon-magenta), 0 0 48px rgba(255,0,255,0.38);
+  transform: translateY(-2px);
+}
+.btn-neon-green {
+  border-color: var(--neon-green);
+  box-shadow: 0 0 12px var(--neon-green), 0 0 28px rgba(0,255,127,0.2);
+}
+.btn-neon-green:hover {
+  background: rgba(0,255,127,0.08);
+  box-shadow: 0 0 22px var(--neon-green), 0 0 48px rgba(0,255,127,0.35);
+}
+.btn-neon-cyan {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 12px var(--neon-cyan), 0 0 28px rgba(0,255,255,0.2);
+}
+.btn-neon-cyan:hover {
+  background: rgba(0,255,255,0.08);
+  box-shadow: 0 0 22px var(--neon-cyan), 0 0 48px rgba(0,255,255,0.35);
+}
+.btn-neon-hero {
+  display: inline-block;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--white);
+  text-decoration: none;
+  padding: 20px 64px;
+  border-radius: 50px;
+  border: 2.5px solid var(--neon-magenta);
+  box-shadow: 0 0 14px var(--neon-magenta), 0 0 32px rgba(255,0,255,0.28);
+  background: transparent;
+  transition: all 0.2s;
+  text-transform: lowercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.btn-neon-hero:hover {
+  background: rgba(255,0,255,0.1);
+  box-shadow: 0 0 24px var(--neon-magenta), 0 0 56px rgba(255,0,255,0.42);
+  transform: translateY(-2px);
+}
 
-  /* ── FOOTER ── */
-  footer { background:#080808; border-top:2px solid rgba(255,225,77,.2); padding:26px 48px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
-  .footer-copy { font-family:'Press Start 2P',monospace; font-size:.36rem; color:var(--muted); letter-spacing:1px; line-height:2; }
-  .footer-links { display:flex; gap:20px; flex-wrap:wrap; }
-  .footer-links a { font-family:'Press Start 2P',monospace; font-size:.36rem; color:rgba(245,245,245,.35); text-decoration:none; letter-spacing:1px; transition:color .2s; }
-  .footer-links a:hover { color:var(--yellow); }
+/* ── FOOTER ── */
+footer {
+  background: #080808;
+  border-top: 1px solid rgba(255,215,0,0.15);
+  padding: 28px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  position: relative;
+  z-index: 2;
+}
+.footer-copy {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.35rem;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 1px;
+  line-height: 2.2;
+}
+.footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+.footer-links a {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.34rem;
+  color: rgba(255,255,255,0.28);
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--yellow); }
 
-
-  /* ── MOBILE ── */
-  @media(max-width:960px) {
-    nav { padding:0 16px; }
-    .nav-links { display:none; position:absolute; top:64px; left:0; right:0; background:rgba(0,0,0,.99); border-bottom:2px solid var(--yellow); flex-direction:column; align-items:flex-start; padding:12px 16px; gap:4px; z-index:999; }
-    .nav-links.open { display:flex; }
-    .nav-link,.nav-portal,.nav-cta { font-size:.42rem; padding:10px 8px; margin:0; }
-    .nav-cta { background:transparent; color:var(--yellow); border:1px solid rgba(255,225,77,.3); }
-    .hamburger { display:flex; align-items:center; justify-content:center; }
-    .hero-content { padding:60px 28px 240px 28px; max-width:100%; }
-    .hero-moon { width:90%; right:-20%; opacity:.5; }
-    .proof-bar { padding:16px 20px; gap:16px; }
-    .what-inner { grid-template-columns:1fr; gap:32px; }
-    .what-we-do { padding:60px 24px; }
-    .steps-row { grid-template-columns:1fr 1fr; }
-    .step-box { min-height:280px; }
-    .why-grid { grid-template-columns:1fr 1fr; gap:12px; }
-    .why,.how,.products-preview,.footer-cta { padding:60px 20px; }
-    .preview-grid { grid-template-columns:1fr; }
-    .reviews { padding:60px 20px; }
-    .reviews-grid { grid-template-columns:1fr; }
-    footer { padding:24px; flex-direction:column; text-align:center; }
-  }
-  @media(max-width:480px) {
-    .steps-row { grid-template-columns:1fr; }
-    .why-grid { grid-template-columns:1fr; }
-  }
+/* ── MOBILE ── */
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-right { display: none; }
+  .hero-left { padding: 50px 24px 50px 20px; }
+  .hero-heading { font-size: clamp(1.3rem, 6vw, 2.2rem); }
+  .hero-body { margin-left: 0; max-width: 100%; }
+  .hero-btn-area { padding-left: 0; }
+  .why-us { flex-direction: column; }
+  .why-us-left { width: 100%; min-height: 45vw; height: 45vw; }
+  .why-us-right { padding: 44px 24px; }
+  .why-us-heading { font-size: clamp(1.3rem, 6vw, 2rem); }
+  .aqc-main { flex-direction: column; min-height: auto; padding-bottom: 20px; }
+  .aqc-heading-col, .aqc-body-col { width: 100%; }
+  .aqc-heading { font-size: clamp(1.4rem, 5vw, 2.5rem); }
+  .aqc-buttons { flex-direction: column; gap: 18px; padding: 0 24px 50px; }
+  .btn-neon, .btn-neon-hero { width: 100%; max-width: 340px; text-align: center; padding: 18px 20px; }
+}
+@media (max-width: 480px) {
+  .hero-heading { font-size: 1.1rem; }
+  .aqc-heading { font-size: 1.1rem; }
+}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ── NAV ── -->
 <nav>
-  <a href="/" class="nav-logo">SMALL <span>SHOP TEES</span></a>
-  <div class="nav-links" id="navLinks">
-    <a href="/how-it-works/" class="nav-link">HOW IT WORKS</a>
-    <a href="/products/" class="nav-link">PRODUCTS</a>
-    <a href="/pricing/" class="nav-link">PRICING</a>
-    <a href="/faq/" class="nav-link">FAQ</a>
-    <a href="/about/" class="nav-link">ABOUT</a>
-    <a href="/portal/" class="nav-portal">CLIENT LOGIN</a>
-    <a href="/quote/" class="nav-cta">GET A QUOTE</a>
+  <a href="/" class="nav-brand">smallshoptees.com</a>
+  <div class="nav-right">
+    <button class="nav-hamburger" id="navToggle" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="/portal/" class="nav-user-icon" aria-label="Client account">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z"/>
+      </svg>
+    </a>
   </div>
-  <button class="hamburger" id="navToggle" aria-label="Menu">
-    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-  </button>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="stars"></div>
-  <div class="hero-moon"><img src="/assets/moon.png" alt=""></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow">PORTLAND'S B2B SHIRT SERVICE</div>
-    <h1>ONE SMALL PURCHASE<br>FOR YOUR BUSINESS<br>ONE GIANT LEAP<br>IN BRAND<br>RECOGNITION</h1>
-    <p class="hero-sub">You share an idea. We design, print, deliver, and restock. No hassle — from first call to automatic reorder.</p>
-    <div class="hero-cta-wrap">
-      <div class="btn-cta-gradient-wrap">
-        <a href="/quote/" class="btn-cta-gradient">GET A FREE QUOTE</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SOCIAL PROOF BAR -->
-<div class="proof-bar">
-  <div class="proof-label">TRUSTED BY</div>
-  <div class="proof-items">
-    <span class="proof-item">Restaurants</span>
-    <span class="proof-dot">·</span>
-    <span class="proof-item">Cafes</span>
-    <span class="proof-dot">·</span>
-    <span class="proof-item">Gyms &amp; Studios</span>
-    <span class="proof-dot">·</span>
-    <span class="proof-item">Retail Boutiques</span>
-    <span class="proof-dot">·</span>
-    <span class="proof-item">Food Trucks</span>
-    <span class="proof-dot">·</span>
-    <span class="proof-item">Breweries</span>
-  </div>
+<!-- ── NAV MENU OVERLAY ── -->
+<div class="nav-menu" id="navMenu">
+  <a href="/">HOME</a>
+  <a href="/gallery/">GALLERY</a>
+  <a href="/pricing/">PRICING</a>
+  <a href="/contact/">CONTACT</a>
+  <a href="/faq/">FAQ</a>
+  <a href="/products/">PRODUCTS</a>
+  <a href="/how-it-works/">HOW IT WORKS</a>
+  <a href="/portal/">CLIENT LOGIN</a>
+  <a href="/quote/" class="nav-menu-cta">GET A QUOTE</a>
 </div>
 
-<!-- WHAT WE DO -->
-<section class="what-we-do">
-  <div class="what-inner">
-    <div class="what-text">
-      <h2>YOUR BRAND.<br>OUR MISSION.</h2>
-      <p>We're a Portland-based fulfillment service built exclusively for small businesses. You give us a design idea — we take care of everything else.</p>
-      <p>One call is all it takes to get started. We handle design, sourcing, printing, local delivery, and automatic restocking so you never run out of shirts.</p>
-      <a href="/how-it-works/">SEE HOW IT WORKS →</a>
-    </div>
-    <ul class="what-value-list">
-      <li>
-        <span class="wv-icon">
-          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        </span>
-        <span class="wv-text"><strong>Local Portland Delivery</strong>We deliver directly to your business — no shipping delays, no missed pickups.</span>
-      </li>
-      <li>
-        <span class="wv-icon">
-          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-        </span>
-        <span class="wv-text"><strong>Design Facilitation Included</strong>No artwork? No problem. Just share an idea and we create it with you.</span>
-      </li>
-      <li>
-        <span class="wv-icon">
-          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-        </span>
-        <span class="wv-text"><strong>Automatic Restock Program</strong>We track your inventory and reorder before you run out — no calls needed.</span>
-      </li>
-    </ul>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="how">
-  <div class="section-label">HOW IT WORKS</div>
-  <div class="section-sub">Simple from your first call to your next restock.</div>
-  <div class="steps-row">
-    <div class="step-box">
-      <img src="/assets/step1.jpg" alt="Share your idea">
-      <div class="step-box-inner">
-        <div class="step-num">STEP 01</div>
-        <h3 class="step-box-title">YOU SHARE<br>AN IDEA</h3>
-        <p class="step-box-desc">No design experience needed — just tell us what you're going for.</p>
+<!-- ══════════════════════════════════
+     SECTION 1: HERO
+══════════════════════════════════ -->
+<section class="section hero">
+  <div class="astro-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <h1 class="hero-heading">POPULARITY<br>MADE SIMPLE</h1>
+      <p class="hero-body">Build connections with your customer base and gain free advertising along the way with custom t-shirts for your business. We manage everything from design to restock.</p>
+      <div class="hero-btn-area">
+        <a href="/quote/" class="btn-neon-hero">get a quote</a>
       </div>
     </div>
-    <div class="step-box">
-      <img src="/assets/step2.jpg" alt="We create the design">
-      <div class="step-box-inner">
-        <div class="step-num">STEP 02</div>
-        <h3 class="step-box-title">WE CREATE<br>THE DESIGN</h3>
-        <p class="step-box-desc">Our team builds a mockup. You approve, we print.</p>
-      </div>
-    </div>
-    <div class="step-box">
-      <img src="/assets/step3.jpg" alt="Shirts delivered">
-      <div class="step-box-inner">
-        <div class="step-num">STEP 03</div>
-        <h3 class="step-box-title">SHIRTS ON<br>YOUR DOOR</h3>
-        <p class="step-box-desc">Delivered direct to your business — on hangers, ready to display.</p>
-      </div>
-    </div>
-    <div class="step-box">
-      <img src="/assets/step4.jpg" alt="Automatic restock">
-      <div class="step-box-inner">
-        <div class="step-num">STEP 04</div>
-        <h3 class="step-box-title">WE RESTOCK<br>AUTOMATICALLY</h3>
-        <p class="step-box-desc">Enrolled clients never run out. We track inventory for you.</p>
-      </div>
-    </div>
-  </div>
-  <div class="how-more">
-    <a href="/how-it-works/">VIEW FULL PROCESS INCLUDING TIMELINE →</a>
-  </div>
-</section>
-
-<!-- WHY US -->
-<section class="why">
-  <div class="section-label">WHY SMALL SHOP TEES</div>
-  <div class="section-sub">Built for Portland small businesses — not big box accounts.</div>
-  <div class="why-grid">
-    <div class="why-card">
-      <div class="why-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-      <h4>LOCAL<br>DELIVERY</h4>
-      <p>We deliver to your business directly. No shipping delays, no missing packages.</p>
-    </div>
-    <div class="why-card">
-      <div class="why-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>
-      <h4>HANGERS<br>INCLUDED</h4>
-      <p>Every order arrives ready to hang. No extra prep work for your staff.</p>
-    </div>
-    <div class="why-card">
-      <div class="why-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
-      <h4>RESTOCK<br>PROGRAM</h4>
-      <p>We monitor your inventory and automatically reorder before you run out.</p>
-    </div>
-    <div class="why-card">
-      <div class="why-icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-      <h4>PERSONAL<br>REP</h4>
-      <p>One dedicated account rep. Call or text us directly — no call centers.</p>
+    <div class="hero-right">
+      <div class="hero-brand-diagonal">smallshoptees.com</div>
     </div>
   </div>
 </section>
 
-<!-- PRODUCTS PREVIEW -->
-<section class="products-preview">
-  <div class="section-label">AVAILABLE STYLES</div>
-  <div class="section-sub">Quality shirts your crew actually wants to wear.</div>
-  <div class="preview-grid">
-    <div class="preview-card">
-      <div class="preview-swatch">👕</div>
-      <div class="preview-info">
-        <div class="preview-style">STANDARD TEE</div>
-        <div class="preview-desc">our signature no-nonsense t-shirt.</div>
-        <div class="preview-colors">
-          <span class="preview-dot" style="background:#1a1a1a;border-color:#555;"></span>
-          <span class="preview-dot" style="background:#fff;"></span>
-          <span class="preview-dot" style="background:#2c4a8c;"></span>
-          <span class="preview-dot" style="background:#8b1a1a;"></span>
-          <span class="preview-dot" style="background:#2d5a2d;"></span>
-          <span class="preview-dot" style="background:#555;"></span>
-          <span class="preview-dot" style="background:#3d2b1a;"></span>
-        </div>
-        <div class="preview-min">Min. 50 shirts</div>
-      </div>
+<!-- ══════════════════════════════════
+     SECTION 2: WHY US?
+══════════════════════════════════ -->
+<section class="section why-us">
+  <div class="astro-bg"></div>
+  <div class="why-us-left">
+    <img src="/assets/step2.jpg" alt="Custom t-shirt service for your business">
+  </div>
+  <div class="why-us-right">
+    <h2 class="why-us-heading">Why Us?</h2>
+    <p class="why-us-body">We understand the headaches managing a small business entails, especially in the current economy. Our T-shirts provide a way to help you boost profits in a way that builds a lasting connection in your community without causing you any stress. Our goal is to give you seamless, reliable service that doesn't get in your way by handling every step of the custom T-shirt process for you from design to delivery to reliable restocks. Using our service means no headaches, no delays, and infinite potential for YOU.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     SECTION 3: AFFORDABLE. QUALITY. CONSISTENT.
+══════════════════════════════════ -->
+<section class="section aqc">
+  <div class="astro-bg"></div>
+  <div class="aqc-main">
+    <div class="aqc-heading-col">
+      <h2 class="aqc-heading">Affordable.<br>Quality.<br>Consistent.</h2>
+    </div>
+    <div class="aqc-body-col">
+      <p class="aqc-body">We source only the highest quality 200+ GSM 100% cotton T-shirts optimized for fit and feel. Our unique quality control process ensures complete satisfaction, and it's all tied together with exceptional support.</p>
     </div>
   </div>
-  <div class="preview-more">
-    <a href="/products/" class="btn-yellow">SEE ALL PRODUCTS</a>
+  <div class="aqc-buttons">
+    <a href="/quote/" class="btn-neon">get a quote</a>
+    <a href="/contact/" class="btn-neon btn-neon-green">contact us</a>
+    <a href="/pricing/" class="btn-neon btn-neon-cyan">view pricing</a>
   </div>
 </section>
 
-<!-- REVIEWS -->
-<section class="reviews" aria-labelledby="reviews-title">
-  <div id="reviews-title" class="section-label">CLIENT REVIEWS</div>
-  <div class="section-sub">What Portland businesses say.</div>
-  <div class="reviews-grid">
-    <article class="review-card">
-      <div class="review-top"><div class="review-name">Alex R.</div><div class="review-rating">★★★★★</div></div>
-      <div class="review-meta">Coffee shop · Pearl District</div>
-      <div class="review-text">Fast turnaround and the print quality was way better than our last vendor. The restock program means we never have to think about it.</div>
-    </article>
-    <article class="review-card">
-      <div class="review-top"><div class="review-name">Maya S.</div><div class="review-rating">★★★★★</div></div>
-      <div class="review-meta">Yoga studio · NE Portland</div>
-      <div class="review-text">We sent a rough idea and they turned it into something our members actually want to wear. The delivery was right to our door, on hangers.</div>
-    </article>
-    <article class="review-card">
-      <div class="review-top"><div class="review-name">Chris T.</div><div class="review-rating">★★★★★</div></div>
-      <div class="review-meta">Food truck · SE Portland</div>
-      <div class="review-text">Honest pricing, super responsive, and shirts that held up all season. Having a personal rep to text is huge — no corporate runaround.</div>
-    </article>
-  </div>
-</section>
-
-<!-- FOOTER CTA -->
-<section class="footer-cta">
-  <h2>READY TO GET STARTED?<br>IT TAKES 5 MINUTES.</h2>
-  <p>Share your idea. We handle everything else — design, printing, delivery, and restocking.</p>
-  <div class="btn-cta-gradient-wrap">
-    <a href="/quote/" class="btn-cta-gradient">GET A FREE QUOTE</a>
-  </div>
-</section>
-
-<!-- FOOTER -->
+<!-- ── FOOTER ── -->
 <footer>
   <div class="footer-copy">© 2025 SMALL SHOP TEES · PORTLAND, OREGON<br>CUSTOM BRANDED SHIRTS FOR SMALL BUSINESSES</div>
   <div class="footer-links">
-    <a href="/how-it-works/">HOW IT WORKS</a>
-    <a href="/products/">PRODUCTS</a>
+    <a href="/gallery/">GALLERY</a>
     <a href="/pricing/">PRICING</a>
+    <a href="/contact/">CONTACT</a>
     <a href="/faq/">FAQ</a>
-    <a href="/about/">ABOUT</a>
+    <a href="/products/">PRODUCTS</a>
+    <a href="/how-it-works/">HOW IT WORKS</a>
     <a href="/portal/">CLIENT LOGIN</a>
     <a href="/quote/">GET A QUOTE</a>
   </div>
 </footer>
 
 <script>
-  document.getElementById('navToggle').addEventListener('click', function() {
-    document.getElementById('navLinks').classList.toggle('open');
-  });
+  const toggle = document.getElementById('navToggle');
+  const menu = document.getElementById('navMenu');
+  toggle.addEventListener('click', () => menu.classList.toggle('open'));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.remove('open')));
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/assets/supabase.js"></script>
-<script>
-  // Dynamic reviews: replace hardcoded cards with Supabase data if backend is live
-  if (sbReady()) {
-    _sb.from('reviews')
-      .select('reviewer_name,business,rating,body')
-      .eq('visible', true)
-      .order('display_order')
-      .then(function(result) {
-        var data = result.data;
-        if (!data || data.length === 0) return; // keep hardcoded fallback
-        var grid = document.querySelector('.reviews-grid');
-        if (!grid) return;
-        var stars = function(n) { return '★'.repeat(n) + '☆'.repeat(5 - n); };
-        function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-        grid.innerHTML = data.map(function(r) {
-          return '<article class="review-card">' +
-            '<div class="review-top">' +
-              '<div class="review-name">' + esc(r.reviewer_name) + '</div>' +
-              '<div class="review-rating">' + stars(r.rating) + '</div>' +
-            '</div>' +
-            '<div class="review-meta">' + esc(r.business) + '</div>' +
-            '<div class="review-text">' + esc(r.body) + '</div>' +
-          '</article>';
-        }).join('');
-      });
-  }
-</script>
 </body>
 </html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery – Small Shop Tees</title>
+<meta name="description" content="See our custom branded t-shirt work. Real designs for real Portland small businesses.">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@800;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --black: #000000;
+  --yellow: #FFD700;
+  --white: #FFFFFF;
+  --gradient: linear-gradient(90deg, #FF00FF 0%, #FF8C00 50%, #0000FF 100%);
+}
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Open Sans', sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  height: 59px;
+  background: rgba(0,0,0,0.96);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+.nav-brand {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 900;
+  font-size: 1.45rem;
+  color: var(--white);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+}
+.nav-right { display: flex; align-items: center; gap: 14px; }
+.nav-hamburger {
+  background: none; border: none; cursor: pointer;
+  padding: 4px; display: flex; flex-direction: column; gap: 5px;
+}
+.nav-hamburger span {
+  display: block; width: 26px; height: 2px;
+  background: var(--white); border-radius: 1px;
+}
+.nav-user-icon {
+  display: flex; align-items: center; justify-content: center;
+  width: 42px; height: 40px; background: rgba(255,255,255,0.08);
+  border-radius: 8px; text-decoration: none; transition: background 0.2s;
+}
+.nav-user-icon:hover { background: rgba(255,255,255,0.16); }
+.nav-user-icon svg { width: 22px; height: 22px; fill: var(--white); }
+.nav-menu {
+  display: none; position: fixed;
+  top: 59px; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.98); z-index: 999;
+  flex-direction: column; align-items: center; justify-content: center; gap: 28px;
+}
+.nav-menu.open { display: flex; }
+.nav-menu a {
+  font-family: 'Press Start 2P', monospace; font-size: 0.6rem;
+  color: rgba(255,255,255,0.55); text-decoration: none;
+  letter-spacing: 2px; transition: color 0.2s; padding: 6px 0;
+}
+.nav-menu a:hover { color: var(--yellow); }
+.nav-menu .nav-menu-cta {
+  color: var(--black); background: var(--yellow);
+  padding: 14px 28px; letter-spacing: 1px; margin-top: 8px;
+}
+
+/* ── GALLERY PAGE ── */
+.gallery-page {
+  padding-top: 59px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* "GALLERY" heading — massive pixel font, full width */
+.gallery-heading-wrap {
+  padding: 38px 0 0;
+  text-align: center;
+  overflow: hidden;
+}
+.gallery-heading {
+  font-family: 'Press Start 2P', monospace;
+  color: var(--yellow);
+  font-size: clamp(3rem, 12vw, 12rem);
+  letter-spacing: 4px;
+  line-height: 1;
+  text-shadow: 0 0 60px rgba(255,215,0,0.3);
+  white-space: nowrap;
+}
+
+/* Gallery card grid */
+.gallery-cards {
+  padding: 40px 28px 60px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  flex: 1;
+}
+
+/* Individual card with gradient border */
+.gallery-card {
+  position: relative;
+  border-radius: 32px;
+  padding: 3px; /* border thickness via padding + gradient bg */
+  background: var(--gradient);
+  min-height: 420px;
+  overflow: hidden;
+}
+.gallery-card-inner {
+  background: #bbb;
+  border-radius: 30px;
+  width: 100%;
+  height: 100%;
+  min-height: 414px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+.gallery-card-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 30px;
+}
+
+/* Placeholder (shown when no image loaded) */
+.gallery-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: #555;
+  width: 100%;
+  height: 100%;
+  min-height: 380px;
+}
+.gallery-placeholder svg {
+  width: 80px;
+  height: 80px;
+  opacity: 0.5;
+}
+.gallery-placeholder span {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.4rem;
+  color: #666;
+  letter-spacing: 1px;
+}
+
+/* Label overlay on card */
+.gallery-card-label {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.42rem;
+  color: var(--white);
+  background: rgba(0,0,0,0.6);
+  padding: 10px 16px;
+  border-radius: 8px;
+  letter-spacing: 1px;
+  backdrop-filter: blur(4px);
+  display: none; /* shown only when image loaded */
+}
+
+/* CTA section below cards */
+.gallery-cta {
+  text-align: center;
+  padding: 0 20px 60px;
+}
+.gallery-cta p {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+.btn-gradient {
+  display: inline-block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.55rem;
+  color: var(--black);
+  text-decoration: none;
+  padding: 22px 48px;
+  border-radius: 50px;
+  background: var(--gradient);
+  letter-spacing: 1px;
+  transition: opacity 0.2s, transform 0.2s;
+  border: none;
+  cursor: pointer;
+}
+.btn-gradient:hover { opacity: 0.9; transform: translateY(-2px); }
+
+/* ── FOOTER ── */
+footer {
+  background: #080808;
+  border-top: 1px solid rgba(255,215,0,0.15);
+  padding: 28px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-copy {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.35rem;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 1px;
+  line-height: 2.2;
+}
+.footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+.footer-links a {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.34rem;
+  color: rgba(255,255,255,0.28);
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--yellow); }
+
+/* ── MOBILE ── */
+@media (max-width: 700px) {
+  .gallery-heading { font-size: clamp(2rem, 14vw, 5rem); white-space: normal; word-break: break-all; }
+  .gallery-cards { grid-template-columns: 1fr; gap: 20px; padding: 32px 20px 48px; }
+  .gallery-card, .gallery-card-inner { min-height: 280px; }
+  .gallery-placeholder { min-height: 260px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="/" class="nav-brand">smallshoptees.com</a>
+  <div class="nav-right">
+    <button class="nav-hamburger" id="navToggle" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="/portal/" class="nav-user-icon" aria-label="Client account">
+      <svg viewBox="0 0 24 24"><path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z"/></svg>
+    </a>
+  </div>
+</nav>
+<div class="nav-menu" id="navMenu">
+  <a href="/">HOME</a>
+  <a href="/gallery/">GALLERY</a>
+  <a href="/pricing/">PRICING</a>
+  <a href="/contact/">CONTACT</a>
+  <a href="/faq/">FAQ</a>
+  <a href="/products/">PRODUCTS</a>
+  <a href="/how-it-works/">HOW IT WORKS</a>
+  <a href="/portal/">CLIENT LOGIN</a>
+  <a href="/quote/" class="nav-menu-cta">GET A QUOTE</a>
+</div>
+
+<!-- ── GALLERY PAGE ── -->
+<div class="gallery-page">
+
+  <!-- GALLERY heading -->
+  <div class="gallery-heading-wrap">
+    <h1 class="gallery-heading">GALLERY</h1>
+  </div>
+
+  <!-- Image cards -->
+  <div class="gallery-cards" id="galleryCards">
+
+    <div class="gallery-card">
+      <div class="gallery-card-inner">
+        <div class="gallery-placeholder">
+          <!-- Mountain/landscape placeholder SVG (matches Canva spec) -->
+          <svg viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="120" height="80" fill="#aaa" rx="4"/>
+            <circle cx="90" cy="20" r="12" fill="#888"/>
+            <polygon points="0,80 40,30 70,55 85,40 120,80" fill="#777"/>
+          </svg>
+          <span>COMING SOON</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="gallery-card">
+      <div class="gallery-card-inner">
+        <div class="gallery-placeholder">
+          <svg viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="120" height="80" fill="#aaa" rx="4"/>
+            <circle cx="90" cy="20" r="12" fill="#888"/>
+            <polygon points="0,80 40,30 70,55 85,40 120,80" fill="#777"/>
+          </svg>
+          <span>COMING SOON</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CTA -->
+  <div class="gallery-cta">
+    <p>Ready to get your own custom shirts? Let's build something your customers will love.</p>
+    <a href="/quote/" class="btn-gradient">GET A FREE QUOTE</a>
+  </div>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-copy">© 2025 SMALL SHOP TEES · PORTLAND, OREGON<br>CUSTOM BRANDED SHIRTS FOR SMALL BUSINESSES</div>
+  <div class="footer-links">
+    <a href="/gallery/">GALLERY</a>
+    <a href="/pricing/">PRICING</a>
+    <a href="/contact/">CONTACT</a>
+    <a href="/faq/">FAQ</a>
+    <a href="/products/">PRODUCTS</a>
+    <a href="/portal/">CLIENT LOGIN</a>
+    <a href="/quote/">GET A QUOTE</a>
+  </div>
+</footer>
+
+<script>
+  const toggle = document.getElementById('navToggle');
+  const menu = document.getElementById('navMenu');
+  toggle.addEventListener('click', () => menu.classList.toggle('open'));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.classList.remove('open')));
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/assets/supabase.js"></script>
+<script>
+// Load gallery images from Supabase if configured
+if (typeof sbReady === 'function' && sbReady()) {
+  _sb.from('gallery')
+    .select('image_url, label, display_order')
+    .eq('visible', true)
+    .order('display_order')
+    .then(function(result) {
+      if (!result.data || result.data.length === 0) return;
+      var container = document.getElementById('galleryCards');
+      if (!container) return;
+      function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+      container.innerHTML = result.data.map(function(r) {
+        return '<div class="gallery-card">' +
+          '<div class="gallery-card-inner">' +
+            '<img src="' + esc(r.image_url) + '" alt="' + esc(r.label || 'Gallery image') + '" loading="lazy">' +
+            (r.label ? '<div class="gallery-card-label" style="display:block">' + esc(r.label) + '</div>' : '') +
+          '</div>' +
+        '</div>';
+      }).join('');
+    });
+}
+</script>
+</body>
+</html>

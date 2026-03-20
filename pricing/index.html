@@ -5,170 +5,204 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pricing – Small Shop Tees Portland</title>
 <meta name="description" content="Transparent, straightforward pricing for custom branded shirts. Standard and restock tiers with full service included. No hidden fees.">
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@800;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  :root { --black:#000; --yellow:#FFE14D; --orange:#FF9F43; --white:#f5f5f5; --gray:#141414; --gray2:#1a1a1a; --muted:#777; }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:'Rajdhani',sans-serif; background:var(--black); color:var(--white); min-height:100vh; }
-  body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index:0; background-image:radial-gradient(1px 1px at 10% 20%,rgba(255,255,255,.5) 0%,transparent 100%),radial-gradient(1px 1px at 80% 60%,rgba(255,255,255,.4) 0%,transparent 100%),radial-gradient(1px 1px at 45% 80%,rgba(255,225,77,.3) 0%,transparent 100%),radial-gradient(1px 1px at 65% 35%,rgba(255,255,255,.25) 0%,transparent 100%); }
-  nav { position:sticky; top:0; z-index:1000; background:rgba(0,0,0,.97); backdrop-filter:blur(12px); border-bottom:2px solid var(--yellow); height:64px; padding:0 32px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
-  .nav-logo { font-family:'Press Start 2P',monospace; font-size:.7rem; color:var(--white); text-decoration:none; white-space:nowrap; flex-shrink:0; }
-  .nav-logo span { color:var(--yellow); }
-  .nav-links { display:flex; align-items:center; gap:2px; }
-  .nav-link { font-family:'Press Start 2P',monospace; font-size:.33rem; color:rgba(245,245,245,.5); text-decoration:none; padding:6px 7px; letter-spacing:.5px; white-space:nowrap; transition:color .2s; }
-  .nav-link:hover,.nav-link.active { color:var(--yellow); }
-  .nav-portal { font-family:'Press Start 2P',monospace; font-size:.33rem; color:rgba(245,245,245,.5); text-decoration:none; padding:6px 10px; letter-spacing:.5px; border:1px solid rgba(255,225,77,.25); white-space:nowrap; transition:color .2s,border-color .2s; margin-left:4px; }
-  .nav-portal:hover { color:var(--yellow); border-color:rgba(255,225,77,.7); }
-  .nav-cta { font-family:'Press Start 2P',monospace; font-size:.33rem; color:var(--black); background:var(--yellow); text-decoration:none; padding:8px 14px; white-space:nowrap; margin-left:4px; transition:opacity .2s; }
-  .nav-cta:hover { opacity:.85; }
-  .hamburger { display:none; background:none; border:2px solid rgba(255,225,77,.3); cursor:pointer; padding:6px 10px; color:var(--white); flex-shrink:0; }
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#000; color:#fff; font-family:'Open Sans',sans-serif; min-height:100vh; padding-top:59px; }
 
-  .page-wrap { position:relative; z-index:1; max-width:900px; margin:0 auto; padding:64px 32px 80px; }
-  .page-eyebrow { display:inline-flex; align-items:center; gap:8px; background:rgba(255,225,77,.1); border:1px solid rgba(255,225,77,.4); color:var(--yellow); font-family:'Press Start 2P',monospace; font-size:.42rem; letter-spacing:2px; padding:8px 16px; margin-bottom:24px; }
-  .page-title { font-family:'Press Start 2P',monospace; font-size:clamp(.9rem,2.5vw,1.2rem); color:var(--yellow); line-height:1.7; margin-bottom:12px; text-shadow:0 0 20px rgba(255,225,77,.3); }
-  .page-sub { font-size:1.1rem; color:var(--muted); margin-bottom:48px; font-weight:500; line-height:1.6; }
+  /* NAV */
+  nav { position:fixed; top:0; left:0; right:0; z-index:2000; height:59px; background:rgba(0,0,0,0.96); display:flex; align-items:center; justify-content:space-between; padding:0 24px; }
+  .nav-brand { font-family:'Nunito',sans-serif; font-weight:900; font-size:1.45rem; color:#fff; text-decoration:none; white-space:nowrap; }
+  .nav-right { display:flex; align-items:center; gap:14px; }
+  .hamburger-btn { background:none; border:none; cursor:pointer; display:flex; flex-direction:column; gap:5px; padding:4px; }
+  .hamburger-btn span { display:block; width:22px; height:2px; background:#fff; border-radius:2px; }
+  .user-icon-link { display:flex; align-items:center; justify-content:center; width:34px; height:34px; background:rgba(255,255,255,0.12); border-radius:8px; text-decoration:none; }
+  .user-icon-link svg { width:18px; height:18px; fill:#fff; }
 
-  /* Pricing cards */
-  .pricing-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:32px; }
-  .price-card { background:var(--gray2); border:2px solid rgba(255,225,77,.18); padding:36px 32px; display:flex; flex-direction:column; gap:20px; position:relative; }
-  .price-card.featured { border-color:var(--yellow); }
-  .price-card.featured::before { content:'RECOMMENDED'; position:absolute; top:-14px; left:24px; font-family:'Press Start 2P',monospace; font-size:.32rem; background:var(--yellow); color:var(--black); padding:5px 10px; letter-spacing:1px; }
-  .pc-tier { font-family:'Press Start 2P',monospace; font-size:.42rem; color:var(--orange); letter-spacing:2px; }
-  .pc-name { font-family:'Press Start 2P',monospace; font-size:.7rem; color:var(--yellow); line-height:1.8; }
-  .pc-price-row { display:flex; align-items:baseline; gap:8px; }
-  .pc-price { font-family:'Press Start 2P',monospace; font-size:1.1rem; color:var(--yellow); }
-  .pc-per { font-size:.95rem; color:var(--muted); font-weight:600; }
-  .pc-note { font-size:.88rem; color:rgba(245,245,245,.45); font-weight:600; }
-  .pc-min { display:inline-flex; align-items:center; gap:6px; background:rgba(255,225,77,.08); border:1px solid rgba(255,225,77,.2); color:var(--yellow); font-family:'Press Start 2P',monospace; font-size:.35rem; padding:6px 12px; letter-spacing:1px; }
-  .pc-divider { height:1px; background:rgba(255,225,77,.1); }
-  .pc-includes { font-family:'Press Start 2P',monospace; font-size:.35rem; color:rgba(245,245,245,.4); letter-spacing:1px; margin-bottom:8px; }
-  .pc-features { list-style:none; display:flex; flex-direction:column; gap:10px; }
-  .pc-features li { display:flex; align-items:flex-start; gap:10px; font-size:.95rem; color:rgba(245,245,245,.75); font-weight:500; line-height:1.4; }
-  .pc-features li::before { content:'✓'; color:var(--yellow); font-weight:900; flex-shrink:0; }
-  .pc-cta { display:block; text-align:center; font-family:'Press Start 2P',monospace; font-size:.42rem; padding:16px; background:var(--yellow); color:var(--black); text-decoration:none; letter-spacing:1px; box-shadow:4px 4px 0 #a88c00; transition:all .15s; margin-top:auto; }
-  .pc-cta:hover { transform:translate(-2px,-2px); box-shadow:6px 6px 0 #a88c00; }
-  .pc-cta.outline { background:transparent; color:var(--yellow); border:2px solid var(--yellow); box-shadow:none; }
-  .pc-cta.outline:hover { background:rgba(255,225,77,.08); transform:none; box-shadow:none; }
+  /* NAV OVERLAY */
+  #navMenu { display:none; position:fixed; inset:0; z-index:1999; background:#000; flex-direction:column; align-items:center; justify-content:center; gap:28px; }
+  #navMenu.open { display:flex; }
+  .nav-menu-close { position:absolute; top:20px; right:24px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer; line-height:1; }
+  #navMenu a { font-family:'Press Start 2P',monospace; font-size:0.7rem; color:#fff; text-decoration:none; letter-spacing:2px; transition:color 0.2s; }
+  #navMenu a:hover { color:#FFD700; }
 
-  /* Restock callout */
-  .restock-callout { background:rgba(255,225,77,.06); border:2px solid var(--yellow); padding:32px; margin-bottom:32px; display:flex; gap:24px; align-items:flex-start; }
-  .rc-icon { font-size:2.5rem; flex-shrink:0; }
-  .rc-text h2 { font-family:'Press Start 2P',monospace; font-size:.55rem; color:var(--yellow); line-height:1.8; margin-bottom:12px; }
-  .rc-text p { font-size:1rem; color:rgba(245,245,245,.75); line-height:1.6; font-weight:500; margin-bottom:8px; }
-  .rc-text p:last-child { margin-bottom:0; }
+  /* PAGE HEADING */
+  .page-heading { padding:60px 32px 0; text-align:left; max-width:1100px; margin:0 auto; }
+  .page-heading h1 { font-family:'Press Start 2P',monospace; font-size:clamp(3rem, 10vw, 8rem); color:#FFD700; line-height:1.1; letter-spacing:-1px; }
 
-  /* Pricing FAQ */
-  .faq-block { background:var(--gray2); border:2px solid rgba(255,225,77,.15); margin-bottom:12px; position:relative; z-index:1; }
+  /* CONTENT */
+  .page-content { max-width:960px; margin:0 auto; padding:48px 32px 80px; }
+
+  .intro-text { font-family:'Open Sans',sans-serif; font-size:1rem; color:#fff; line-height:1.78; max-width:700px; margin-bottom:52px; }
+
+  /* PRICING GRID */
+  .pricing-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:48px; }
+
+  .price-card { background:#111; border:1px solid rgba(255,215,0,0.15); border-radius:12px; padding:28px; display:flex; flex-direction:column; gap:20px; position:relative; }
+  .price-card.featured { border-color:#FFD700; }
+  .featured-badge { position:absolute; top:-14px; left:24px; font-family:'Press Start 2P',monospace; font-size:0.3rem; background:linear-gradient(90deg,#FF00FF,#FF8C00,#0000FF); color:#000; padding:5px 12px; border-radius:50px; letter-spacing:1.5px; }
+
+  .card-tier { font-family:'Press Start 2P',monospace; font-size:0.38rem; color:#FF00FF; letter-spacing:2px; }
+  .card-name { font-family:'Press Start 2P',monospace; font-size:0.7rem; color:#FFD700; line-height:1.8; }
+  .card-price-row { display:flex; align-items:baseline; gap:8px; }
+  .card-price { font-family:'Press Start 2P',monospace; font-size:1.4rem; color:#FFD700; }
+  .card-per { font-family:'Open Sans',sans-serif; font-size:0.95rem; color:rgba(255,255,255,0.5); font-weight:600; }
+  .card-price-note { font-family:'Open Sans',sans-serif; font-size:0.85rem; color:rgba(255,255,255,0.4); }
+
+  .card-min { display:inline-flex; align-items:center; gap:6px; border:1px solid rgba(255,215,0,0.3); border-radius:50px; color:#FFD700; font-family:'Press Start 2P',monospace; font-size:0.3rem; padding:6px 14px; letter-spacing:1px; align-self:flex-start; }
+
+  .card-divider { height:1px; background:rgba(255,215,0,0.1); }
+
+  .card-includes-label { font-family:'Press Start 2P',monospace; font-size:0.3rem; color:rgba(255,255,255,0.35); letter-spacing:1px; }
+  .card-features { list-style:none; display:flex; flex-direction:column; gap:10px; }
+  .card-features li { display:flex; align-items:flex-start; gap:10px; font-family:'Open Sans',sans-serif; font-size:0.93rem; color:rgba(255,255,255,0.8); line-height:1.5; }
+  .card-features li::before { content:'✓'; color:#FFD700; font-weight:700; flex-shrink:0; margin-top:1px; }
+
+  .card-cta { display:block; text-align:center; font-family:'Press Start 2P',monospace; font-size:0.38rem; padding:16px 24px; background:linear-gradient(90deg,#FF00FF,#FF8C00,#0000FF); color:#000; text-decoration:none; border-radius:50px; letter-spacing:1px; margin-top:auto; transition:opacity 0.2s; }
+  .card-cta:hover { opacity:0.88; }
+  .card-cta.outline { background:transparent; color:#FF00FF; border:2px solid #FF00FF; box-shadow:0 0 12px rgba(255,0,255,0.25); }
+  .card-cta.outline:hover { box-shadow:0 0 20px rgba(255,0,255,0.45); }
+
+  /* RESTOCK CALLOUT */
+  .restock-callout { background:#111; border:1px solid rgba(255,215,0,0.15); border-radius:12px; padding:28px 32px; margin-bottom:48px; }
+  .restock-callout h2 { font-family:'Press Start 2P',monospace; font-size:0.5rem; color:#FFD700; line-height:1.8; margin-bottom:14px; }
+  .restock-callout p { font-family:'Open Sans',sans-serif; font-size:0.95rem; color:rgba(255,255,255,0.78); line-height:1.78; margin-bottom:8px; }
+  .restock-callout p:last-child { margin-bottom:0; }
+
+  /* PRICING FAQ */
+  .section-label { font-family:'Press Start 2P',monospace; font-size:0.42rem; color:#FFD700; letter-spacing:2px; margin-bottom:20px; }
+
+  .faq-block { background:#111; border:1px solid rgba(255,215,0,0.15); border-radius:12px; margin-bottom:10px; }
+  .faq-block.open { border-color:rgba(255,215,0,0.35); }
   .faq-q { display:flex; justify-content:space-between; align-items:center; padding:20px 24px; cursor:pointer; gap:16px; user-select:none; }
-  .faq-q-text { font-family:'Press Start 2P',monospace; font-size:.45rem; color:var(--yellow); line-height:1.8; flex:1; }
-  .faq-icon { color:var(--yellow); font-size:1.2rem; flex-shrink:0; transition:transform .25s; font-family:monospace; }
+  .faq-q-text { font-family:'Press Start 2P',monospace; font-size:0.38rem; color:#FFD700; line-height:1.8; flex:1; }
+  .faq-icon { color:#FFD700; font-size:1.3rem; flex-shrink:0; transition:transform 0.25s; font-family:monospace; line-height:1; }
   .faq-block.open .faq-icon { transform:rotate(45deg); }
-  .faq-a { display:none; padding:0 24px 20px; font-size:1rem; color:rgba(245,245,245,.75); line-height:1.7; font-weight:500; border-top:1px solid rgba(255,225,77,.08); padding-top:16px; }
+  .faq-a { display:none; padding:0 24px 20px; font-family:'Open Sans',sans-serif; font-size:0.93rem; color:rgba(255,255,255,0.75); line-height:1.78; border-top:1px solid rgba(255,215,0,0.08); padding-top:16px; }
   .faq-block.open .faq-a { display:block; }
 
-  .cta-strip { background:var(--gray2); border:2px solid rgba(255,225,77,.2); padding:36px; text-align:center; margin-top:40px; }
-  .cta-strip p { font-size:1.05rem; color:rgba(245,245,245,.7); font-weight:600; margin-bottom:20px; }
-  .btn-outline { display:inline-block; font-family:'Press Start 2P',monospace; font-size:.45rem; padding:14px 24px; background:transparent; color:var(--yellow); border:2px solid var(--yellow); text-decoration:none; letter-spacing:1px; transition:background .2s; }
-  .btn-outline:hover { background:rgba(255,225,77,.07); }
+  /* CTA STRIP */
+  .cta-strip { background:#111; border:1px solid rgba(255,215,0,0.15); border-radius:12px; padding:36px; text-align:center; margin-top:40px; }
+  .cta-strip p { font-family:'Open Sans',sans-serif; font-size:1rem; color:rgba(255,255,255,0.7); margin-bottom:24px; line-height:1.75; }
+  .btn-neon { display:inline-block; font-family:'Open Sans',sans-serif; font-size:0.95rem; font-weight:600; padding:14px 32px; background:transparent; color:#FF00FF; border:2px solid #FF00FF; border-radius:50px; text-decoration:none; box-shadow:0 0 12px rgba(255,0,255,0.3); transition:box-shadow 0.2s; }
+  .btn-neon:hover { box-shadow:0 0 24px rgba(255,0,255,0.55); }
 
-  footer { position:relative; z-index:1; background:#080808; border-top:2px solid rgba(255,225,77,.2); padding:26px 48px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
-  .footer-copy { font-family:'Press Start 2P',monospace; font-size:.36rem; color:var(--muted); letter-spacing:1px; line-height:2; }
-  .footer-links { display:flex; gap:20px; flex-wrap:wrap; }
-  .footer-links a { font-family:'Press Start 2P',monospace; font-size:.36rem; color:rgba(245,245,245,.35); text-decoration:none; letter-spacing:1px; transition:color .2s; }
-  .footer-links a:hover { color:var(--yellow); }
+  /* FOOTER */
+  footer { background:#080808; border-top:1px solid rgba(255,215,0,0.15); padding:28px 48px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+  .footer-left { display:flex; flex-direction:column; gap:6px; }
+  .footer-copy { font-family:'Press Start 2P',monospace; font-size:0.35rem; color:rgba(255,255,255,0.35); letter-spacing:1px; line-height:2; }
+  .footer-links { display:flex; gap:20px; flex-wrap:wrap; align-items:center; }
+  .footer-links a { font-family:'Press Start 2P',monospace; font-size:0.34rem; color:rgba(255,255,255,0.28); text-decoration:none; letter-spacing:1px; transition:color 0.2s; }
+  .footer-links a:hover { color:#FFD700; }
 
-  @media(max-width:900px) {
-    nav { padding:0 16px; }
-    .nav-links { display:none; position:absolute; top:64px; left:0; right:0; background:rgba(0,0,0,.99); border-bottom:2px solid var(--yellow); flex-direction:column; align-items:flex-start; padding:12px 16px; gap:4px; z-index:999; }
-    .nav-links.open { display:flex; }
-    .nav-link,.nav-portal,.nav-cta { font-size:.42rem; padding:10px 8px; margin:0; }
-    .hamburger { display:flex; align-items:center; justify-content:center; }
+  /* RESPONSIVE */
+  @media(max-width:768px) {
+    .page-heading { padding:40px 20px 0; }
+    .page-content { padding:36px 20px 60px; }
     .pricing-grid { grid-template-columns:1fr; }
-    .restock-callout { flex-direction:column; gap:16px; }
+    footer { padding:24px 20px; flex-direction:column; text-align:center; }
+    .footer-links { justify-content:center; }
   }
-  @media(max-width:600px) { .page-wrap{padding:40px 20px;} footer{padding:24px;flex-direction:column;text-align:center;} }
 </style>
 </head>
 <body>
+
+<!-- NAV -->
 <nav>
-  <a href="/" class="nav-logo">SMALL <span>SHOP TEES</span></a>
-  <div class="nav-links" id="navLinks">
-    <a href="/how-it-works/" class="nav-link">HOW IT WORKS</a>
-    <a href="/products/" class="nav-link">PRODUCTS</a>
-    <a href="/pricing/" class="nav-link active">PRICING</a>
-    <a href="/faq/" class="nav-link">FAQ</a>
-    <a href="/about/" class="nav-link">ABOUT</a>
-    <a href="/portal/" class="nav-portal">CLIENT LOGIN</a>
-    <a href="/quote/" class="nav-cta">GET A QUOTE</a>
+  <a href="/" class="nav-brand">smallshoptees.com</a>
+  <div class="nav-right">
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="/portal/" class="user-icon-link" aria-label="Client login">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+    </a>
   </div>
-  <button class="hamburger" id="navToggle" aria-label="Menu">
-    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-  </button>
 </nav>
 
-<div class="page-wrap">
-  <div class="page-eyebrow">PRICING</div>
-  <div class="page-title">CLEAR PRICING.<br>NO SURPRISES.</div>
-  <div class="page-sub">We believe transparent pricing builds trust. You see your full quote before committing to anything. Prices below are indicative — your actual quote depends on style, quantity, and design.</div>
+<!-- NAV OVERLAY -->
+<div id="navMenu">
+  <button class="nav-menu-close" id="navMenuClose" aria-label="Close menu">&times;</button>
+  <a href="/">HOME</a>
+  <a href="/gallery/">GALLERY</a>
+  <a href="/pricing/">PRICING</a>
+  <a href="/contact/">CONTACT</a>
+  <a href="/faq/">FAQ</a>
+  <a href="/products/">PRODUCTS</a>
+  <a href="/how-it-works/">HOW IT WORKS</a>
+  <a href="/portal/">CLIENT LOGIN</a>
+  <a href="/quote/">GET A QUOTE</a>
+</div>
 
+<!-- PAGE HEADING -->
+<div class="page-heading">
+  <h1>PRICING</h1>
+</div>
+
+<!-- CONTENT -->
+<div class="page-content">
+
+  <p class="intro-text">We believe transparent pricing builds trust. You see your full quote before committing to anything. Prices below are indicative — your actual quote depends on style, quantity, and design.</p>
+
+  <!-- PRICING CARDS -->
   <div class="pricing-grid">
+
+    <!-- STANDARD -->
     <div class="price-card">
-      <div class="pc-tier">TIER 01</div>
-      <div class="pc-name">STANDARD<br>ORDER</div>
-      <div class="pc-price-row">
-        <div class="pc-price">$16</div>
-        <div class="pc-per">/ shirt</div>
+      <div class="card-tier">TIER 01</div>
+      <div class="card-name">STANDARD</div>
+      <div class="card-price-row">
+        <div class="card-price">~$18</div>
+        <div class="card-per">/ shirt</div>
       </div>
-      <div class="pc-note">Final pricing confirmed in your quote</div>
-      <div class="pc-min">MIN. 50 SHIRTS</div>
-      <div class="pc-divider"></div>
-      <div class="pc-includes">EVERYTHING INCLUDED:</div>
-      <ul class="pc-features">
-        <li>Design facilitation (we create your artwork)</li>
-        <li>Production &amp; quality check</li>
-        <li>Local Portland delivery, direct to your door</li>
-        <li>Shirts arrive on hangers, ready to display</li>
-        <li>Dedicated account rep (call or text)</li>
-        <li>Sizes XS through 3XL available</li>
+      <div class="card-price-note">Final price confirmed in your quote</div>
+      <div class="card-min">MIN. 50 SHIRTS</div>
+      <div class="card-divider"></div>
+      <div class="card-includes-label">EVERYTHING INCLUDED:</div>
+      <ul class="card-features">
+        <li>Custom design mockup</li>
+        <li>DTG or screen printing</li>
+        <li>Delivery to your business</li>
+        <li>Shirts on hangers, ready to display</li>
+        <li>Sizes XS through 3XL</li>
       </ul>
-      <a href="/quote/" class="pc-cta outline">GET A QUOTE</a>
+      <a href="/quote/" class="card-cta outline">GET A QUOTE</a>
     </div>
 
+    <!-- RESTOCK PROGRAM -->
     <div class="price-card featured">
-      <div class="pc-tier">TIER 02</div>
-      <div class="pc-name">RESTOCK<br>ORDER</div>
-      <div class="pc-price-row">
-        <div class="pc-price">$16</div>
-        <div class="pc-per">/ shirt</div>
+      <div class="featured-badge">RECOMMENDED</div>
+      <div class="card-tier">TIER 02</div>
+      <div class="card-name">RESTOCK<br>PROGRAM</div>
+      <div class="card-price-row">
+        <div class="card-price">~$15</div>
+        <div class="card-per">/ shirt</div>
       </div>
-      <div class="pc-note">Discounted rate for enrolled clients</div>
-      <div class="pc-min">FLEXIBLE MIN. FOR ENROLLED CLIENTS</div>
-      <div class="pc-divider"></div>
-      <div class="pc-includes">EVERYTHING IN STANDARD, PLUS:</div>
-      <ul class="pc-features">
-        <li>Discounted per-shirt rate for ongoing orders</li>
-        <li>We monitor your inventory — you never run out</li>
-        <li>Pre-filled restock orders (same style, same sizes)</li>
-        <li>Automatic reorder triggered before stock runs low</li>
-        <li>Priority production slot for restock orders</li>
-        <li>Client portal access — view orders and inventory</li>
+      <div class="card-price-note">Discounted rate for enrolled clients</div>
+      <div class="card-min">MIN. 25 SHIRTS</div>
+      <div class="card-divider"></div>
+      <div class="card-includes-label">EVERYTHING IN STANDARD, PLUS:</div>
+      <ul class="card-features">
+        <li>Auto-restock enrollment</li>
+        <li>Inventory tracking — we watch your stock</li>
+        <li>Priority turnaround</li>
+        <li>Dedicated account rep</li>
+        <li>Client portal access</li>
       </ul>
-      <a href="/quote/" class="pc-cta">GET ENROLLED</a>
+      <a href="/quote/" class="card-cta">GET ENROLLED</a>
     </div>
+
   </div>
 
-  <!-- Restock callout -->
+  <!-- RESTOCK CALLOUT -->
   <div class="restock-callout">
-    <div class="rc-icon">🔄</div>
-    <div class="rc-text">
-      <h2>THE RESTOCK PROGRAM</h2>
-      <p>After your first order is complete, we enroll you automatically. We track your inventory level and initiate a reorder before you hit zero — you don't have to do a thing.</p>
-      <p>Restock clients get a reduced per-shirt rate and flexible minimum quantities. The longer you're enrolled, the more value you get.</p>
-    </div>
+    <h2>THE RESTOCK PROGRAM</h2>
+    <p>After your first order is complete, we enroll you automatically. We track your inventory level and initiate a reorder before you hit zero — you don't have to do a thing.</p>
+    <p>Restock clients get a reduced per-shirt rate and flexible minimum quantities. The longer you're enrolled, the more value you get.</p>
   </div>
 
-  <!-- Pricing FAQ -->
-  <div style="font-family:'Press Start 2P',monospace;font-size:.5rem;color:var(--yellow);letter-spacing:2px;margin-bottom:20px;position:relative;z-index:1;">PRICING Q&amp;A</div>
+  <!-- PRICING Q&A -->
+  <div class="section-label">PRICING Q&amp;A</div>
 
   <div class="faq-block">
     <div class="faq-q">
@@ -210,28 +244,39 @@
     <div class="faq-a">Enrolled restock clients receive a reduced per-shirt rate compared to standard first-time orders. This is because restocks use an existing approved design (no design facilitation needed) and follow a pre-set size breakdown, which reduces our time and cost. Those savings get passed to you.</div>
   </div>
 
+  <!-- CTA -->
   <div class="cta-strip">
-    <p>Questions about pricing? We'd rather talk than have you guess.</p>
-    <a href="/quote/" class="btn-outline">LET'S TALK PRICING →</a>
+    <p>Need a custom quote for your specific order? We'd rather talk than have you guess.</p>
+    <a href="/quote/" class="btn-neon">let's talk pricing</a>
   </div>
+
 </div>
 
+<!-- FOOTER -->
 <footer>
-  <div class="footer-copy">© 2025 SMALL SHOP TEES · PORTLAND, OREGON</div>
+  <div class="footer-left">
+    <div class="footer-copy">© 2025 SMALL SHOP TEES · PORTLAND, OREGON</div>
+    <div class="footer-copy">CUSTOM BRANDED SHIRTS FOR SMALL BUSINESSES</div>
+  </div>
   <div class="footer-links">
     <a href="/how-it-works/">HOW IT WORKS</a>
     <a href="/products/">PRODUCTS</a>
+    <a href="/pricing/">PRICING</a>
     <a href="/faq/">FAQ</a>
-    <a href="/about/">ABOUT</a>
     <a href="/portal/">CLIENT LOGIN</a>
     <a href="/quote/">GET A QUOTE</a>
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/assets/supabase.js"></script>
 <script>
-  document.getElementById('navToggle').addEventListener('click', function() {
-    document.getElementById('navLinks').classList.toggle('open');
-  });
+  var hamburgerBtn = document.getElementById('hamburgerBtn');
+  var navMenu = document.getElementById('navMenu');
+  var navMenuClose = document.getElementById('navMenuClose');
+  hamburgerBtn.addEventListener('click', function() { navMenu.classList.add('open'); });
+  navMenuClose.addEventListener('click', function() { navMenu.classList.remove('open'); });
+
   document.querySelectorAll('.faq-q').forEach(function(q) {
     q.addEventListener('click', function() {
       this.closest('.faq-block').classList.toggle('open');
