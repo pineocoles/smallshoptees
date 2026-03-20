@@ -3,156 +3,267 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Products & Styles – Small Shop Tees Portland</title>
-<meta name="description" content="Browse our available shirt styles, colors, and customization options. Request any style for your Portland business.">
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Products – Small Shop Tees Portland</title>
+<meta name="description" content="Browse our available shirt styles, colors, and customization options. Quality 200+ GSM cotton tees for Portland businesses.">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@800;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  :root { --black:#000; --yellow:#FFE14D; --orange:#FF9F43; --white:#f5f5f5; --gray:#141414; --gray2:#1a1a1a; --muted:#777; }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:'Rajdhani',sans-serif; background:var(--black); color:var(--white); min-height:100vh; }
-  body::before { content:''; position:fixed; inset:0; pointer-events:none; z-index:0; background-image:radial-gradient(1px 1px at 10% 20%,rgba(255,255,255,.5) 0%,transparent 100%),radial-gradient(1px 1px at 80% 60%,rgba(255,255,255,.4) 0%,transparent 100%),radial-gradient(1px 1px at 45% 80%,rgba(255,225,77,.3) 0%,transparent 100%),radial-gradient(1px 1px at 30% 45%,rgba(255,255,255,.25) 0%,transparent 100%); }
-  nav { position:sticky; top:0; z-index:1000; background:rgba(0,0,0,.97); backdrop-filter:blur(12px); border-bottom:2px solid var(--yellow); height:64px; padding:0 32px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
-  .nav-logo { font-family:'Press Start 2P',monospace; font-size:.7rem; color:var(--white); text-decoration:none; white-space:nowrap; flex-shrink:0; }
-  .nav-logo span { color:var(--yellow); }
-  .nav-links { display:flex; align-items:center; gap:2px; }
-  .nav-link { font-family:'Press Start 2P',monospace; font-size:.33rem; color:rgba(245,245,245,.5); text-decoration:none; padding:6px 7px; letter-spacing:.5px; white-space:nowrap; transition:color .2s; }
-  .nav-link:hover,.nav-link.active { color:var(--yellow); }
-  .nav-portal { font-family:'Press Start 2P',monospace; font-size:.33rem; color:rgba(245,245,245,.5); text-decoration:none; padding:6px 10px; letter-spacing:.5px; border:1px solid rgba(255,225,77,.25); white-space:nowrap; transition:color .2s,border-color .2s; margin-left:4px; }
-  .nav-portal:hover { color:var(--yellow); border-color:rgba(255,225,77,.7); }
-  .nav-cta { font-family:'Press Start 2P',monospace; font-size:.33rem; color:var(--black); background:var(--yellow); text-decoration:none; padding:8px 14px; white-space:nowrap; margin-left:4px; transition:opacity .2s; }
-  .nav-cta:hover { opacity:.85; }
-  .hamburger { display:none; background:none; border:2px solid rgba(255,225,77,.3); cursor:pointer; padding:6px 10px; color:var(--white); flex-shrink:0; }
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#000; color:#fff; font-family:'Open Sans',sans-serif; min-height:100vh; padding-top:59px; }
 
-  .page-wrap { position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:64px 32px 80px; }
-  .page-eyebrow { display:inline-flex; align-items:center; gap:8px; background:rgba(255,225,77,.1); border:1px solid rgba(255,225,77,.4); color:var(--yellow); font-family:'Press Start 2P',monospace; font-size:.42rem; letter-spacing:2px; padding:8px 16px; margin-bottom:24px; }
-  .page-title { font-family:'Press Start 2P',monospace; font-size:clamp(.9rem,2.5vw,1.2rem); color:var(--yellow); line-height:1.7; margin-bottom:12px; text-shadow:0 0 20px rgba(255,225,77,.3); }
-  .page-sub { font-size:1.1rem; color:var(--muted); margin-bottom:40px; font-weight:500; line-height:1.6; }
+  /* NAV */
+  nav { position:fixed; top:0; left:0; right:0; z-index:2000; height:59px; background:rgba(0,0,0,0.96); display:flex; align-items:center; justify-content:space-between; padding:0 24px; }
+  .nav-brand { font-family:'Nunito',sans-serif; font-weight:900; font-size:1.45rem; color:#fff; text-decoration:none; white-space:nowrap; }
+  .nav-right { display:flex; align-items:center; gap:14px; }
+  .hamburger-btn { background:none; border:none; cursor:pointer; display:flex; flex-direction:column; gap:5px; padding:4px; }
+  .hamburger-btn span { display:block; width:22px; height:2px; background:#fff; border-radius:2px; }
+  .user-icon-link { display:flex; align-items:center; justify-content:center; width:34px; height:34px; background:rgba(255,255,255,0.12); border-radius:8px; text-decoration:none; }
+  .user-icon-link svg { width:18px; height:18px; fill:#fff; }
 
-  /* Notice banner */
-  .notice { background:rgba(255,225,77,.08); border:1px solid rgba(255,225,77,.25); padding:16px 20px; margin-bottom:36px; display:flex; gap:12px; align-items:flex-start; }
-  .notice-icon { color:var(--yellow); font-size:1.1rem; flex-shrink:0; margin-top:2px; }
-  .notice p { font-size:.95rem; color:rgba(245,245,245,.7); font-weight:600; line-height:1.5; }
-  .notice strong { color:var(--white); }
+  /* NAV OVERLAY */
+  #navMenu { display:none; position:fixed; inset:0; z-index:1999; background:#000; flex-direction:column; align-items:center; justify-content:center; gap:28px; }
+  #navMenu.open { display:flex; }
+  .nav-menu-close { position:absolute; top:20px; right:24px; background:none; border:none; color:#fff; font-size:2rem; cursor:pointer; line-height:1; }
+  #navMenu a { font-family:'Press Start 2P',monospace; font-size:0.7rem; color:#fff; text-decoration:none; letter-spacing:2px; transition:color 0.2s; }
+  #navMenu a:hover { color:#FFD700; }
 
-  /* Product grid */
-  .products-grid { display:grid; grid-template-columns:1fr; max-width:480px; gap:20px; }
-  .product-card { background:var(--gray2); border:1.5px solid rgba(255,225,77,.12); display:flex; flex-direction:column; transition:border-color .2s,transform .2s; }
-  .product-card:hover { border-color:rgba(255,225,77,.4); transform:translateY(-4px); }
-  .product-card[data-hidden="true"] { display:none; }
-  .pc-thumb { height:200px; display:flex; align-items:center; justify-content:center; font-size:5rem; background:rgba(255,225,77,.04); border-bottom:1px solid rgba(255,225,77,.08); position:relative; overflow:hidden; }
-  .pc-badge { position:absolute; top:12px; left:12px; font-family:'Press Start 2P',monospace; font-size:.32rem; padding:5px 8px; letter-spacing:1px; }
-  .pc-badge.popular { background:rgba(255,225,77,.15); color:var(--yellow); border:1px solid rgba(255,225,77,.4); }
-  .pc-badge.new { background:rgba(255,159,67,.15); color:var(--orange); border:1px solid rgba(255,159,67,.4); }
-  .pc-body { padding:20px; flex:1; display:flex; flex-direction:column; gap:10px; }
-  .pc-style-tag { font-family:'Press Start 2P',monospace; font-size:.35rem; color:rgba(255,225,77,.5); letter-spacing:1px; }
-  .pc-name { font-family:'Press Start 2P',monospace; font-size:.52rem; color:var(--yellow); line-height:1.7; }
-  .pc-desc { font-size:.95rem; color:var(--muted); line-height:1.5; font-weight:500; flex:1; }
-  .pc-colors-label { font-family:'Press Start 2P',monospace; font-size:.32rem; color:rgba(245,245,245,.35); letter-spacing:1px; }
-  .pc-colors { display:flex; gap:7px; flex-wrap:wrap; }
-  .pc-dot { width:16px; height:16px; border-radius:50%; border:1px solid rgba(255,255,255,.15); cursor:default; title:''; }
-  .pc-min { font-size:.85rem; color:var(--muted); font-weight:700; letter-spacing:.5px; }
-  .pc-cta { display:block; text-align:center; font-family:'Press Start 2P',monospace; font-size:.4rem; padding:14px; background:var(--yellow); color:var(--black); text-decoration:none; letter-spacing:1px; transition:opacity .2s; margin-top:auto; }
-  .pc-cta:hover { opacity:.88; }
+  /* PAGE HEADING */
+  .page-heading { padding:60px 32px 0; text-align:left; max-width:1100px; margin:0 auto; }
+  .page-heading h1 { font-family:'Press Start 2P',monospace; font-size:clamp(2.2rem, 8vw, 7rem); color:#FFD700; line-height:1.1; letter-spacing:-1px; }
 
-  .catalog-note { background:var(--gray2); border:1px solid rgba(255,225,77,.12); padding:28px 32px; margin-top:40px; display:flex; gap:20px; align-items:center; flex-wrap:wrap; justify-content:space-between; }
-  .catalog-note p { font-size:1.02rem; color:rgba(245,245,245,.7); font-weight:600; line-height:1.5; }
-  .btn-outline { display:inline-block; font-family:'Press Start 2P',monospace; font-size:.4rem; padding:12px 20px; background:transparent; color:var(--yellow); border:2px solid var(--yellow); text-decoration:none; letter-spacing:1px; transition:background .2s; white-space:nowrap; flex-shrink:0; }
-  .btn-outline:hover { background:rgba(255,225,77,.07); }
+  /* CONTENT */
+  .page-content { max-width:960px; margin:0 auto; padding:48px 32px 80px; }
 
-  footer { position:relative; z-index:1; background:#080808; border-top:2px solid rgba(255,225,77,.2); padding:26px 48px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
-  .footer-copy { font-family:'Press Start 2P',monospace; font-size:.36rem; color:var(--muted); letter-spacing:1px; line-height:2; }
-  .footer-links { display:flex; gap:20px; flex-wrap:wrap; }
-  .footer-links a { font-family:'Press Start 2P',monospace; font-size:.36rem; color:rgba(245,245,245,.35); text-decoration:none; letter-spacing:1px; transition:color .2s; }
-  .footer-links a:hover { color:var(--yellow); }
+  .intro-text { font-family:'Open Sans',sans-serif; font-size:1rem; color:#fff; line-height:1.78; max-width:700px; margin-bottom:52px; }
 
-  @media(max-width:900px) {
-    nav { padding:0 16px; }
-    .nav-links { display:none; position:absolute; top:64px; left:0; right:0; background:rgba(0,0,0,.99); border-bottom:2px solid var(--yellow); flex-direction:column; align-items:flex-start; padding:12px 16px; gap:4px; z-index:999; }
-    .nav-links.open { display:flex; }
-    .nav-link,.nav-portal,.nav-cta { font-size:.42rem; padding:10px 8px; margin:0; }
-    .hamburger { display:flex; align-items:center; justify-content:center; }
+  /* NOTICE */
+  .notice { background:#111; border:1px solid rgba(255,215,0,0.2); border-radius:12px; padding:20px 24px; margin-bottom:40px; font-family:'Open Sans',sans-serif; font-size:0.93rem; color:rgba(255,255,255,0.7); line-height:1.75; }
+  .notice strong { color:#fff; }
+  .notice a { color:#FFD700; text-decoration:none; }
+  .notice a:hover { text-decoration:underline; }
+
+  /* PRODUCT CARD */
+  .product-layout { display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:start; }
+
+  .product-card { background:#111; border:1px solid rgba(255,215,0,0.15); border-radius:12px; padding:28px; }
+
+  .product-thumb { background:#111; border:1px solid rgba(255,215,0,0.1); border-radius:10px; height:260px; display:flex; align-items:center; justify-content:center; font-size:7rem; margin-bottom:0; position:relative; overflow:hidden; }
+  .popular-badge { position:absolute; top:14px; left:14px; font-family:'Press Start 2P',monospace; font-size:0.28rem; background:linear-gradient(90deg,#FF00FF,#FF8C00,#0000FF); color:#000; padding:5px 10px; border-radius:50px; letter-spacing:1px; }
+
+  .product-details { display:flex; flex-direction:column; gap:22px; }
+
+  .product-style-tag { font-family:'Press Start 2P',monospace; font-size:0.3rem; color:rgba(255,215,0,0.5); letter-spacing:1.5px; }
+  .product-name { font-family:'Press Start 2P',monospace; font-size:0.8rem; color:#FFD700; line-height:1.7; }
+  .product-desc { font-family:'Open Sans',sans-serif; font-size:0.95rem; color:rgba(255,255,255,0.78); line-height:1.78; }
+
+  .spec-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .spec-item { background:#000; border:1px solid rgba(255,215,0,0.12); border-radius:10px; padding:16px; }
+  .spec-label { font-family:'Press Start 2P',monospace; font-size:0.28rem; color:rgba(255,215,0,0.5); letter-spacing:1px; margin-bottom:6px; }
+  .spec-value { font-family:'Open Sans',sans-serif; font-size:0.88rem; color:#fff; font-weight:600; line-height:1.5; }
+
+  /* COLOR SWATCHES */
+  .colors-section { }
+  .colors-label { font-family:'Press Start 2P',monospace; font-size:0.3rem; color:rgba(255,255,255,0.35); letter-spacing:1px; margin-bottom:12px; }
+  .colors-grid { display:flex; gap:10px; flex-wrap:wrap; }
+  .color-swatch { display:flex; flex-direction:column; align-items:center; gap:5px; cursor:default; }
+  .swatch-dot { width:28px; height:28px; border-radius:50%; border:1.5px solid rgba(255,255,255,0.18); }
+  .swatch-name { font-family:'Open Sans',sans-serif; font-size:0.68rem; color:rgba(255,255,255,0.45); text-align:center; }
+
+  /* DIVIDER */
+  .divider { height:1px; background:rgba(255,215,0,0.1); }
+
+  .product-mins { font-family:'Open Sans',sans-serif; font-size:0.88rem; color:rgba(255,255,255,0.55); }
+  .product-mins strong { color:#FFD700; }
+
+  .btn-gradient { display:inline-block; font-family:'Press Start 2P',monospace; font-size:0.38rem; padding:16px 28px; background:linear-gradient(90deg,#FF00FF,#FF8C00,#0000FF); color:#000; text-decoration:none; border-radius:50px; letter-spacing:1px; transition:opacity 0.2s; text-align:center; }
+  .btn-gradient:hover { opacity:0.88; }
+
+  /* CATALOG NOTE */
+  .catalog-note { background:#111; border:1px solid rgba(255,215,0,0.15); border-radius:12px; padding:28px 32px; margin-top:40px; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; }
+  .catalog-note p { font-family:'Open Sans',sans-serif; font-size:0.95rem; color:rgba(255,255,255,0.72); line-height:1.75; flex:1; }
+  .catalog-note p strong { color:#fff; }
+  .btn-neon { display:inline-block; font-family:'Open Sans',sans-serif; font-weight:600; font-size:0.88rem; padding:13px 28px; background:transparent; color:#FF00FF; border:2px solid #FF00FF; border-radius:50px; text-decoration:none; box-shadow:0 0 10px rgba(255,0,255,0.25); transition:box-shadow 0.2s; white-space:nowrap; }
+  .btn-neon:hover { box-shadow:0 0 22px rgba(255,0,255,0.5); }
+
+  /* FOOTER */
+  footer { background:#080808; border-top:1px solid rgba(255,215,0,0.15); padding:28px 48px; display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+  .footer-left { display:flex; flex-direction:column; gap:6px; }
+  .footer-copy { font-family:'Press Start 2P',monospace; font-size:0.35rem; color:rgba(255,255,255,0.35); letter-spacing:1px; line-height:2; }
+  .footer-links { display:flex; gap:20px; flex-wrap:wrap; align-items:center; }
+  .footer-links a { font-family:'Press Start 2P',monospace; font-size:0.34rem; color:rgba(255,255,255,0.28); text-decoration:none; letter-spacing:1px; transition:color 0.2s; }
+  .footer-links a:hover { color:#FFD700; }
+
+  /* RESPONSIVE */
+  @media(max-width:768px) {
+    .page-heading { padding:40px 20px 0; }
+    .page-content { padding:36px 20px 60px; }
+    .product-layout { grid-template-columns:1fr; }
+    .spec-grid { grid-template-columns:1fr 1fr; }
+    .catalog-note { flex-direction:column; }
+    footer { padding:24px 20px; flex-direction:column; text-align:center; }
+    .footer-links { justify-content:center; }
   }
-  @media(max-width:600px) { .page-wrap{padding:40px 20px;} footer{padding:24px;flex-direction:column;text-align:center;} }
+  @media(max-width:480px) {
+    .spec-grid { grid-template-columns:1fr; }
+  }
 </style>
 </head>
 <body>
+
+<!-- NAV -->
 <nav>
-  <a href="/" class="nav-logo">SMALL <span>SHOP TEES</span></a>
-  <div class="nav-links" id="navLinks">
-    <a href="/how-it-works/" class="nav-link">HOW IT WORKS</a>
-    <a href="/products/" class="nav-link active">PRODUCTS</a>
-    <a href="/pricing/" class="nav-link">PRICING</a>
-    <a href="/faq/" class="nav-link">FAQ</a>
-    <a href="/about/" class="nav-link">ABOUT</a>
-    <a href="/portal/" class="nav-portal">CLIENT LOGIN</a>
-    <a href="/quote/" class="nav-cta">GET A QUOTE</a>
+  <a href="/" class="nav-brand">smallshoptees.com</a>
+  <div class="nav-right">
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="/portal/" class="user-icon-link" aria-label="Client login">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+    </a>
   </div>
-  <button class="hamburger" id="navToggle" aria-label="Menu">
-    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-  </button>
 </nav>
 
-<div class="page-wrap">
-  <div class="page-eyebrow">CATALOG</div>
-  <div class="page-title">AVAILABLE<br>STYLES</div>
-  <div class="page-sub">Quality shirts your crew actually wants to wear. Each card has a single action — request the style, and we'll handle everything else.</div>
+<!-- NAV OVERLAY -->
+<div id="navMenu">
+  <button class="nav-menu-close" id="navMenuClose" aria-label="Close menu">&times;</button>
+  <a href="/">HOME</a>
+  <a href="/gallery/">GALLERY</a>
+  <a href="/pricing/">PRICING</a>
+  <a href="/contact/">CONTACT</a>
+  <a href="/faq/">FAQ</a>
+  <a href="/products/">PRODUCTS</a>
+  <a href="/how-it-works/">HOW IT WORKS</a>
+  <a href="/portal/">CLIENT LOGIN</a>
+  <a href="/quote/">GET A QUOTE</a>
+</div>
+
+<!-- PAGE HEADING -->
+<div class="page-heading">
+  <h1>PRODUCTS</h1>
+</div>
+
+<!-- CONTENT -->
+<div class="page-content">
+
+  <p class="intro-text">Quality shirts your crew actually wants to wear. One style, done right. Request yours and we'll handle every detail.</p>
 
   <div class="notice">
-    <span class="notice-icon">ℹ</span>
-    <p><strong>Prices are not listed here intentionally.</strong> We quote based on your style, quantity, and design complexity. <a href="/pricing/" style="color:var(--yellow);">Visit our Pricing page</a> for tiers and minimums, or <a href="/quote/" style="color:var(--yellow);">get a free quote</a> for your specific order.</p>
+    <strong>Prices not listed here intentionally.</strong> We quote based on your style, quantity, and design complexity. <a href="/pricing/">Visit our Pricing page</a> for tiers and minimums, or <a href="/quote/">get a free quote</a> for your specific order.
   </div>
 
-  <!-- Product grid -->
-  <div class="products-grid" id="productsGrid">
+  <!-- PRODUCT -->
+  <div class="product-layout">
 
-    <div class="product-card">
-      <div class="pc-thumb">
+    <!-- THUMBNAIL -->
+    <div>
+      <div class="product-thumb">
         👕
-        <span class="pc-badge popular">POPULAR</span>
+        <div class="popular-badge">POPULAR</div>
       </div>
-      <div class="pc-body">
-        <div class="pc-style-tag">UNISEX · STANDARD FIT</div>
-        <div class="pc-name">STANDARD<br>TEE</div>
-        <p class="pc-desc">our signature no-nonsense t-shirt.</p>
-        <div class="pc-colors-label">AVAILABLE COLORS</div>
-        <div class="pc-colors">
-          <span class="pc-dot" style="background:#111;border-color:#555;" title="Black"></span>
-          <span class="pc-dot" style="background:#f0f0f0;" title="White"></span>
-          <span class="pc-dot" style="background:#8b1a1a;" title="Red"></span>
-          <span class="pc-dot" style="background:#2c4a8c;" title="Navy"></span>
-          <span class="pc-dot" style="background:#2d5a2d;" title="Forest Green"></span>
-          <span class="pc-dot" style="background:#555;" title="Heather Grey"></span>
-          <span class="pc-dot" style="background:#3d2b1a;" title="Brown"></span>
+    </div>
+
+    <!-- DETAILS -->
+    <div class="product-details">
+      <div>
+        <div class="product-style-tag">UNISEX · STANDARD FIT</div>
+        <div class="product-name">STANDARD<br>TEE</div>
+      </div>
+
+      <p class="product-desc">Our signature no-nonsense t-shirt. Heavy enough to feel premium, soft enough to wear all day. The go-to for Portland businesses that want their brand to look sharp.</p>
+
+      <div class="spec-grid">
+        <div class="spec-item">
+          <div class="spec-label">FABRIC</div>
+          <div class="spec-value">200+ GSM 100% Cotton</div>
         </div>
-        <div class="pc-min">Min. 50 shirts · XS–3XL</div>
-        <a href="/quote/?style=Standard+Tee" class="pc-cta">REQUEST THIS STYLE</a>
+        <div class="spec-item">
+          <div class="spec-label">PRINTING</div>
+          <div class="spec-value">Screen Print &amp; DTG</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">SIZES</div>
+          <div class="spec-value">XS – 3XL</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">MINIMUM</div>
+          <div class="spec-value">50 new · 25 restock</div>
+        </div>
       </div>
+
+      <div class="colors-section">
+        <div class="colors-label">AVAILABLE COLORS</div>
+        <div class="colors-grid">
+          <div class="color-swatch">
+            <div class="swatch-dot" style="background:#111;border-color:#555;"></div>
+            <div class="swatch-name">Black</div>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-dot" style="background:#f0f0f0;border-color:#ccc;"></div>
+            <div class="swatch-name">White</div>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-dot" style="background:#1e3a6e;"></div>
+            <div class="swatch-name">Navy</div>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-dot" style="background:#8b1a1a;"></div>
+            <div class="swatch-name">Red</div>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-dot" style="background:#2d5a2d;"></div>
+            <div class="swatch-name">Forest</div>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-dot" style="background:#777;"></div>
+            <div class="swatch-name">Gray</div>
+          </div>
+          <div class="color-swatch">
+            <div class="swatch-dot" style="background:#3d2b1a;"></div>
+            <div class="swatch-name">Brown</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="product-mins">Min. <strong>50 shirts</strong> for new order &nbsp;·&nbsp; Min. <strong>25 shirts</strong> for restocks</div>
+
+      <a href="/quote/?style=Standard+Tee" class="btn-gradient">REQUEST THIS STYLE</a>
     </div>
 
   </div>
 
+  <!-- CATALOG NOTE -->
   <div class="catalog-note">
     <p>Don't see exactly what you need? We source a wide range of styles. <strong>Tell us what you're looking for</strong> in your quote request and we'll find the right fit.</p>
-    <a href="/quote/" class="btn-outline">REQUEST A CUSTOM STYLE</a>
+    <a href="/quote/" class="btn-neon">request a custom style</a>
   </div>
+
 </div>
 
+<!-- FOOTER -->
 <footer>
-  <div class="footer-copy">© 2025 SMALL SHOP TEES · PORTLAND, OREGON</div>
+  <div class="footer-left">
+    <div class="footer-copy">© 2025 SMALL SHOP TEES · PORTLAND, OREGON</div>
+    <div class="footer-copy">CUSTOM BRANDED SHIRTS FOR SMALL BUSINESSES</div>
+  </div>
   <div class="footer-links">
     <a href="/how-it-works/">HOW IT WORKS</a>
+    <a href="/products/">PRODUCTS</a>
     <a href="/pricing/">PRICING</a>
     <a href="/faq/">FAQ</a>
-    <a href="/about/">ABOUT</a>
     <a href="/portal/">CLIENT LOGIN</a>
     <a href="/quote/">GET A QUOTE</a>
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/assets/supabase.js"></script>
 <script>
-  document.getElementById('navToggle').addEventListener('click', function() {
-    document.getElementById('navLinks').classList.toggle('open');
-  });
+  var hamburgerBtn = document.getElementById('hamburgerBtn');
+  var navMenu = document.getElementById('navMenu');
+  var navMenuClose = document.getElementById('navMenuClose');
+  hamburgerBtn.addEventListener('click', function() { navMenu.classList.add('open'); });
+  navMenuClose.addEventListener('click', function() { navMenu.classList.remove('open'); });
 </script>
 </body>
 </html>
