@@ -124,40 +124,41 @@ nav {
   background: var(--black);
 }
 
-/* Astronaut background layer */
-.astro-bg {
+/* ──────────────────────────────
+   SECTION 1: HERO
+────────────────────────────── */
+.hero {
+  padding-top: 59px;
+}
+.hero-bg {
   position: absolute;
   inset: 0;
   background-image: url('/assets/astronaut.png');
   background-size: cover;
   background-repeat: no-repeat;
-  pointer-events: none;
-}
-
-/* ──────────────────────────────
-   SECTION 1: HERO
-────────────────────────────── */
-.hero { padding-top: 59px; }
-.hero .astro-bg {
   background-position: 28% 45%;
   opacity: 0.72;
+  pointer-events: none;
 }
 .hero-inner {
   position: relative;
   z-index: 2;
   min-height: calc(100vh - 59px);
   display: grid;
-  grid-template-columns: 55% 45%;
+  /* Canva design: text col ~43%, shirt col ~57% */
+  grid-template-columns: 43% 57%;
 }
+
+/* ── Hero Left ── */
 .hero-left {
-  padding: 70px 24px 60px 22px;
+  padding: 70px 20px 60px 22px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 .hero-heading {
   font-family: 'Press Start 2P', monospace;
-  font-size: clamp(1.2rem, 3.5vw, 3.6rem);
+  font-size: clamp(1.1rem, 3.2vw, 3.4rem);
   color: var(--yellow);
   line-height: 1.4;
   letter-spacing: 2px;
@@ -168,58 +169,57 @@ nav {
   font-size: 0.93rem;
   color: var(--white);
   line-height: 1.75;
-  max-width: 380px;
-  margin-left: 62px;
+  max-width: 340px;
+  margin-left: 40px;
 }
 .hero-btn-area {
-  padding-left: 100px;
+  padding-left: 80px;
   padding-bottom: 20px;
 }
+
+/* ── Hero Right ── */
 .hero-right {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  gap: 16px;
-  padding: 24px 16px;
 }
-
-/* Shirt mockup image (Pngtree white cutout) */
-.hero-shirt-mockup {
-  width: 80%;
-  max-width: 320px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -58%);
+/* White t-shirt mockup — square image (4096x4096), fills right col */
+.hero-shirt {
+  width: 88%;
+  max-width: 480px;
   object-fit: contain;
-  pointer-events: none;
-  filter: drop-shadow(0 8px 32px rgba(0,0,0,0.6));
+  display: block;
+  filter: drop-shadow(0 8px 40px rgba(0,0,0,0.7));
 }
-
-/* Circular shirt logo */
-.hero-logo-wrap {
-  position: relative;
-  z-index: 2;
-  margin-top: auto;
-  margin-bottom: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.hero-logo-wrap img {
-  width: clamp(120px, 22vw, 220px);
-  height: auto;
+/* Circular shirt logo (3600x3000, ratio 1.2:1) overlaid upper-right,
+   Canva: center ~x=1170/1366 canvas, y=165/768 hero → top:22%, right-from-col-right edge ~25%
+   Logo rendered width ≈ 200px on 779px-wide col = 25.7% of col width */
+.hero-logo {
+  position: absolute;
+  top: 10%;
+  right: 3%;
+  width: 34%;
+  max-width: 240px;
+  transform: rotate(-18deg);
+  object-fit: contain;
 }
 
 /* ──────────────────────────────
    SECTION 2: WHY US?
 ────────────────────────────── */
-.why-us { display: flex; }
-.why-us .astro-bg {
-  background-position: 65% 40%;
-  opacity: 0.5;
+.why-us {
+  display: flex;
+}
+.why-us-astro-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/assets/astronaut.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 30% 50%;
+  opacity: 0.45;
+  pointer-events: none;
 }
 .why-us-left {
   position: relative;
@@ -234,7 +234,7 @@ nav {
   height: 100%;
   object-fit: cover;
   display: block;
-  filter: brightness(0.75);
+  filter: brightness(0.8);
 }
 .why-us-right {
   position: relative;
@@ -264,9 +264,15 @@ nav {
 /* ──────────────────────────────
    SECTION 3: AFFORDABLE. QUALITY. CONSISTENT.
 ────────────────────────────── */
-.aqc .astro-bg {
-  background-position: 72% 85%;
-  opacity: 0.5;
+.aqc-moon-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/assets/moon.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 20% 85%;
+  opacity: 0.45;
+  pointer-events: none;
 }
 .aqc-main {
   position: relative;
@@ -425,10 +431,13 @@ footer {
 
 /* ── MOBILE ── */
 @media (max-width: 480px) {
-  .hero-inner { grid-template-columns: 58% 42%; }
-  .hero-heading { font-size: clamp(0.95rem, 4.5vw, 1.3rem); }
-  .hero-body { font-size: 0.78rem; }
-  .hero-logo-wrap img { width: clamp(90px, 35vw, 130px); }
+  /* Mobile: text 55%, shirt 45% of 480px viewport = 216px col */
+  .hero-inner { grid-template-columns: 55% 45%; }
+  .hero-heading { font-size: clamp(0.9rem, 4.2vw, 1.2rem); }
+  .hero-body { font-size: 0.76rem; }
+  /* Shirt: 95% of 216px = ~205px. Logo: 52% = ~112px, top-right corner */
+  .hero-shirt { width: 95%; }
+  .hero-logo { width: 52%; top: 6%; right: 1%; }
   .aqc-heading { font-size: 1.1rem; }
 }
 </style>
@@ -467,8 +476,9 @@ footer {
      SECTION 1: HERO
 ══════════════════════════════════ -->
 <section class="section hero">
-  <div class="astro-bg"></div>
+  <div class="hero-bg"></div>
   <div class="hero-inner">
+
     <div class="hero-left">
       <h1 class="hero-heading">POPULARITY<br>MADE SIMPLE</h1>
       <p class="hero-body">Build connections with your customer base and gain free advertising along the way with custom t-shirts for your business. We manage everything from design to restock.</p>
@@ -476,19 +486,22 @@ footer {
         <a href="/quote/" class="btn-neon-hero">get a quote</a>
       </div>
     </div>
+
     <div class="hero-right">
-      <!-- White t-shirt mockup cutout (behind logo) -->
+      <!-- White t-shirt mockup (Pngtree cutout) -->
       <img
-        src="/assets/—Pngtree—white t shirt mockup cutout_13384227.png"
+        src="/assets/%E2%80%94Pngtree%E2%80%94white%20t%20shirt%20mockup%20cutout_13384227.png"
         alt="White t-shirt mockup"
-        class="hero-shirt-mockup"
-        onerror="this.style.display='none'"
+        class="hero-shirt"
       />
-      <!-- Circular shirt logo -->
-      <div class="hero-logo-wrap">
-        <img src="/assets/shirt-logo.svg" alt="Small Shop Tees logo" />
-      </div>
+      <!-- Circular shirt logo overlaid, rotated to match design -->
+      <img
+        src="/assets/shirt%20logo.png"
+        alt="Small Shop Tees logo"
+        class="hero-logo"
+      />
     </div>
+
   </div>
 </section>
 
@@ -496,9 +509,9 @@ footer {
      SECTION 2: WHY US?
 ══════════════════════════════════ -->
 <section class="section why-us">
-  <div class="astro-bg"></div>
+  <div class="why-us-astro-bg"></div>
   <div class="why-us-left">
-    <img src="/assets/moon.png" alt="Moon – Small Shop Tees space theme">
+    <img src="/assets/astronaut.png" alt="Astronaut floating in space">
   </div>
   <div class="why-us-right">
     <h2 class="why-us-heading">Why Us?</h2>
@@ -510,7 +523,7 @@ footer {
      SECTION 3: AFFORDABLE. QUALITY. CONSISTENT.
 ══════════════════════════════════ -->
 <section class="section aqc">
-  <div class="astro-bg"></div>
+  <div class="aqc-moon-bg"></div>
   <div class="aqc-main">
     <div class="aqc-heading-col">
       <h2 class="aqc-heading">Affordable.<br>Quality.<br>Consistent.</h2>
