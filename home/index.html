@@ -15,7 +15,6 @@
   --black: #000000;
   --yellow: #FFD700;
   --white: #FFFFFF;
-  --gradient: linear-gradient(90deg, #FF00FF 0%, #FF8C00 50%, #0000FF 100%);
   --neon-magenta: #FF00FF;
   --neon-green: #00FF7F;
   --neon-cyan: #00FFFF;
@@ -148,7 +147,7 @@ nav {
   z-index: 2;
   min-height: calc(100vh - 59px);
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 55% 45%;
 }
 .hero-left {
   padding: 70px 24px 60px 22px;
@@ -158,7 +157,7 @@ nav {
 }
 .hero-heading {
   font-family: 'Press Start 2P', monospace;
-  font-size: clamp(1.6rem, 3.5vw, 3.6rem);
+  font-size: clamp(1.2rem, 3.5vw, 3.6rem);
   color: var(--yellow);
   line-height: 1.4;
   letter-spacing: 2px;
@@ -181,17 +180,37 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px 16px;
 }
-.hero-brand-diagonal {
-  font-family: 'Nunito', sans-serif;
-  font-weight: 900;
-  font-size: 2.4rem;
-  color: rgba(255,255,255,0.88);
-  letter-spacing: -1px;
-  transform: rotate(-18deg);
-  white-space: nowrap;
+
+/* Shirt mockup image (Pngtree white cutout) */
+.hero-shirt-mockup {
+  width: 80%;
+  max-width: 320px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -58%);
+  object-fit: contain;
   pointer-events: none;
-  text-shadow: 0 2px 16px rgba(0,0,0,0.7);
+  filter: drop-shadow(0 8px 32px rgba(0,0,0,0.6));
+}
+
+/* Circular shirt logo */
+.hero-logo-wrap {
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-logo-wrap img {
+  width: clamp(120px, 22vw, 220px);
+  height: auto;
 }
 
 /* ──────────────────────────────
@@ -215,7 +234,7 @@ nav {
   height: 100%;
   object-fit: cover;
   display: block;
-  filter: brightness(0.82);
+  filter: brightness(0.75);
 }
 .why-us-right {
   position: relative;
@@ -387,13 +406,11 @@ footer {
 }
 .footer-links a:hover { color: var(--yellow); }
 
-/* ── MOBILE ── */
+/* ── TABLET ── */
 @media (max-width: 900px) {
-  .hero-inner { grid-template-columns: 1fr; }
-  .hero-right { display: none; }
-  .hero-left { padding: 50px 24px 50px 20px; }
-  .hero-heading { font-size: clamp(1.3rem, 6vw, 2.2rem); }
-  .hero-body { margin-left: 0; max-width: 100%; }
+  .hero-left { padding: 50px 16px 50px 16px; }
+  .hero-heading { font-size: clamp(1.1rem, 5vw, 2rem); }
+  .hero-body { margin-left: 0; max-width: 100%; font-size: 0.85rem; }
   .hero-btn-area { padding-left: 0; }
   .why-us { flex-direction: column; }
   .why-us-left { width: 100%; min-height: 45vw; height: 45vw; }
@@ -405,8 +422,13 @@ footer {
   .aqc-buttons { flex-direction: column; gap: 18px; padding: 0 24px 50px; }
   .btn-neon, .btn-neon-hero { width: 100%; max-width: 340px; text-align: center; padding: 18px 20px; }
 }
+
+/* ── MOBILE ── */
 @media (max-width: 480px) {
-  .hero-heading { font-size: 1.1rem; }
+  .hero-inner { grid-template-columns: 58% 42%; }
+  .hero-heading { font-size: clamp(0.95rem, 4.5vw, 1.3rem); }
+  .hero-body { font-size: 0.78rem; }
+  .hero-logo-wrap img { width: clamp(90px, 35vw, 130px); }
   .aqc-heading { font-size: 1.1rem; }
 }
 </style>
@@ -455,7 +477,17 @@ footer {
       </div>
     </div>
     <div class="hero-right">
-      <div class="hero-brand-diagonal">smallshoptees.com</div>
+      <!-- White t-shirt mockup cutout (behind logo) -->
+      <img
+        src="/assets/—Pngtree—white t shirt mockup cutout_13384227.png"
+        alt="White t-shirt mockup"
+        class="hero-shirt-mockup"
+        onerror="this.style.display='none'"
+      />
+      <!-- Circular shirt logo -->
+      <div class="hero-logo-wrap">
+        <img src="/assets/shirt-logo.svg" alt="Small Shop Tees logo" />
+      </div>
     </div>
   </div>
 </section>
@@ -466,7 +498,7 @@ footer {
 <section class="section why-us">
   <div class="astro-bg"></div>
   <div class="why-us-left">
-    <img src="/assets/step2.jpg" alt="Custom t-shirt service for your business">
+    <img src="/assets/moon.png" alt="Moon – Small Shop Tees space theme">
   </div>
   <div class="why-us-right">
     <h2 class="why-us-heading">Why Us?</h2>

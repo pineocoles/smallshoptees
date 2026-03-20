@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <!-- Outer circle with thick black border, white fill -->
+  <circle cx="150" cy="150" r="135" fill="white" stroke="black" stroke-width="12"/>
+
+  <!-- Neckline / collar arc -->
+  <path d="M 92,88 Q 150,136 208,88"
+        fill="none" stroke="black" stroke-width="9" stroke-linecap="round"/>
+
+  <!-- Left sleeve -->
+  <path d="M 92,88 L 25,124 Q 12,150 28,170 L 76,156"
+        fill="none" stroke="black" stroke-width="9"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Right sleeve -->
+  <path d="M 208,88 L 275,124 Q 288,150 272,170 L 224,156"
+        fill="none" stroke="black" stroke-width="9"
+        stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Left body side -->
+  <line x1="76"  y1="156" x2="74"  y2="205" stroke="black" stroke-width="9" stroke-linecap="round"/>
+  <!-- Right body side -->
+  <line x1="224" y1="156" x2="226" y2="205" stroke="black" stroke-width="9" stroke-linecap="round"/>
+
+  <!-- Horizontal waist line -->
+  <line x1="74"  y1="205" x2="226" y2="205" stroke="black" stroke-width="9" stroke-linecap="round"/>
+
+  <!-- Bottom left curved hem panel -->
+  <path d="M 74,205 Q 60,234 82,260"
+        fill="none" stroke="black" stroke-width="9" stroke-linecap="round"/>
+  <!-- Bottom right curved hem panel -->
+  <path d="M 226,205 Q 240,234 218,260"
+        fill="none" stroke="black" stroke-width="9" stroke-linecap="round"/>
+
+  <!-- Center-left vertical seam line -->
+  <line x1="128" y1="205" x2="126" y2="260" stroke="black" stroke-width="7" stroke-linecap="round"/>
+  <!-- Center-right vertical seam line -->
+  <line x1="172" y1="205" x2="174" y2="260" stroke="black" stroke-width="7" stroke-linecap="round"/>
+</svg>
