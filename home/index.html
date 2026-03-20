@@ -145,8 +145,8 @@ nav {
   z-index: 2;
   min-height: calc(100vh - 59px);
   display: grid;
-  /* Canva design: text col ~43%, shirt col ~57% */
-  grid-template-columns: 43% 57%;
+  /* Canva: left col ends ~x=480 on 1366px canvas → 35% text / 65% shirt */
+  grid-template-columns: 35% 65%;
 }
 
 /* ── Hero Left ── */
@@ -184,23 +184,26 @@ nav {
   align-items: center;
   justify-content: center;
 }
-/* White t-shirt mockup — square image (4096x4096), fills right col */
+/* White t-shirt mockup (4096×4096 square, black bg blends with page).
+   Canva: shirt spans x≈620–1280 in 886px right col = 74% col width. */
 .hero-shirt {
-  width: 88%;
-  max-width: 480px;
+  width: 74%;
+  max-width: 520px;
   object-fit: contain;
   display: block;
-  filter: drop-shadow(0 8px 40px rgba(0,0,0,0.7));
 }
-/* Circular shirt logo (3600x3000, ratio 1.2:1) overlaid upper-right,
-   Canva: center ~x=1170/1366 canvas, y=165/768 hero → top:22%, right-from-col-right edge ~25%
-   Logo rendered width ≈ 200px on 779px-wide col = 25.7% of col width */
+/* Shirt logo (3600×3000, aspect 1.2:1).
+   Canva measurements on 1366px canvas:
+     logo center x≈1086, right-col starts x=480 (35% of 1366), col-width=886px
+     → from col-left: 606px; from col-right: 886–606=280px minus radius 108px = 172px = 19.4%
+     logo center y≈150px from section top (709px tall) = 21%; logo height≈180px; top=21%–13%=8%
+     logo diameter≈215px on 886px col = 24.3% col width */
 .hero-logo {
   position: absolute;
-  top: 10%;
-  right: 3%;
-  width: 34%;
-  max-width: 240px;
+  top: 8%;
+  right: 19%;
+  width: 24%;
+  max-width: 215px;
   transform: rotate(-18deg);
   object-fit: contain;
 }
@@ -429,15 +432,25 @@ footer {
   .btn-neon, .btn-neon-hero { width: 100%; max-width: 340px; text-align: center; padding: 18px 20px; }
 }
 
-/* ── MOBILE ── */
+/* ── MOBILE (≤480px, e.g. 390px iPhone) ── */
 @media (max-width: 480px) {
-  /* Mobile: text 55%, shirt 45% of 480px viewport = 216px col */
+  /* Original screenshot: left col ~55% (215px), right col ~45% (175px) */
   .hero-inner { grid-template-columns: 55% 45%; }
-  .hero-heading { font-size: clamp(0.9rem, 4.2vw, 1.2rem); }
-  .hero-body { font-size: 0.76rem; }
-  /* Shirt: 95% of 216px = ~205px. Logo: 52% = ~112px, top-right corner */
-  .hero-shirt { width: 95%; }
-  .hero-logo { width: 52%; top: 6%; right: 1%; }
+  .hero-heading { font-size: clamp(0.85rem, 4vw, 1.1rem); }
+  .hero-body { font-size: 0.74rem; }
+  /* Shirt: 92% of 175px ≈ 161px square. Blends into black bg.
+     Logo: in original screenshot fills ~82% of right col (143px).
+     Logo center in screenshot ≈ right-col center horizontally.
+     Use left:50% + translateX(-50%) to center, preserve rotate.
+     top: ~8% of section (section ≈ 100vh ≈ 844px → 8%=67px from top). */
+  .hero-shirt { width: 92%; }
+  .hero-logo {
+    width: 82%;
+    top: 8%;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%) rotate(-18deg);
+  }
   .aqc-heading { font-size: 1.1rem; }
 }
 </style>
